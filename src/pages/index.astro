@@ -1,0 +1,96 @@
+---
+import { getEntry, render } from 'astro:content';
+import '../styles/global.css';
+
+import Animate from '../components/Animate.tsx';
+import Navbar from '../components/Navbar.tsx';
+import Hero from '../components/Hero.tsx';
+import About from '../components/About.tsx';
+import RobotLog from '../components/RobotLog.tsx';
+import Crew from '../components/Crew.tsx';
+import Bulletin from '../components/Bulletin.tsx';
+import History from '../components/History.astro';
+import Location from '../components/Location.tsx';
+import Footer from '../components/Footer.tsx';
+
+const log = await getEntry('logs', 'robot-log');
+if (!log) {
+  throw new Error('Missing content entry: src/content/logs/robot-log.md');
+}
+const { Content } = await render(log);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f0e6" />
+    <title>The Round Eye Pirates — FTC Team 37060</title>
+    <meta
+      name="description"
+      content="FTC Team 37060, The Round Eye Pirates. A FIRST Tech Challenge team from Hawke's Bay, New Zealand, founded July 26, 2026. Nautical spirit meets engineering."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://round-eye-pirates.vercel.app/" />
+    <meta property="og:title" content="The Round Eye Pirates — FTC Team 37060" />
+    <meta
+      property="og:description"
+      content="A FIRST Tech Challenge team from Hawke's Bay, New Zealand, charting course since July 26, 2026."
+    />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script is:inline type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "The Round Eye Pirates",
+        "alternateName": "FTC Team 37060",
+        "url": "https://round-eye-pirates.vercel.app",
+        "email": "mailto:hello@roundeyepirates.dev",
+        "foundingDate": "2026-07-26",
+        "description": "FIRST Tech Challenge team based in Hawke's Bay, New Zealand. Nautical spirit meets engineering.",
+        "sport": "FIRST Tech Challenge",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Hastings",
+          "addressRegion": "Hawke's Bay",
+          "addressCountry": "NZ"
+        }
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <Animate client:load />
+    <Navbar client:load />
+
+    <main id="main">
+      <Hero client:visible />
+      <About client:visible />
+      <RobotLog client:visible {...log.data}>
+        <Content />
+      </RobotLog>
+      <Crew />
+      <Bulletin client:visible />
+      <History />
+      <Location />
+    </main>
+
+    <Footer client:visible />
+  </body>
+</html>
