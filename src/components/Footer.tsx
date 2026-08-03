@@ -1,4 +1,4 @@
-import { Anchor, Mail } from 'lucide-react';
+import { Anchor } from 'lucide-react';
 import Anchor3D from './Anchor3D';
 
 function GithubIcon({ size = 14 }: { size?: number }) {
@@ -39,19 +39,12 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-ink/60">
           <a
-            href="mailto:hello@roundeyepirates.dev"
-            className="inline-flex items-center gap-2 transition-colors hover:text-gold"
-          >
-            <Mail size={14} aria-hidden="true" />
-            hello@roundeyepirates.dev
-          </a>
-          <a
-            href="https://github.com/round-eye-pirates"
+            href="https://github.com/the-round-eye-pirates"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 transition-colors hover:text-gold"
           >
-            <GithubIcon /> github.com/round-eye-pirates
+            <GithubIcon /> github.com/the-round-eye-pirates
           </a>
         </div>
 
