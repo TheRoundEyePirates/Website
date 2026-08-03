@@ -12,7 +12,7 @@ export default function About() {
             Fresh paint. Clear skies. Unknown waters.
           </h2>
           <p className="leading-7 text-ink/75">
-            The Round Eye Pirates set sail on <span className="text-navy">July 26, 2026</span> — a
+            The Round Eye Pirates set sail on <span className="text-navy">July 2026</span> — a
             FIRST Tech Challenge team charting its course from Hawke's Bay, New Zealand. We are a
             young crew, but the sea is the same one every team crosses.
           </p>
