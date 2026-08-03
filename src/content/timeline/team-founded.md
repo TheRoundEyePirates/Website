@@ -1,6 +1,6 @@
 ---
 order: 1
-date: July 26, 2026
+date: July 2026
 title: Team Founded
 ---
 
