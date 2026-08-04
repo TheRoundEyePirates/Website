@@ -25,4 +25,22 @@ const timeline = defineCollection({
   }),
 });
 
-export const collections = { logs, timeline };
+const crew = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/crew' }),
+  schema: z.object({
+    /** First name. */
+    first: z.string(),
+    /** Last name. */
+    last: z.string(),
+    /** Honorific, e.g. "Dr." */
+    title: z.string().optional(),
+    /** Nickname shown between first and last name. */
+    nickname: z.string().optional(),
+    /** Which roster column the member appears in. */
+    role: z.enum(['crew', 'coach']),
+    /** Roster order within the column, lowest first. */
+    order: z.number().default(0),
+  }),
+});
+
+export const collections = { logs, timeline, crew };

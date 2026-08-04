@@ -1,28 +1,12 @@
 import { Anchor } from 'lucide-react';
 import ShipDivider from './ShipDivider';
+import type { CrewMember } from '../lib/crew';
 
 export type CrewPhotos = Record<string, string[]>;
 
-interface CrewMember {
-  key: string;
-  title?: string;
-  first: string;
-  last: string;
-  nickname?: string;
-}
-
-const CREW: CrewMember[] = [
-  { key: 'lihan', first: 'Lihan', last: 'Badenhorst' },
-  { key: 'ryan', first: 'Ryan', last: 'Fox', nickname: 'Spillover' },
-  { key: 'hunter', first: 'Hunter', last: 'Cameron', nickname: 'Tickets' },
-];
-
-const COACHES: CrewMember[] = [
-  { key: 'ricardo', title: 'Dr.', first: 'Ricardo', last: 'Fox', nickname: 'Lostfoxy' },
-  { key: 'white', title: 'Mr.', first: 'White', last: '' },
-];
-
 interface CrewProps {
+  crew: CrewMember[];
+  coaches: CrewMember[];
   photos?: CrewPhotos;
 }
 
@@ -31,16 +15,20 @@ function MemberRow({ member, photos }: { member: CrewMember; photos?: CrewPhotos
 
   return (
     <li
-      key={`${member.first}${member.last}`}
       className="group relative flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
     >
       <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
-      {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
-      {member.first}
-      {member.nickname && (
-        <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
-      )}
-      {member.last}
+      <a
+        href={`/crew/${member.key}/`}
+        className="inline-flex flex-wrap items-center gap-2 transition-colors hover:text-gold"
+      >
+        {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
+        {member.first}
+        {member.nickname && (
+          <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
+        )}
+        {member.last}
+      </a>
 
       {memberPhotos.length > 0 && (
         <span
@@ -64,7 +52,7 @@ function MemberRow({ member, photos }: { member: CrewMember; photos?: CrewPhotos
   );
 }
 
-export default function Crew({ photos }: CrewProps) {
+export default function Crew({ crew, coaches, photos }: CrewProps) {
   return (
     <section id="crew" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
       <ShipDivider label="Crew" />
@@ -80,7 +68,7 @@ export default function Crew({ photos }: CrewProps) {
         >
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">
-            {CREW.map((member) => (
+            {crew.map((member) => (
               <MemberRow key={member.key} member={member} photos={photos} />
             ))}
           </ul>
@@ -94,7 +82,7 @@ export default function Crew({ photos }: CrewProps) {
             Officers &amp; Coaches
           </h3>
           <ul data-stagger className="mt-5 space-y-3">
-            {COACHES.map((member) => (
+            {coaches.map((member) => (
               <MemberRow key={member.key} member={member} photos={photos} />
             ))}
           </ul>
