@@ -89,6 +89,10 @@ export default function Hero() {
         The Round Eye Pirates
       </h1>
 
+      <p data-animate data-delay="0.25" className="mt-4 font-pirate text-2xl text-gold sm:text-3xl">
+        丸目海賊団
+      </p>
+
       <p data-animate data-delay="0.3" className="mt-6 font-mono text-sm text-ink/70">
         Charting course since July 2026.
       </p>
