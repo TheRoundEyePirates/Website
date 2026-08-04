@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { ArrowLeft } from 'lucide-react';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CrewPhotoGallery from '../../components/CrewPhotoGallery.tsx';
 import { getCrewPhotos } from '../../lib/crew';
 
 export async function getStaticPaths() {
@@ -52,15 +53,8 @@ const photoHint = `src/content/crew/${folder}/${key}/`;
     </header>
 
     {photos.length > 0 ? (
-      <section class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {photos.map((src, index) => (
-          <img
-            src={src}
-            alt={`${name} photo`}
-            class="image-fade aspect-square w-full border border-ink/20 bg-ink/10 object-cover"
-            style={{ animationDelay: `${index * 80}ms` }}
-          />
-        ))}
+      <section class="mt-10">
+        <CrewPhotoGallery client:load photos={photos} name={name} />
       </section>
     ) : (
       <p class="mt-10 border border-ink/25 bg-card p-6 font-mono text-sm text-ink/70">
