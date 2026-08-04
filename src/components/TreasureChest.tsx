@@ -74,7 +74,7 @@ function TreasureChest() {
           role="dialog"
           aria-modal="true"
           aria-label="Treasure chest"
-          className="fixed inset-0 z-[90] flex items-center justify-center overflow-hidden bg-ink/80 p-6 backdrop-blur-sm"
+          className="animate-overlay fixed inset-0 z-[90] flex items-center justify-center overflow-hidden bg-ink/80 p-6 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         >
           {coins.map((coin, index) => (
@@ -92,7 +92,7 @@ function TreasureChest() {
           ))}
 
           <div
-            className="relative w-full max-w-md border border-gold/40 bg-sand p-8 text-center shadow-[8px_8px_0_rgba(28,25,23,0.4)] sm:p-10"
+            className="animate-pop relative w-full max-w-md border border-gold/40 bg-sand p-8 text-center shadow-[8px_8px_0_rgba(28,25,23,0.4)] sm:p-10"
             onClick={(event) => event.stopPropagation()}
           >
             <button

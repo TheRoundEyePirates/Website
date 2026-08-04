@@ -1,64 +1,89 @@
+import { useId } from 'react';
+
 const TILE_WIDTH = 800;
 const TILE_COUNT = 3;
-const WAVE_HEIGHT = 64;
+const BAND_HEIGHT = 64;
+/** Segments per tile — high enough that the sine reads as a curve, not a zig-zag. */
+const SEGMENTS_PER_TILE = 24;
+const COPIES = 2;
 
-function wavePath(amplitude: number, baseY: number): string {
-  const points: string[] = [`M0 ${WAVE_HEIGHT}`];
-  const stepsPerTile = 6;
-  for (let tile = 0; tile < TILE_COUNT; tile += 1) {
-    for (let step = 0; step <= stepsPerTile; step += 1) {
-      const t = step / stepsPerTile;
-      const x = (tile + t) * TILE_WIDTH;
-      const y = baseY + Math.sin(t * Math.PI * 2) * amplitude;
-      points.push(`L${x.toFixed(1)} ${y.toFixed(1)}`);
-    }
-  }
-  points.push(`L${TILE_WIDTH * TILE_COUNT} ${WAVE_HEIGHT}Z`);
-  return points.join(' ');
-}
-
-interface WaveTileProps {
+interface WaveLayer {
+  colorClass: string;
   amplitude: number;
   baseY: number;
+  duration: number;
+  /** Soften the crest with a vertical gradient instead of a hard fill. */
+  gradient?: boolean;
 }
 
-function WaveTile({ amplitude, baseY }: WaveTileProps) {
-  return (
-    <svg
-      viewBox={`0 0 ${TILE_WIDTH * TILE_COUNT} ${WAVE_HEIGHT}`}
-      preserveAspectRatio="none"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d={wavePath(amplitude, baseY)} />
-    </svg>
-  );
+const LAYERS: WaveLayer[] = [
+  { colorClass: 'text-navy', amplitude: 11, baseY: 30, duration: 26 },
+  { colorClass: 'text-sand', amplitude: 12, baseY: 46, duration: 16, gradient: true },
+];
+
+function wavePath(amplitude: number, baseY: number): string {
+  const span = TILE_WIDTH * TILE_COUNT;
+  const total = TILE_COUNT * SEGMENTS_PER_TILE;
+  const d: string[] = [];
+  for (let i = 0; i <= total; i += 1) {
+    const x = (i / total) * span;
+    const y = baseY + Math.sin((i / total) * Math.PI * 2 * TILE_COUNT) * amplitude;
+    d.push(`${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`);
+  }
+  d.push(`L${span} ${BAND_HEIGHT}Z`);
+  return d.join(' ');
 }
 
-interface SeaWavesProps {
-  className?: string;
-}
+const PATHS: string[] = LAYERS.map((layer) =>
+  wavePath(layer.amplitude, layer.baseY),
+);
 
 /**
  * Two layered ocean swells that drift sideways forever. The navy swell
- * breaks behind the sand-coloured shore, so the sea always rolls onto the
- * beach. Uses only transform animation, so it's cheap to run.
+ * breaks behind the sand-coloured shore, which fades at its crest so the
+ * water meets the beach without a hard seam. Transform-only animation.
  */
-export default function SeaWaves({ className = '' }: SeaWavesProps) {
+export default function SeaWaves({ className = '' }: { className?: string }) {
+  const rawId = useId();
+  const gradientId = `wave-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+
   return (
-    <div aria-hidden="true" className={`pointer-events-none relative h-16 overflow-hidden md:h-24 ${className}`}>
-      <div className="absolute inset-0 text-navy">
-        <div className="wave-track" style={{ animationDuration: '26s' }}>
-          <WaveTile amplitude={11} baseY={30} />
-          <WaveTile amplitude={11} baseY={30} />
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none relative h-16 overflow-hidden md:h-24 ${className}`}
+    >
+      {LAYERS.map((layer, index) => (
+        <div key={layer.colorClass} className={`absolute inset-0 ${layer.colorClass}`}>
+          <div
+            className="wave-track"
+            style={{ animationDuration: `${layer.duration}s` }}
+          >
+            {Array.from({ length: COPIES }, (_, copy) => (
+              <svg
+                key={copy}
+                viewBox={`0 0 ${TILE_WIDTH * TILE_COUNT} ${BAND_HEIGHT}`}
+                preserveAspectRatio="none"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                {copy === 0 && layer.gradient && (
+                  <defs>
+                    <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="currentColor" stopOpacity="0" />
+                      <stop offset="40%" stopColor="currentColor" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="currentColor" stopOpacity="1" />
+                    </linearGradient>
+                  </defs>
+                )}
+                <path
+                  d={PATHS[index]}
+                  fill={layer.gradient ? `url(#${gradientId})` : 'currentColor'}
+                />
+              </svg>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 text-sand">
-        <div className="wave-track wave-track--fast">
-          <WaveTile amplitude={13} baseY={44} />
-          <WaveTile amplitude={13} baseY={44} />
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

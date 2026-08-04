@@ -125,10 +125,10 @@ export default function Navbar({ logo = null }: NavbarProps) {
               <a
                 href={link.href}
                 aria-current={active === link.href ? 'true' : undefined}
-                className={`relative transition-colors ${
+                className={`relative transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:bg-gold/60 after:transition-transform after:duration-300 after:ease-out after:content-[''] ${
                   active === link.href
-                    ? 'text-gold after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:bg-gold/60'
-                    : 'hover:text-gold'
+                    ? 'text-gold after:scale-x-100'
+                    : 'hover:text-gold hover:after:scale-x-100'
                 }`}
               >
                 {link.label}

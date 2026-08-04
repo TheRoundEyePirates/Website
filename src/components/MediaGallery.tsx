@@ -72,7 +72,7 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
                   src={item.src}
                   alt={item.caption}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="image-fade h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-ink/70 to-transparent px-3 pb-2 pt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-sand-light transition-transform duration-300 group-hover:translate-y-0">
                   {item.caption}
@@ -107,7 +107,7 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
                 <img
                   src={media[active].src}
                   alt={media[active].caption}
-                  className="max-h-[75vh] w-auto object-contain"
+                  className="image-fade max-h-[75vh] w-auto object-contain"
                 />
               )}
             </div>
