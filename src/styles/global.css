@@ -348,6 +348,35 @@
     margin-bottom: 1.1rem;
     text-wrap: pretty;
   }
+  .person-log h1 {
+    margin: 0 0 0.4rem;
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-navy);
+  }
+  .person-log h2 {
+    margin: 1.8rem 0 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-navy);
+  }
+  .person-log h2::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(180, 83, 9, 0.4);
+  }
+  .person-log h3 {
+    margin: 1.3rem 0 0.4rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
   .person-log strong {
     font-weight: 700;
     color: var(--color-navy);

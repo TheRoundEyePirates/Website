@@ -9,6 +9,19 @@ interface TypewriterBioProps {
   cps?: number;
 }
 
+/** Strip markdown syntax so the live-typed preview reads as plain text. */
+function stripMarkdown(text: string): string {
+  return text
+    .split('\n')
+    .map((line) => line.replace(/^#{1,6}\s*/, ''))
+    .join('\n')
+    .replace(/^[-*+]\s+/gm, '• ')
+    .replace(/^>\s?/gm, '')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/(\*\*|__|~~|`|\*|_)/g, '');
+}
+
 export default function TypewriterBio({ text, cps = 28 }: TypewriterBioProps) {
   const [shown, setShown] = useState('');
   const [done, setDone] = useState(false);
@@ -21,7 +34,7 @@ export default function TypewriterBio({ text, cps = 28 }: TypewriterBioProps) {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) {
-      setShown(text);
+      setShown(stripMarkdown(text));
       setDone(true);
       setRevealed(true);
       return;
@@ -30,7 +43,7 @@ export default function TypewriterBio({ text, cps = 28 }: TypewriterBioProps) {
     const stepMs = Math.max(16, Math.round(1000 / cps));
     const tick = () => {
       indexRef.current = Math.min(indexRef.current + 2, text.length);
-      setShown(text.slice(0, indexRef.current));
+      setShown(stripMarkdown(text.slice(0, indexRef.current)));
       if (indexRef.current >= text.length) {
         if (timerRef.current) window.clearInterval(timerRef.current);
         setDone(true);
