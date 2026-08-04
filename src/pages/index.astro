@@ -16,6 +16,7 @@ import QuoteTicker from '../components/QuoteTicker.tsx';
 import Location from '../components/Location.tsx';
 import Footer from '../components/Footer.tsx';
 import TreasureChest from '../components/TreasureChest.tsx';
+import CourseLine from '../components/CourseLine.tsx';
 import { getLogo } from '../lib/brand';
 
 const log = await getEntry('logs', 'robot-log');
@@ -77,5 +78,6 @@ const darkLogo = getLogo('dark');
   </main>
 
   <Footer client:visible logo={darkLogo} />
+  <CourseLine client:load />
   <TreasureChest client:load />
 </BaseLayout>
