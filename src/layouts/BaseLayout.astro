@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getLogo } from '../lib/brand';
 
 interface Props {
   title: string;
@@ -15,6 +16,8 @@ const {
   noindex = false,
   themeColor = '#e9dcc0',
 } = Astro.props;
+
+const lightLogo = getLogo('light');
 ---
 
 <!doctype html>
@@ -46,6 +49,98 @@ const {
   </head>
 
   <body>
+    <div id="boot" aria-hidden="true">
+      <div class="boot-wrap">
+        <div class="boot-emblem">
+          <span class="boot-rim" aria-hidden="true"></span>
+          <span class="boot-ring" aria-hidden="true"></span>
+          <span class="boot-ring boot-ring--outer" aria-hidden="true"></span>
+          {lightLogo ? (
+            <img src={lightLogo} alt="" width="132" height="132" class="boot-logo" />
+          ) : (
+            <svg class="boot-logo" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="30" fill="#1e3a5f" stroke="#d9a53c" stroke-width="2" />
+              <path d="M32 12l-6.5 19.5 6.5-6.5 6.5 6.5z" fill="#d9a53c" />
+              <path d="M32 52l-6.5-19.5 6.5 6.5 6.5-6.5z" fill="#b45309" />
+            </svg>
+          )}
+        </div>
+
+        <p class="boot-title">The Round Eye Pirates</p>
+        <p class="boot-sub">FTC Team 37060</p>
+
+        <p class="boot-quip" id="boot-quip">Hoisting the sails…</p>
+
+        <div class="boot-track" aria-hidden="true">
+          <div class="boot-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var boot = document.getElementById('boot');
+        if (!boot || !document.documentElement.classList.contains('js')) return;
+
+        if (sessionStorage.getItem('boot') === '1') {
+          boot.remove();
+          return;
+        }
+
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var quips = [
+          'Hoisting the sails…',
+          'Charting a course…',
+          'Polishing the booty…',
+          'Loading the cannons…',
+          'Counting the doubloons…',
+          'Sharpening the cutlasses…',
+          'Unfurling the Jolly Roger…',
+          'Plotting the treasure…',
+        ];
+        var q = document.getElementById('boot-quip');
+        var fill = boot.querySelector('.boot-fill');
+        var cycle = null;
+        var qi = 0;
+
+        if (!reduced) {
+          if (q) {
+            cycle = setInterval(function () {
+              qi = (qi + 1) % quips.length;
+              q.textContent = quips[qi];
+              q.animate(
+                [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }],
+                { duration: 260, easing: 'ease-out' },
+              );
+            }, 700);
+          }
+
+          var start = performance.now();
+          (function step(now) {
+            var t = Math.min(1, (now - start) / 1400);
+            fill.style.transform = 'scaleX(' + (0.9 * t).toFixed(4) + ')';
+            if (t < 1) requestAnimationFrame(step);
+          })(start);
+        }
+
+        var finished = false;
+        function finish() {
+          if (finished) return;
+          finished = true;
+          if (cycle) clearInterval(cycle);
+          fill.style.transform = 'scaleX(1)';
+          boot.classList.add('boot-done');
+          sessionStorage.setItem('boot', '1');
+          setTimeout(function () {
+            boot.remove();
+          }, 700);
+        }
+
+        window.addEventListener('load', finish);
+        setTimeout(finish, 4000);
+      })();
+    </script>
+
     <slot />
   </body>
 </html>
