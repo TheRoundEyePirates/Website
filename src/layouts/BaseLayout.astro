@@ -65,14 +65,20 @@ const {
         var boot = document.getElementById('boot');
         if (!boot || !document.documentElement.classList.contains('js')) return;
 
-        if (sessionStorage.getItem('boot') === '1') {
+        // Always show on first visit to the site; on later reloads in the
+        // same session, show it again roughly 1 in 9 times.
+        var firstVisit = sessionStorage.getItem('boot') === null;
+        var show = firstVisit || Math.random() < 1 / 9;
+
+        if (!show) {
           boot.remove();
           return;
         }
 
+        sessionStorage.setItem('boot', '1');
+
         setTimeout(function () {
           boot.classList.add('boot-done');
-          sessionStorage.setItem('boot', '1');
           setTimeout(function () {
             boot.remove();
           }, 700);
