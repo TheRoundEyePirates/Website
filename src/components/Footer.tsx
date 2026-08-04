@@ -33,7 +33,7 @@ export default function Footer({ logo = null }: FooterProps) {
             <img
               src={logo}
               alt="The Round Eye Pirates"
-              className="h-16 w-auto max-w-[12rem] object-contain"
+              className="h-20 w-auto max-w-[13rem] mix-blend-screen object-contain"
             />
           ) : (
             <Anchor3D height={110} width={110} />
