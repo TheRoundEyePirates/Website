@@ -1,9 +1,23 @@
 import { Anchor } from 'lucide-react';
 import ShipDivider from './ShipDivider';
 
-const CREW = ['Lihan Badenhorst', 'Ryan Fox', 'Hunter Cameron'] as const;
+interface CrewMember {
+  title?: string;
+  first: string;
+  last: string;
+  nickname?: string;
+}
 
-const COACHES = ['Dr. Ricardo Fox', 'Mr. White'] as const;
+const CREW: CrewMember[] = [
+  { first: 'Lihan', last: 'Badenhorst' },
+  { first: 'Ryan', last: 'Fox', nickname: 'Spillover' },
+  { first: 'Hunter', last: 'Cameron', nickname: 'Tickets' },
+];
+
+const COACHES: CrewMember[] = [
+  { title: 'Dr.', first: 'Ricardo', last: 'Fox', nickname: 'Lostfoxy' },
+  { title: 'Mr.', first: 'White', last: '' },
+];
 
 export default function Crew() {
   return (
@@ -21,13 +35,18 @@ export default function Crew() {
         >
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">
-            {CREW.map((name) => (
+            {CREW.map((member) => (
               <li
-                key={name}
+                key={`${member.first}${member.last}`}
                 className="flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
               >
                 <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
-                {name}
+                {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
+                {member.first}
+                {member.nickname && (
+                  <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
+                )}
+                {member.last}
               </li>
             ))}
           </ul>
@@ -41,13 +60,18 @@ export default function Crew() {
             Officers &amp; Coaches
           </h3>
           <ul data-stagger className="mt-5 space-y-3">
-            {COACHES.map((name) => (
+            {COACHES.map((member) => (
               <li
-                key={name}
+                key={`${member.first}${member.last}`}
                 className="flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
               >
                 <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
-                {name}
+                {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
+                {member.first}
+                {member.nickname && (
+                  <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
+                )}
+                {member.last}
               </li>
             ))}
           </ul>
