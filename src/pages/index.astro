@@ -20,7 +20,7 @@ import Footer from '../components/Footer.tsx';
 import TreasureChest from '../components/TreasureChest.tsx';
 import CourseLine from '../components/CourseLine.tsx';
 import { getLogo } from '../lib/brand';
-import { getCrewCollection, getCrewPhotos, toCrewMember } from '../lib/crew';
+import { getCrewCollection, toCrewMember } from '../lib/crew';
 
 const log = await getEntry('logs', 'robot-log');
 if (!log) {
@@ -30,7 +30,6 @@ const { Content } = await render(log);
 
 const lightLogo = getLogo('light');
 const darkLogo = getLogo('dark');
-const crewPhotos = getCrewPhotos();
 const crewEntries = await getCrewCollection();
 const crewMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'crew');
 const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coach');
@@ -76,7 +75,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
     <RobotLog client:visible {...log.data}>
       <Content />
     </RobotLog>
-    <Crew crew={crewMembers} coaches={coachMembers} photos={crewPhotos} />
+    <Crew crew={crewMembers} coaches={coachMembers} />
     <JournalSection />
     <MediaGallerySection />
     <Bulletin client:visible />

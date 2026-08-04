@@ -2,21 +2,14 @@ import { Anchor } from 'lucide-react';
 import ShipDivider from './ShipDivider';
 import type { CrewMember } from '../lib/crew';
 
-export type CrewPhotos = Record<string, string[]>;
-
 interface CrewProps {
   crew: CrewMember[];
   coaches: CrewMember[];
-  photos?: CrewPhotos;
 }
 
-function MemberRow({ member, photos }: { member: CrewMember; photos?: CrewPhotos }) {
-  const memberPhotos = photos?.[member.key] ?? [];
-
+function MemberRow({ member }: { member: CrewMember }) {
   return (
-    <li
-      className="group relative flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
-    >
+    <li className="flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0">
       <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
       <a
         href={`/crew/${member.key}/`}
@@ -29,30 +22,11 @@ function MemberRow({ member, photos }: { member: CrewMember; photos?: CrewPhotos
         )}
         {member.last}
       </a>
-
-      {memberPhotos.length > 0 && (
-        <span
-          aria-hidden="true"
-          className="absolute left-0 top-full z-20 mt-3 hidden w-max max-w-xs opacity-0 transition-all duration-200 group-hover:block group-hover:opacity-100"
-        >
-          <span className="flex flex-wrap gap-2 border border-ink/25 bg-card p-2 shadow-[0_14px_28px_-14px_rgba(28,25,23,0.45)]">
-            {memberPhotos.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt=""
-                className="h-16 w-16 object-cover"
-                loading="lazy"
-              />
-            ))}
-          </span>
-        </span>
-      )}
     </li>
   );
 }
 
-export default function Crew({ crew, coaches, photos }: CrewProps) {
+export default function Crew({ crew, coaches }: CrewProps) {
   return (
     <section id="crew" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
       <ShipDivider label="Crew" />
@@ -75,7 +49,7 @@ export default function Crew({ crew, coaches, photos }: CrewProps) {
           </h3>
           <ul data-stagger className="mt-5 space-y-3">
             {coaches.map((member) => (
-              <MemberRow key={member.key} member={member} photos={photos} />
+              <MemberRow key={member.key} member={member} />
             ))}
           </ul>
         </div>
@@ -87,7 +61,7 @@ export default function Crew({ crew, coaches, photos }: CrewProps) {
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">
             {crew.map((member) => (
-              <MemberRow key={member.key} member={member} photos={photos} />
+              <MemberRow key={member.key} member={member} />
             ))}
           </ul>
         </div>
