@@ -14,17 +14,45 @@ export default function Hero() {
   useEffect(() => {
     const frame = parallaxRef.current;
     if (!frame) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Butter-smooth pointer parallax: targets update on pointermove, but the
+    // transform is eased toward them on a rAF loop (no CSS transition lag,
+    // no jumps). Eases back to level when the pointer leaves.
+    let raf = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const tick = () => {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+      frame.style.transform = `perspective(700px) rotateY(${(currentX * 16).toFixed(2)}deg) rotateX(${(-currentY * 16).toFixed(2)}deg)`;
+      if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+
+    const start = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (reduced) return;
       const rect = frame.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
-      frame.style.transform = `perspective(700px) rotateY(${(x * 16).toFixed(2)}deg) rotateX(${(-y * 16).toFixed(2)}deg)`;
+      targetX = (event.clientX - rect.left) / rect.width - 0.5;
+      targetY = (event.clientY - rect.top) / rect.height - 0.5;
+      start();
     };
 
     const onPointerLeave = () => {
-      frame.style.transform = '';
+      if (reduced) return;
+      targetX = 0;
+      targetY = 0;
+      start();
     };
 
     frame.addEventListener('pointermove', onPointerMove);
@@ -32,6 +60,7 @@ export default function Hero() {
     return () => {
       frame.removeEventListener('pointermove', onPointerMove);
       frame.removeEventListener('pointerleave', onPointerLeave);
+      cancelAnimationFrame(raf);
     };
   }, []);
 
@@ -44,7 +73,7 @@ export default function Hero() {
       <div data-animate className="mb-8 flex items-center justify-center">
         <div
           ref={parallaxRef}
-          className="relative h-64 w-64 transition-transform duration-300 ease-out will-change-transform"
+          className="relative h-64 w-64 will-change-transform"
         >
           <div className="absolute inset-0 rounded-full border border-ink/20" aria-hidden="true" />
           <div className="absolute inset-3 rounded-full border border-ink/10" aria-hidden="true" />

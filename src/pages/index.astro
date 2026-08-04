@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar.tsx';
 import Hero from '../components/Hero.tsx';
 import SeaWaves from '../components/SeaWaves.tsx';
 import About from '../components/About.tsx';
+import ShipSection from '../components/ShipSection.astro';
 import RobotLog from '../components/RobotLog.tsx';
 import Crew from '../components/Crew.tsx';
 import MediaGallerySection from '../components/MediaGallerySection.astro';
@@ -16,12 +17,16 @@ import QuoteTicker from '../components/QuoteTicker.tsx';
 import Location from '../components/Location.tsx';
 import Footer from '../components/Footer.tsx';
 import TreasureChest from '../components/TreasureChest.tsx';
+import { getLogo } from '../lib/brand';
 
 const log = await getEntry('logs', 'robot-log');
 if (!log) {
   throw new Error('Missing content entry: src/content/logs/robot-log.md');
 }
 const { Content } = await render(log);
+
+const lightLogo = getLogo('light');
+const darkLogo = getLogo('dark');
 ---
 
 <BaseLayout
@@ -55,12 +60,13 @@ const { Content } = await render(log);
   <a class="skip-link" href="#main">Skip to content</a>
 
   <Animate client:load />
-  <Navbar client:load />
+  <Navbar client:load logo={lightLogo} />
 
   <main id="main">
     <Hero client:visible />
     <SeaWaves />
     <About client:visible />
+    <ShipSection />
     <RobotLog client:visible {...log.data}>
       <Content />
     </RobotLog>
@@ -73,6 +79,6 @@ const { Content } = await render(log);
     <SeaWaves />
   </main>
 
-  <Footer client:visible />
+  <Footer client:visible logo={darkLogo} />
   <TreasureChest client:load />
 </BaseLayout>

@@ -1,0 +1,49 @@
+---
+import ShipDivider from './ShipDivider';
+import { getShipPhoto } from '../lib/brand';
+
+const photo = getShipPhoto();
+---
+
+<section id="ship" class="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
+  <ShipDivider label="The Ship" />
+
+  <div class="grid gap-12 md:grid-cols-2 md:items-center">
+    <div data-stagger class="space-y-5">
+      <h2 data-animate="blur" class="font-display text-4xl text-ink sm:text-5xl">
+        Brickwave
+      </h2>
+      <p class="leading-7 text-ink/75">
+        Our first vessel. Built brick by brick, wave by wave — bound for the seven seas.
+      </p>
+      <p class="font-mono text-sm text-ink/60">Ship ID · REP-001 — Build Season 2026-2027</p>
+    </div>
+
+    <figure data-animate="slide-right" data-delay="0.15">
+      {
+        photo ? (
+          <div class="flex items-center justify-center border border-ink/25 bg-sand-deep/40 p-3">
+            <img
+              src={photo}
+              alt="Brickwave, the team ship"
+              loading="lazy"
+              class="max-h-[420px] w-full object-contain"
+            />
+          </div>
+        ) : (
+          <div class="flex aspect-[4/3] flex-col items-center justify-center gap-3 border border-dashed border-ink/30 bg-sand-deep/40 text-ink/40">
+            <span class="font-mono text-[10px] uppercase tracking-[0.3em]">
+              Ship Photo — Coming Soon
+            </span>
+            <span class="max-w-xs text-center font-mono text-[10px] leading-5 text-ink/40">
+              Drop an image into src/content/ship/ and it will appear here.
+            </span>
+          </div>
+        )
+      }
+      <figcaption class="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-ink/50">
+        Figure II — S.S. Brickwave
+      </figcaption>
+    </figure>
+  </div>
+</section>

@@ -1,21 +1,15 @@
+import { IMAGE_EXT, VIDEO_EXT, toUrl, type GlobModule } from './scan';
+
 export interface MediaItem {
   src: string;
   type: 'image' | 'video';
   caption: string;
 }
 
-const IMAGE_EXT = /\.(jpe?g|png|gif|webp|avif|bmp|svg)$/i;
-const VIDEO_EXT = /\.(mp4|webm|ogg|mov|m4v)$/i;
-
-type GlobModule = { default: string | { src: string } };
-
-const modules = import.meta.glob('../content/MEDIA/**/*', { eager: true }) as Record<string, GlobModule>;
-
-/** Astro can hand us either a plain URL string or an image-metadata object. */
-function toUrl(module: GlobModule): string {
-  const value = module.default;
-  return typeof value === 'string' ? value : value.src;
-}
+const modules = import.meta.glob('../content/MEDIA/**/*', { eager: true }) as Record<
+  string,
+  GlobModule
+>;
 
 function toCaption(filename: string): string {
   return filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');

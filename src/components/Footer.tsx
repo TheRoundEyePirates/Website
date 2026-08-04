@@ -1,6 +1,11 @@
 import { Anchor } from 'lucide-react';
 import Anchor3D from './Anchor3D';
 
+interface FooterProps {
+  /** Logo for dark surfaces (footer). Falls back to the anchor. */
+  logo?: string | null;
+}
+
 function GithubIcon({ size = 14 }: { size?: number }) {
   return (
     <svg
@@ -16,28 +21,39 @@ function GithubIcon({ size = 14 }: { size?: number }) {
   );
 }
 
-export default function Footer() {
+export default function Footer({ logo = null }: FooterProps) {
   return (
-    <footer id="contact" className="scroll-mt-24 border-t border-ink/15 bg-sand-deep/40 px-6 py-16 text-center">
+    <footer
+      id="contact"
+      className="scroll-mt-24 border-t border-sand-light/10 bg-navy px-6 py-16 text-center"
+    >
       <div data-stagger className="mx-auto max-w-3xl space-y-6">
         <div className="flex justify-center" aria-hidden="true">
-          <Anchor3D height={110} width={110} />
+          {logo ? (
+            <img
+              src={logo}
+              alt="The Round Eye Pirates"
+              className="h-16 w-auto max-w-[12rem] object-contain"
+            />
+          ) : (
+            <Anchor3D height={110} width={110} />
+          )}
         </div>
 
-        <div className="flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.3em] text-navy">
+        <div className="flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.3em] text-sand-light">
           <Anchor size={18} className="text-gold" strokeWidth={1.5} aria-hidden="true" />
           The Round Eye Pirates
         </div>
 
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/60">
-          FTC 37060 · Founded July 2026
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-sand-light/60">
+          FTC 37060 · Founded July 26, 2026
         </p>
 
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-sand-light/40">
           Hastings · Napier — Hawke's Bay, New Zealand
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-ink/60">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-sand-light/60">
           <a
             href="https://github.com/the-round-eye-pirates"
             target="_blank"
@@ -48,23 +64,23 @@ export default function Footer() {
           </a>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 border-t border-ink/10 pt-8">
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 border-t border-sand-light/15 pt-8">
           <a
             href="https://www.firstinspires.org/robotics/ftc"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-3 opacity-70 transition-opacity hover:opacity-100"
+            className="inline-flex items-center gap-3 opacity-80 transition-opacity hover:opacity-100"
           >
             <img src="/logos/ftc.svg" alt="FIRST Tech Challenge" className="h-12 w-auto" />
           </a>
         </div>
 
-        <p className="mx-auto max-w-xl font-mono text-[9px] uppercase tracking-[0.2em] text-ink/40">
+        <p className="mx-auto max-w-xl font-mono text-[9px] uppercase tracking-[0.2em] text-sand-light/40">
           FIRST® and FIRST Tech Challenge are registered trademarks of FIRST® (For Inspiration and
           Recognition of Science and Technology).
         </p>
 
-        <p className="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
+        <p className="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-sand-light/40">
           © 2026 The Round Eye Pirates — FTC Team 37060
         </p>
       </div>

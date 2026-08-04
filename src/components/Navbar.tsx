@@ -4,6 +4,7 @@ import { Anchor, Menu, X } from 'lucide-react';
 const LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
+  { label: 'Ship', href: '#ship' },
   { label: 'Robot', href: '#robot' },
   { label: 'Crew', href: '#crew' },
   { label: 'Gallery', href: '#gallery' },
@@ -12,14 +13,23 @@ const LINKS = [
   { label: 'Contact', href: '#contact' },
 ] as const;
 
-export default function Navbar() {
+interface NavbarProps {
+  /** Logo for light surfaces (navbar). Falls back to the text brand. */
+  logo?: string | null;
+}
+
+export default function Navbar({ logo = null }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>('#home');
   const progressRef = useRef<HTMLSpanElement | null>(null);
   const rafRef = useRef<number | null>(null);
+  const lastYRef = useRef(0);
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const update = () => {
       rafRef.current = null;
       if (progressRef.current) {
@@ -31,7 +41,15 @@ export default function Navbar() {
     };
 
     const onScroll = () => {
-      setScrolled(window.scrollY > 24);
+      const y = window.scrollY;
+      const goingDown = y > lastYRef.current;
+      lastYRef.current = y;
+
+      setScrolled(y > 24);
+      // Slide away on scroll-down (past the hero), glide back on scroll-up.
+      if (!reduceMotion) {
+        setHidden(goingDown && y > 160 && !open);
+      }
       if (rafRef.current === null) {
         rafRef.current = requestAnimationFrame(update);
       }
@@ -43,7 +61,7 @@ export default function Navbar() {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     const sections = LINKS.map((link) => document.querySelector<HTMLElement>(link.href)).filter(
@@ -68,6 +86,8 @@ export default function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-500 ${
+        hidden ? '-translate-y-full' : ''
+      } ${
         scrolled
           ? 'border-ink/10 bg-sand-light/90 shadow-[0_1px_0_rgba(28,25,23,0.05)] backdrop-blur-sm'
           : 'border-transparent bg-transparent'
@@ -85,8 +105,18 @@ export default function Navbar() {
           href="#home"
           className="flex shrink-0 items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:text-gold sm:text-sm"
         >
-          <Anchor size={16} className="text-gold" strokeWidth={1.5} aria-hidden="true" />
-          <span>REP·37060</span>
+          {logo ? (
+            <img
+              src={logo}
+              alt="The Round Eye Pirates"
+              className="h-9 w-auto max-w-[10rem] object-contain"
+            />
+          ) : (
+            <>
+              <Anchor size={16} className="text-gold" strokeWidth={1.5} aria-hidden="true" />
+              <span>REP·37060</span>
+            </>
+          )}
         </a>
 
         <ul className="hidden items-center gap-7 font-mono text-xs uppercase tracking-[0.25em] text-ink/70 md:flex">
@@ -121,9 +151,16 @@ export default function Navbar() {
 
       <div
         id="mobile-menu"
-        className={`md:hidden ${open ? 'block' : 'hidden'}`}
+        className={`grid transition-[grid-template-rows] duration-300 ease-out md:hidden ${
+          open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
       >
-        <ul className="flex flex-col gap-1 border-t border-ink/10 bg-sand-light/95 px-6 py-4 backdrop-blur-sm">
+        <div className="overflow-hidden">
+          <ul
+            className={`flex flex-col gap-1 border-t border-ink/10 bg-sand-light/95 px-6 py-4 backdrop-blur-sm transition-opacity duration-300 ${
+              open ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
           {LINKS.map((link) => (
             <li key={link.href}>
               <a
@@ -138,7 +175,8 @@ export default function Navbar() {
               </a>
             </li>
           ))}
-        </ul>
+          </ul>
+        </div>
       </div>
     </header>
   );

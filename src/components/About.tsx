@@ -29,7 +29,14 @@ export default function About() {
             every failure a lesson learned at sea. One eye fixed on the horizon, the other on the
             field.
           </p>
-          <p className="font-mono text-sm text-ink/60">Est. 07.26.2026 — Hawke's Bay, NZ.</p>
+          <p className="leading-7 text-ink/75">
+            Like the crew of <span className="text-navy">One Piece</span>, nobody can quite work us
+            out — and that's exactly how we like it. We don't take ourselves too seriously; we just
+            build robots, tell tall tales, and have a lot of fun doing it.
+          </p>
+          <p className="font-mono text-sm text-ink/60">
+            Est. 07.26.2026 — Hawke's Bay, NZ · No treasure, just good times.
+          </p>
         </div>
 
         <figure data-animate="slide-right" data-delay="0.15">
