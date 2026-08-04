@@ -99,7 +99,7 @@ export default function Hero() {
               {cardinal.label}
             </span>
           ))}
-          <CompassRose height={200} width={200} />
+          <CompassRose height={220} width={220} />
         </div>
       </div>
 

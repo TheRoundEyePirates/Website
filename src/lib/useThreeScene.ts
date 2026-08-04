@@ -1,11 +1,16 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 export interface UseThreeSceneOptions {
   width: number;
   height: number;
   /** Distance of the camera from the origin. Defaults to 5. */
   cameraZ?: number;
+  /** Offset the camera from straight-on for a 3/4 view. Defaults to [0, 0, cameraZ]. */
+  cameraPosition?: [number, number, number];
+  /** Bake a neutral studio environment for image-based lighting of metals. */
+  environment?: boolean;
   /** Populate the scene's root group. Runs once per mount. */
   build: (group: THREE.Group) => void;
   /** Called every rendered frame while the element is on-screen and the
@@ -22,7 +27,15 @@ export interface UseThreeSceneOptions {
  *   - `prefers-reduced-motion` (static single render, no loop)
  *   - disposal of geometries, materials and the renderer on unmount
  */
-export function useThreeScene({ width, height, cameraZ = 5, build, animate }: UseThreeSceneOptions) {
+export function useThreeScene({
+  width,
+  height,
+  cameraZ = 5,
+  cameraPosition,
+  environment = false,
+  build,
+  animate,
+}: UseThreeSceneOptions) {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const groupRef = useRef<THREE.Group | null>(null);
 
@@ -51,7 +64,26 @@ export function useThreeScene({ width, height, cameraZ = 5, build, animate }: Us
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.z = cameraZ;
+    const [cameraX, cameraY, cameraZPos] = cameraPosition ?? [0, 0, cameraZ];
+    camera.position.set(cameraX, cameraY, cameraZPos);
+    camera.lookAt(0, 0, 0);
+
+    // Image-based lighting: bake a soft studio environment once so metal
+    // materials pick up realistic reflections instead of flat fills.
+    let environmentTexture: THREE.Texture | null = null;
+    if (environment) {
+      try {
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const room = new RoomEnvironment();
+        environmentTexture = pmrem.fromScene(room, 0.04).texture;
+        scene.environment = environmentTexture;
+        room.dispose();
+        pmrem.dispose();
+      } catch (error) {
+        console.warn('[useThreeScene] Environment lighting unavailable.', error);
+        environmentTexture = null;
+      }
+    }
 
     const group = new THREE.Group();
     scene.add(group);
@@ -109,16 +141,20 @@ export function useThreeScene({ width, height, cameraZ = 5, build, animate }: Us
         ) {
           object.geometry.dispose();
           const materials = Array.isArray(object.material) ? object.material : [object.material];
-          materials.forEach((material) => material.dispose());
+          materials.forEach((material) => {
+            material.map?.dispose();
+            material.dispose();
+          });
         }
       });
 
+      environmentTexture?.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount) {
         mount.removeChild(renderer.domElement);
       }
     };
-  }, [width, height, cameraZ]);
+  }, [width, height, cameraZ, cameraPosition, environment]);
 
   return { mountRef, groupRef };
 }

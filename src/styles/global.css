@@ -131,12 +131,6 @@
   }
 }
 
-@keyframes wave-drift {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @keyframes bezel-spin {
   to {
     transform: rotate(360deg);
@@ -255,10 +249,10 @@
 
   /* Hero compass brass bezel — slow sheen rotation. */
   .animate-bezel {
-    animation: bezel-spin 36s linear infinite;
+    animation: bezel-spin 48s linear infinite;
   }
   .animate-bezel-reverse {
-    animation: bezel-spin-reverse 60s linear infinite;
+    animation: bezel-spin-reverse 80s linear infinite;
   }
 
   /* Split-flap board 3D helpers (Tailwind v4.1+ provides these; define
@@ -271,22 +265,6 @@
   }
   .backface-hidden {
     backface-visibility: hidden;
-  }
-
-  /* Ocean wave dividers — two seamless SVG tiles drifting sideways. */
-  .wave-track {
-    display: flex;
-    width: 200%;
-    height: 100%;
-    animation: wave-drift 24s linear infinite;
-  }
-  .wave-track svg {
-    flex-shrink: 0;
-    width: 50%;
-    height: 100%;
-  }
-  .wave-track--fast {
-    animation-duration: 15s;
   }
 
   /* Treasure coins raining from the sky. */
@@ -339,12 +317,6 @@
 
   .animate-bezel,
   .animate-bezel-reverse {
-    animation: none;
-  }
-
-  .wave-track,
-  .wave-track--fast,
-  .coin {
     animation: none;
   }
 

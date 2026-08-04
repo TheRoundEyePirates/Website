@@ -9,7 +9,7 @@ const NORTH = 0xa33a22;
 const SOUTH = 0x4a4a4d;
 const RING_SEGMENTS = 96;
 /** Scale of the whole instrument so it fills the canvas at the default camera. */
-const BASE_SCALE = 1.38;
+const BASE_SCALE = 1.52;
 const TREASURE_EVENT = 'rept:treasure';
 
 interface CompassRoseProps {
