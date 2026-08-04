@@ -36,6 +36,8 @@ const crew = defineCollection({
     title: z.string().optional(),
     /** Nickname shown between first and last name. */
     nickname: z.string().optional(),
+    /** Show the nickname@theroundeyepirates.com email on the person page. */
+    showEmail: z.boolean().default(true),
     /** Roster order within the column, lowest first. */
     order: z.number().default(0),
     /** Role label. Overrides the folder-derived role when set. */
