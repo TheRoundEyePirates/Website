@@ -46,7 +46,7 @@ export default function Footer({ logo = null }: FooterProps) {
         </div>
 
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-sand-light/60">
-          FTC 37060 · Founded July 26, 2026
+          FTC 37060 · Founded July 2026
         </p>
 
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-sand-light/40">
