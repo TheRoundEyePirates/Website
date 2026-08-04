@@ -38,6 +38,8 @@ const crew = defineCollection({
     nickname: z.string().optional(),
     /** Roster order within the column, lowest first. */
     order: z.number().default(0),
+    /** Role label. Overrides the folder-derived role when set. */
+    role: z.enum(['crew', 'coach', 'mentor']).optional(),
     /** Hide the member from the roster and person pages. */
     hidden: z.boolean().default(false),
   }),

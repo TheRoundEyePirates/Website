@@ -3,7 +3,7 @@ import { IMAGE_EXT, toUrl, type GlobModule } from './scan';
 
 export type CrewMemberEntry = CollectionEntry<'crew'>;
 
-export type CrewRole = 'crew' | 'coach';
+export type CrewRole = 'crew' | 'coach' | 'mentor';
 
 export interface CrewMember {
   key: string;
@@ -32,7 +32,7 @@ export function toCrewMember(entry: CrewMemberEntry): CrewMember {
   const [folder, key] = entry.id.split('/');
   return {
     key,
-    role: folder === 'officers' ? 'coach' : 'crew',
+    role: entry.data.role ?? (folder === 'officers' ? 'coach' : 'crew'),
     title: entry.data.title,
     first: entry.data.first,
     last: entry.data.last,
