@@ -5,8 +5,8 @@ import { useThreeScene } from '../lib/useThreeScene';
 const GOLD_FRONT = 0xe2b24a;
 const GOLD_SIDE = 0x9c6b1c;
 const GOLD_DARK = 0x8a5a17;
-const NORTH = 0xb33a1f;
-const SOUTH = 0x3a3d42;
+const NORTH = 0x8e2f1a;
+const SOUTH = 0x33363c;
 const RING_SEGMENTS = 96;
 /** Scale of the whole instrument so the dial just fits the canvas at the default camera. */
 const BASE_SCALE = 1.48;
@@ -16,6 +16,18 @@ const TREASURE_EVENT = 'rept:treasure';
 interface CompassRoseProps {
   height?: number;
   width?: number;
+}
+
+/** Deterministic PRNG so the weathering looks the same on every visit. */
+function mulberry32(seed: number) {
+  let a = seed;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 /** Classic star polygon — used for both the 8-point rose and 4-point cardinal. */
@@ -50,8 +62,9 @@ function needleHalf(flip: 1 | -1): THREE.Shape {
 }
 
 /**
- * The dial face painted in 2D: brushed navy plate, engraved degree ticks,
- * numerals every 30° and a vignette — far sharper than extruded geometry.
+ * The dial face painted in 2D: aged parchment stained with water, engraved
+ * ink ticks, numerals every 30° and cardinal letters — an old chart-maker's
+ * compass rather than a fresh modern instrument.
  */
 function drawDialTexture(): THREE.CanvasTexture {
   const size = 1024;
@@ -62,17 +75,46 @@ function drawDialTexture(): THREE.CanvasTexture {
   if (!ctx) return new THREE.CanvasTexture(canvas);
   const c = size / 2;
   const r = c;
+  const rand = mulberry32(37060);
 
-  const face = ctx.createRadialGradient(c, c, r * 0.05, c, c, r);
-  face.addColorStop(0, '#1a3054');
-  face.addColorStop(0.55, '#12233c');
-  face.addColorStop(1, '#0c1626');
+  // Worn parchment base.
+  const face = ctx.createRadialGradient(c, c, r * 0.05, c, c, r * 0.85);
+  face.addColorStop(0, '#dcc69e');
+  face.addColorStop(0.65, '#cbb07f');
+  face.addColorStop(1, '#ab8a5e');
   ctx.fillStyle = face;
-  ctx.beginPath();
-  ctx.arc(c, c, r, 0, Math.PI * 2);
-  ctx.fill();
+  ctx.fillRect(0, 0, size, size);
 
-  ctx.strokeStyle = 'rgba(226,178,74,0.3)';
+  // Water stains.
+  for (let i = 0; i < 12; i += 1) {
+    const x = rand() * size;
+    const y = rand() * size;
+    const radius = r * (0.05 + rand() * 0.14);
+    const stain = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    const alpha = 0.05 + rand() * 0.08;
+    stain.addColorStop(0, `rgba(120,84,42,${alpha})`);
+    stain.addColorStop(1, 'rgba(120,84,42,0)');
+    ctx.fillStyle = stain;
+    ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+  }
+
+  // Fibres.
+  for (let i = 0; i < 800; i += 1) {
+    const x = rand() * size;
+    const y = rand() * size;
+    const len = 1 + rand() * 3;
+    ctx.strokeStyle = rand() > 0.5 ? 'rgba(90,62,30,0.06)' : 'rgba(255,244,214,0.06)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + len, y + len);
+    ctx.stroke();
+  }
+
+  // Engraved guide rings + ticks in aged brown ink.
+  const ink = 'rgba(70,44,18,0.8)';
+  const inkSoft = 'rgba(70,44,18,0.45)';
+  ctx.strokeStyle = inkSoft;
   ctx.lineWidth = 2;
   for (const ratio of [0.72, 0.78]) {
     ctx.beginPath();
@@ -83,10 +125,10 @@ function drawDialTexture(): THREE.CanvasTexture {
   for (let i = 0; i < 72; i += 1) {
     const a = (i / 72) * Math.PI * 2 - Math.PI / 2;
     const major = i % 6 === 0;
-    const inner = major ? r * 0.8 : r * 0.85;
+    const inner = major ? r * 0.82 : r * 0.86;
     const outer = r * 0.9;
-    ctx.strokeStyle = major ? 'rgba(242,210,145,0.95)' : 'rgba(242,210,145,0.5)';
-    ctx.lineWidth = major ? 5 : 2.5;
+    ctx.strokeStyle = major ? ink : inkSoft;
+    ctx.lineWidth = major ? 4 : 2;
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(c + Math.cos(a) * inner, c + Math.sin(a) * inner);
@@ -94,23 +136,102 @@ function drawDialTexture(): THREE.CanvasTexture {
     ctx.stroke();
   }
 
-  ctx.fillStyle = 'rgba(242,210,145,0.92)';
-  ctx.font = '600 58px Georgia, "Times New Roman", serif';
+  // Numerals every 30°.
+  ctx.fillStyle = ink;
+  ctx.font = '600 52px Georgia, "Times New Roman", serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const labelR = r * 0.6;
+  const numeralR = r * 0.6;
   for (let deg = 0; deg < 360; deg += 30) {
     const a = (deg * Math.PI) / 180 - Math.PI / 2;
-    ctx.fillText(String(deg), c + Math.cos(a) * labelR, c + Math.sin(a) * labelR);
+    ctx.fillText(String(deg), c + Math.cos(a) * numeralR, c + Math.sin(a) * numeralR);
   }
 
-  const vignette = ctx.createRadialGradient(c, c, r * 0.55, c, c, r);
-  vignette.addColorStop(0, 'rgba(0,0,0,0)');
-  vignette.addColorStop(1, 'rgba(0,0,0,0.5)');
+  // Cardinal letters — bold old-school serif.
+  const letters: Array<[string, number]> = [
+    ['N', 0],
+    ['E', 90],
+    ['S', 180],
+    ['W', 270],
+  ];
+  ctx.font = '700 66px Georgia, "Times New Roman", serif';
+  const letterR = r * 0.74;
+  for (const [letter, deg] of letters) {
+    const a = (deg * Math.PI) / 180 - Math.PI / 2;
+    ctx.fillText(letter, c + Math.cos(a) * letterR, c + Math.sin(a) * letterR);
+  }
+
+  // Edge vignette — the dial ages into shadow.
+  const vignette = ctx.createRadialGradient(c, c, r * 0.5, c, c, r);
+  vignette.addColorStop(0, 'rgba(58,34,14,0)');
+  vignette.addColorStop(1, 'rgba(58,34,14,0.55)');
   ctx.fillStyle = vignette;
   ctx.beginPath();
   ctx.arc(c, c, r, 0, Math.PI * 2);
   ctx.fill();
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+/**
+ * Weathered brass: scratches, verdigris blotches and pitting so the metal
+ * looks like it has spent decades on the water.
+ */
+function makeBrassTexture(): THREE.CanvasTexture {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return new THREE.CanvasTexture(canvas);
+  const rand = mulberry32(37061);
+
+  const base = ctx.createLinearGradient(0, 0, size, size);
+  base.addColorStop(0, '#c99a3e');
+  base.addColorStop(0.5, '#e2b24a');
+  base.addColorStop(1, '#9c6b1c');
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, size, size);
+
+  // Verdigris tarnish.
+  for (let i = 0; i < 26; i += 1) {
+    const x = rand() * size;
+    const y = rand() * size;
+    const radius = size * (0.04 + rand() * 0.1);
+    const stain = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    const alpha = 0.12 + rand() * 0.18;
+    const green = rand() > 0.4 ? `rgba(82,118,96,${alpha})` : `rgba(64,86,70,${alpha})`;
+    stain.addColorStop(0, green);
+    stain.addColorStop(1, 'rgba(82,118,96,0)');
+    ctx.fillStyle = stain;
+    ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+  }
+
+  // Scratches.
+  for (let i = 0; i < 120; i += 1) {
+    const x = rand() * size;
+    const y = rand() * size;
+    const len = size * (0.005 + rand() * 0.02);
+    const a = rand() * Math.PI;
+    ctx.strokeStyle = rand() > 0.5 ? 'rgba(255,230,160,0.2)' : 'rgba(70,45,10,0.25)';
+    ctx.lineWidth = 0.7 + rand() * 0.8;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + Math.cos(a) * len, y + Math.sin(a) * len);
+    ctx.stroke();
+  }
+
+  // Pitting.
+  for (let i = 0; i < 200; i += 1) {
+    const x = rand() * size;
+    const y = rand() * size;
+    ctx.fillStyle = `rgba(50,32,8,${0.06 + rand() * 0.12})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 0.6 + rand() * 1.4, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -137,20 +258,23 @@ function makeShadowTexture(): THREE.CanvasTexture {
   return new THREE.CanvasTexture(canvas);
 }
 
-/** Polished brass — image-based lighting does the reflective work. */
-function goldStandard(color: number) {
+/** Weathered brass — the texture carries the ageing, IBL does the reflections. */
+function goldStandard(color: number, map?: THREE.Texture) {
   return new THREE.MeshPhysicalMaterial({
-    color,
+    color: map ? 0xffffff : color,
+    map,
     metalness: 1,
-    roughness: 0.24,
-    clearcoat: 0.4,
-    clearcoatRoughness: 0.3,
+    roughness: 0.42,
+    clearcoat: 0.25,
+    clearcoatRoughness: 0.5,
     emissive: 0x241603,
-    emissiveIntensity: 0.12,
+    emissiveIntensity: 0.1,
   });
 }
 
 function buildRose(group: THREE.Group) {
+  const brassTexture = makeBrassTexture();
+
   // Light rig on top of the baked environment for a little extra punch.
   group.add(new THREE.AmbientLight(0xfff2d4, 0.5));
   const key = new THREE.DirectionalLight(0xfff2e0, 1.2);
@@ -160,13 +284,13 @@ function buildRose(group: THREE.Group) {
   rim.position.set(-3, -1.5, 2);
   group.add(rim);
 
-  // Dial face with engraved ticks + numerals.
+  // Parchment dial face with ink engravings.
   const dial = new THREE.Mesh(
     new THREE.CircleGeometry(DIAL_RADIUS, RING_SEGMENTS),
     new THREE.MeshStandardMaterial({
       map: drawDialTexture(),
-      metalness: 0.3,
-      roughness: 0.6,
+      metalness: 0,
+      roughness: 0.9,
       side: THREE.DoubleSide,
     }),
   );
@@ -176,7 +300,7 @@ function buildRose(group: THREE.Group) {
   // Thin brass rim where the dial meets the bezel.
   const dialRim = new THREE.Mesh(
     new THREE.RingGeometry(DIAL_RADIUS, DIAL_RADIUS + 0.02, RING_SEGMENTS),
-    goldStandard(GOLD_SIDE),
+    goldStandard(GOLD_SIDE, brassTexture),
   );
   dialRim.position.z = -0.005;
   group.add(dialRim);
@@ -201,7 +325,7 @@ function buildRose(group: THREE.Group) {
     bevelSize: 0.02,
     bevelSegments: 3,
   });
-  const rose = new THREE.Mesh(roseGeo, goldStandard(GOLD_FRONT));
+  const rose = new THREE.Mesh(roseGeo, goldStandard(GOLD_FRONT, brassTexture));
   rose.name = 'rose';
   group.add(rose);
 
@@ -213,7 +337,7 @@ function buildRose(group: THREE.Group) {
     bevelSize: 0.014,
     bevelSegments: 2,
   });
-  const cardinal = new THREE.Mesh(cardinalGeo, goldStandard(GOLD_DARK));
+  const cardinal = new THREE.Mesh(cardinalGeo, goldStandard(GOLD_DARK, brassTexture));
   cardinal.position.z = 0.045;
   group.add(cardinal);
 
@@ -225,14 +349,14 @@ function buildRose(group: THREE.Group) {
     new THREE.MeshStandardMaterial({
       color: NORTH,
       metalness: 0.35,
-      roughness: 0.4,
+      roughness: 0.55,
       emissive: 0x1a0502,
       emissiveIntensity: 0.1,
     }),
   );
   const south = new THREE.Mesh(
     new THREE.ShapeGeometry(needleHalf(-1)),
-    new THREE.MeshStandardMaterial({ color: SOUTH, metalness: 0.7, roughness: 0.3 }),
+    new THREE.MeshStandardMaterial({ color: SOUTH, metalness: 0.7, roughness: 0.45 }),
   );
   north.position.z = 0.16;
   south.position.z = 0.16;
@@ -241,13 +365,19 @@ function buildRose(group: THREE.Group) {
   // Brass hub + centre pin over the needle's equator.
   const hub = new THREE.Mesh(
     new THREE.RingGeometry(0.045, 0.085, 32),
-    new THREE.MeshBasicMaterial({ color: GOLD_FRONT, side: THREE.DoubleSide }),
+    new THREE.MeshStandardMaterial({
+      map: brassTexture,
+      color: 0xffffff,
+      metalness: 0.9,
+      roughness: 0.5,
+      side: THREE.DoubleSide,
+    }),
   );
   hub.position.z = 0.18;
   needleGroup.add(hub);
   const pin = new THREE.Mesh(
     new THREE.SphereGeometry(0.03, 16, 12),
-    goldStandard(GOLD_SIDE),
+    goldStandard(GOLD_SIDE, brassTexture),
   );
   pin.position.z = 0.21;
   needleGroup.add(pin);
@@ -258,7 +388,7 @@ function buildRose(group: THREE.Group) {
   outer.name = 'outer';
   const bezel = new THREE.Mesh(
     new THREE.TorusGeometry(1.24, 0.04, 16, RING_SEGMENTS),
-    goldStandard(GOLD_SIDE),
+    goldStandard(GOLD_SIDE, brassTexture),
   );
   bezel.rotation.x = Math.PI / 2;
   outer.add(bezel);
@@ -298,8 +428,8 @@ function animateRose(group: THREE.Group, delta: number, elapsed: number) {
 }
 
 /**
- * A machined 3D compass: brass bezel, painted dial with degree ticks and
- * numerals, an extruded golden rose and a fixed red magnetic needle. Baked
+ * A weathered 3D compass from the captain's locker: parchment dial with ink
+ * engravings, tarnished brass rose and bezel, and a dark iron needle. Baked
  * studio lighting makes the metal read realistically; the camera holds a
  * slight 3/4 view. Spins up excitedly when the treasure easter egg fires.
  */
