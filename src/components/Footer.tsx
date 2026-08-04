@@ -55,12 +55,12 @@ export default function Footer({ logo = null }: FooterProps) {
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-sand-light/60">
           <a
-            href="https://github.com/the-round-eye-pirates"
+            href="https://github.com/orgs/TheRoundEyePirates"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 transition-colors hover:text-gold"
           >
-            <GithubIcon /> github.com/the-round-eye-pirates
+            <GithubIcon /> github.com/orgs/TheRoundEyePirates
           </a>
         </div>
 
