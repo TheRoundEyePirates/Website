@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import CompassRose from './CompassRose';
 
 const CARDINALS = [
@@ -8,26 +9,57 @@ const CARDINALS = [
 ] as const;
 
 export default function Hero() {
+  const parallaxRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const frame = parallaxRef.current;
+    if (!frame) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const onPointerMove = (event: PointerEvent) => {
+      const rect = frame.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      frame.style.transform = `perspective(700px) rotateY(${(x * 16).toFixed(2)}deg) rotateX(${(-y * 16).toFixed(2)}deg)`;
+    };
+
+    const onPointerLeave = () => {
+      frame.style.transform = '';
+    };
+
+    frame.addEventListener('pointermove', onPointerMove);
+    frame.addEventListener('pointerleave', onPointerLeave);
+    return () => {
+      frame.removeEventListener('pointermove', onPointerMove);
+      frame.removeEventListener('pointerleave', onPointerLeave);
+    };
+  }, []);
+
   return (
     <section
       id="home"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 text-center"
     >
       {/* Compass instrument */}
-      <div data-animate className="relative mb-8 flex h-64 w-64 items-center justify-center">
-        <div className="absolute inset-0 rounded-full border border-ink/20" aria-hidden="true" />
-        <div className="absolute inset-3 rounded-full border border-ink/10" aria-hidden="true" />
-        <div className="absolute inset-6 rounded-full border border-gold/30" aria-hidden="true" />
-        {CARDINALS.map((cardinal) => (
-          <span
-            key={cardinal.label}
-            aria-hidden="true"
-            className={`absolute font-mono text-[10px] tracking-[0.2em] text-gold ${cardinal.className}`}
-          >
-            {cardinal.label}
-          </span>
-        ))}
-        <CompassRose height={176} width={176} />
+      <div data-animate className="mb-8 flex items-center justify-center">
+        <div
+          ref={parallaxRef}
+          className="relative h-64 w-64 transition-transform duration-300 ease-out will-change-transform"
+        >
+          <div className="absolute inset-0 rounded-full border border-ink/20" aria-hidden="true" />
+          <div className="absolute inset-3 rounded-full border border-ink/10" aria-hidden="true" />
+          <div className="absolute inset-6 rounded-full border border-gold/30" aria-hidden="true" />
+          {CARDINALS.map((cardinal) => (
+            <span
+              key={cardinal.label}
+              aria-hidden="true"
+              className={`absolute font-mono text-[10px] tracking-[0.2em] text-gold ${cardinal.className}`}
+            >
+              {cardinal.label}
+            </span>
+          ))}
+          <CompassRose height={176} width={176} />
+        </div>
       </div>
 
       <p data-animate data-delay="0.1" className="font-mono text-xs uppercase tracking-[0.4em] text-navy sm:text-sm">

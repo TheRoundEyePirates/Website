@@ -17,7 +17,7 @@ export default function Crew() {
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <div
           data-animate="slide-left"
-          className="border border-ink/25 bg-[#faf6ec] p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8"
+          className="border border-ink/25 bg-card p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8"
         >
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">
@@ -35,7 +35,7 @@ export default function Crew() {
 
         <div
           data-animate="slide-right"
-          className="border border-ink/25 bg-[#faf6ec] p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8"
+          className="border border-ink/25 bg-card p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8"
         >
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">
             Officers &amp; Coaches

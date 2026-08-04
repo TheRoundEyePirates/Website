@@ -18,7 +18,7 @@ function GithubIcon({ size = 14 }: { size?: number }) {
 
 export default function Footer() {
   return (
-    <footer id="contact" className="scroll-mt-24 border-t border-ink/15 bg-[#efe9da]/60 px-6 py-16 text-center">
+    <footer id="contact" className="scroll-mt-24 border-t border-ink/15 bg-sand-deep/40 px-6 py-16 text-center">
       <div data-stagger className="mx-auto max-w-3xl space-y-6">
         <div className="flex justify-center" aria-hidden="true">
           <Anchor3D height={110} width={110} />
@@ -30,7 +30,7 @@ export default function Footer() {
         </div>
 
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/60">
-          FTC 37060 · Founded July 26, 2026
+          FTC 37060 · Founded July 2026
         </p>
 
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">

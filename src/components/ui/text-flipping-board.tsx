@@ -119,11 +119,11 @@ const FlapCell = React.memo(function FlapCell({
 
   const textCx =
     "absolute inset-x-0 flex select-none items-center justify-center font-mono font-bold tracking-wide";
-  const topBg = accent?.top ?? "bg-[#faf6ec]";
-  const bottomBg = accent?.bottom ?? "bg-[#faf6ec]";
+  const topBg = accent?.top ?? "bg-card";
+  const bottomBg = accent?.bottom ?? "bg-card";
   const textColor = accent?.text ?? "text-ink";
 
-  const flapTopBg = prevAccent?.top ?? "bg-[#f3eddd]";
+  const flapTopBg = prevAccent?.top ?? "bg-sand-light";
   const flapTextColor = prevAccent?.text ?? "text-ink";
 
   const bottomDelay = flipDuration * 0.5;
@@ -412,7 +412,7 @@ export function TextFlippingBoard({
   return (
     <div
       className={cn(
-        "relative mx-auto w-full max-w-3xl rounded-xl border border-ink/15 bg-[#efe9da] p-2 shadow-[0_10px_30px_-12px_rgba(28,25,23,0.35)] md:rounded-2xl md:p-4",
+        "relative mx-auto w-full max-w-3xl rounded-xl border border-ink/15 bg-sand-deep/70 p-2 shadow-[0_10px_30px_-12px_rgba(28,25,23,0.35)] md:rounded-2xl md:p-4",
         className,
       )}
     >

@@ -6,6 +6,14 @@ export default function About() {
     <section id="about" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
       <ShipDivider label="About the Crew" />
 
+      <p
+        data-animate="blur"
+        className="mb-12 max-w-2xl border-l-2 border-gold/60 pl-5 font-display text-xl leading-relaxed text-ink sm:text-2xl"
+      >
+        We are a team of <span className="text-gold">mysterious pirates</span> who will rule the
+        seven seas.
+      </p>
+
       <div className="grid gap-12 md:grid-cols-2 md:items-center">
         <div data-stagger className="space-y-5">
           <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -27,7 +35,7 @@ export default function About() {
         <figure data-animate="slide-right" data-delay="0.15">
           <div
             data-parallax="0.2"
-            className="flex aspect-[4/3] flex-col items-center justify-center gap-3 border border-dashed border-ink/30 bg-[#efe9da] text-ink/40"
+            className="flex aspect-[4/3] flex-col items-center justify-center gap-3 border border-dashed border-ink/30 bg-sand-deep/70 text-ink/40"
           >
             <Camera size={40} strokeWidth={1} aria-hidden="true" />
             <span className="font-mono text-[10px] uppercase tracking-[0.3em]">

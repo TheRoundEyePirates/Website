@@ -46,7 +46,7 @@ export default function RobotLog({
 
       <div
         data-animate="scale"
-        className="border border-ink/25 bg-[#faf6ec] px-6 py-8 shadow-[4px_4px_0_rgba(28,25,23,0.08)] sm:px-10 sm:py-10"
+        className="border border-ink/25 bg-card px-6 py-8 shadow-[4px_4px_0_rgba(28,25,23,0.08)] sm:px-10 sm:py-10"
       >
         <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink/15 pb-4">
           <h2 className="font-display text-2xl text-ink">Captain's Log</h2>
@@ -59,7 +59,7 @@ export default function RobotLog({
           {fields.map((field) => (
             <div
               key={field.label}
-              className="flex items-center gap-3 bg-[#faf6ec] px-4 py-3"
+              className="flex items-center gap-3 bg-card px-4 py-3"
             >
               <field.icon
                 size={16}

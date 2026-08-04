@@ -35,27 +35,37 @@ Built with **Astro 7**, **React 19 islands**, **TypeScript**, **Tailwind CSS 4**
     ├── content/
     │   ├── logs/
     │   │   └── robot-log.md    # "Captain's Log" entry with spec frontmatter
+    │   ├── MEDIA/              # Drop photos/videos here → auto-added to the Gallery
     │   └── timeline/
     │       └── team-founded.md # Timeline entry (order, date, title + body)
+    ├── layouts/
+    │   └── BaseLayout.astro    # Shared <head>, fonts, meta, theme-color
     ├── lib/
-    │   └── utils.ts            # `cn` classname helper
+    │   ├── utils.ts            # `cn` classname helper
+    │   ├── media.ts            # import.meta.glob scan of src/content/MEDIA
+    │   └── useThreeScene.ts    # Shared Three.js renderer/scene lifecycle hook
     ├── styles/
     │   └── global.css          # Tailwind 4 @theme tokens, grain, prose, reveal CSS
     ├── components/
     │   ├── Animate.tsx         # GSAP scroll engine: reveals, stagger, parallax, hero-scrub, draw
     │   ├── Navbar.tsx          # Fixed nav + scroll progress bar
-    │   ├── Hero.tsx            # FTC 37060 / team name / tagline / compass frame
+    │   ├── Hero.tsx            # FTC 37060 / team name / tagline / compass frame (cursor parallax)
     │   ├── CompassRose.tsx     # Three.js low-poly golden compass, pauses off-viewport
+    │   ├── SeaWaves.tsx        # Animated layered ocean swell dividers
     │   ├── About.tsx           # Two-column crew section + ShipWheel3D figure
     │   ├── ShipWheel3D.tsx     # Three.js rotating golden ship's wheel
     │   ├── RobotLog.tsx        # Log card rendering collection frontmatter + body
     │   ├── Crew.tsx            # Ship's roster (crew + coaches)
+    │   ├── MediaGallerySection.astro  # Auto-scanning gallery section
+    │   ├── MediaGallery.tsx    # Photo/video grid + lightbox (keyboard friendly)
     │   ├── Bulletin.tsx        # Split-flap board section
     │   ├── TextFlippingBoardDemo.tsx  # Scroll-driven rotating messages for the flip board
     │   ├── ui/
     │   │   └── text-flipping-board.tsx  # Split-flap component (ported from Aceternity)
     │   ├── History.astro       # Dotted timeline, driven by the timeline collection
+    │   ├── QuoteTicker.tsx     # Rotating "Tavern Tales" quote band
     │   ├── Location.tsx        # Google Maps embed of Hawke's Bay, NZ
+    │   ├── TreasureChest.tsx   # "arrr" easter egg: chest overlay + gold coin rain
     │   ├── Anchor3D.tsx        # Three.js swaying golden anchor (footer)
     │   ├── Footer.tsx          # Contact, FIRST/FTC logos, trademark note
     │   └── ShipDivider.tsx     # Vintage section divider
@@ -132,17 +142,29 @@ Our first taste of competition — three matches, three lessons.
 
 No environment variables or server functions are required.
 
+## Adding photos or videos
+
+The **Ship's Album** gallery is automatic. Drop any image (jpg, png, gif, webp, avif, svg) or video
+(mp4, webm, mov, m4v) into `src/content/MEDIA/` and it will appear in the gallery on the next
+build — **no code changes needed**. Files are detected by extension and sorted by name; subfolders
+are scanned too. Click a photo to open the lightbox (arrow keys to navigate, `Esc` to close).
+
 ## Design notes
 
-- Palette: aged parchment `#f5f0e6`, charcoal `#1c1917`, weathered navy `#1e3a5f`,
-  antique gold `#b45309`, plus a subtle CSS grain overlay.
+- Palette: sandy shore `#e9dcc0` with a speckled, dune-shaded background, charcoal `#1c1917`,
+  weathered navy `#1e3a5f`, antique gold `#b45309`, plus a subtle CSS grain overlay.
 - Type: Courier Prime (display), IBM Plex Mono (mono accents), Inter (body).
 - Every section fades up (`y: 40 → 0`, `opacity: 0 → 1`, `power3.out`, 1s) via
   `data-animate` attributes driven by GSAP ScrollTrigger.
-- The navbar gains `backdrop-blur-sm` + parchment/90 once you scroll past the hero, with a
+- The navbar gains `backdrop-blur-sm` + sand/90 once you scroll past the hero, with a
   scroll-spy active link state and a mobile menu.
+- Ocean wave dividers roll beneath the hero and above the footer (pure transform animation).
 - The hero compass rose is a single Three.js scene that pauses its render loop when
-  off-viewport or the tab is hidden.
+  off-viewport or the tab is hidden, and tilts subtly toward the cursor.
+- All three 3D props (compass, wheel, anchor) share one lifecycle hook: `useThreeScene`.
+- Easter egg: type `arrr` (or `treasure`) anywhere — the compass spins and the hidden
+  treasure chest opens with a rain of gold.
 - Accessibility: skip-to-content link, `:focus-visible` outlines, `aria-current`/`aria-expanded`
-  states, and full `prefers-reduced-motion` support (reveals become static, rotation stops).
+  states, and full `prefers-reduced-motion` support (reveals become static, rotation stops,
+  waves and coins freeze).
 - Also includes a themed 404 page and JSON-LD structured data.

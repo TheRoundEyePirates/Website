@@ -1,54 +1,40 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f0e6" />
-    <meta name="robots" content="noindex" />
-    <title>Lost at Sea — The Round Eye Pirates</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+<BaseLayout
+  title="Lost at Sea — The Round Eye Pirates"
+  description="This page has drifted off the charts."
+  noindex
+>
+  <main class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
+    <svg
+      viewBox="0 0 64 64"
+      aria-hidden="true"
+      class="h-16 w-16"
+      stroke="#b45309"
+      stroke-width="2.5"
+      fill="none"
+      stroke-linecap="round"
+    >
+      <circle cx="32" cy="32" r="22" />
+      <path d="M32 10v44M10 32h44M15 15l34 34M49 15L15 49" />
+      <path d="M32 12l-5.5 9.5h11z" fill="#b45309" stroke="none" />
+    </svg>
 
-  <body>
-    <main class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
-      <svg
-        viewBox="0 0 64 64"
-        aria-hidden="true"
-        class="h-16 w-16"
-        stroke="#b45309"
-        stroke-width="2.5"
-        fill="none"
-        stroke-linecap="round"
-      >
-        <circle cx="32" cy="32" r="22" />
-        <path d="M32 10v44M10 32h44M15 15l34 34M49 15L15 49" />
-        <path d="M32 12l-5.5 9.5h11z" fill="#b45309" stroke="none" />
-      </svg>
+    <p class="font-mono text-xs uppercase tracking-[0.35em] text-navy">Error 404 — Lost at Sea</p>
 
-      <p class="font-mono text-xs uppercase tracking-[0.35em] text-navy">Error 404 — Lost at Sea</p>
+    <h1 class="font-display text-4xl text-ink sm:text-5xl">The map ends here.</h1>
 
-      <h1 class="font-display text-4xl text-ink sm:text-5xl">The map ends here.</h1>
+    <p class="max-w-md font-mono text-sm leading-7 text-ink/70">
+      This page has drifted off the charts. Check the coordinates, or return to known waters.
+    </p>
 
-      <p class="max-w-md font-mono text-sm leading-7 text-ink/70">
-        This page has drifted off the charts. Check the coordinates, or return to known waters.
-      </p>
-
-      <a
-        href="/"
-        class="mt-4 border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:border-gold/60 hover:text-gold"
-      >
-        Return to the Ship
-      </a>
-    </main>
-  </body>
-</html>
+    <a
+      href="/"
+      class="mt-4 border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:border-gold/60 hover:text-gold"
+    >
+      Return to the Ship
+    </a>
+  </main>
+</BaseLayout>

@@ -2,6 +2,10 @@
 
 @theme {
   --color-parchment: #f5f0e6;
+  --color-sand: #e9dcc0;
+  --color-sand-light: #f5eede;
+  --color-sand-deep: #d8c6a1;
+  --color-card: #f6efdd;
   --color-ink: #1c1917;
   --color-navy: #1e3a5f;
   --color-gold: #b45309;
@@ -14,10 +18,28 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: var(--color-sand);
   }
 
   body {
-    @apply bg-parchment text-ink font-sans antialiased;
+    @apply bg-transparent text-ink font-sans antialiased;
+  }
+
+  /* Sandy shoreline texture: dune shading + fine grain speckles. Painted on
+     `body::before` at z-index -1 so it sits above the html background but
+     below all page content. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1100px 520px at 18% -5%, rgba(245, 238, 222, 0.65), transparent 62%),
+      radial-gradient(900px 460px at 85% 108%, rgba(216, 198, 161, 0.6), transparent 60%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.47 0 0 0 0 0.39 0 0 0 0 0.25 0 0 0 0.45 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    background-size: auto, auto, 140px 140px;
+    opacity: 0.55;
   }
 
   ::selection {
@@ -89,6 +111,37 @@
   }
 }
 
+@keyframes wave-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes coin-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 112vh, 0) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes quote-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @layer components {
   /* Rendered markdown log narrative */
   .log-body {
@@ -150,6 +203,40 @@
   .backface-hidden {
     backface-visibility: hidden;
   }
+
+  /* Ocean wave dividers — two seamless SVG tiles drifting sideways. */
+  .wave-track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    animation: wave-drift 24s linear infinite;
+  }
+  .wave-track svg {
+    flex-shrink: 0;
+    width: 50%;
+    height: 100%;
+  }
+  .wave-track--fast {
+    animation-duration: 15s;
+  }
+
+  /* Treasure coins raining from the sky. */
+  .coin {
+    position: absolute;
+    top: -12vh;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 32%, #f6cc62, #d99a2b 55%, #a06a12);
+    border: 1px solid rgba(96, 62, 12, 0.7);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.5),
+      0 2px 4px rgba(28, 25, 23, 0.35);
+    animation: coin-fall 3.2s linear infinite;
+  }
+
+  /* Rotating tavern-tale quote entrance. */
+  .animate-quote-fade {
+    animation: quote-fade 0.7s ease-out both;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -168,6 +255,20 @@
     animation: none;
   }
 
+  .wave-track,
+  .wave-track--fast,
+  .coin {
+    animation: none;
+  }
+
+  .coin {
+    display: none;
+  }
+
+  .animate-quote-fade {
+    animation: none;
+  }
+
   .skip-link {
     transition: none;
   }
@@ -180,6 +281,6 @@ body::after {
   inset: 0;
   z-index: 80;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

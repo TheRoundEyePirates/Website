@@ -16,7 +16,7 @@ export default function Location() {
         Based in Hastings &amp; Napier, Hawke's Bay — on the east coast of Aotearoa New Zealand.
       </p>
 
-      <div data-animate="fade-up" data-delay="0.15" className="mt-10 border border-ink/25 bg-[#efe9da] p-2">
+      <div data-animate="fade-up" data-delay="0.15" className="mt-10 border border-ink/25 bg-sand-deep/70 p-2">
         <iframe
           title="Map of Hastings and Napier, Hawke's Bay, New Zealand"
           src={MAP_EMBED_SRC}
