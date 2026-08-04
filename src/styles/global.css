@@ -137,9 +137,25 @@
   }
 }
 
-@keyframes bezel-spin-reverse {
-  to {
-    transform: rotate(-360deg);
+@keyframes compass-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes needle-sway {
+  0%,
+  100% {
+    transform: rotate(-1.6deg);
+  }
+  50% {
+    transform: rotate(1.6deg);
   }
 }
 
@@ -247,12 +263,22 @@
     animation: scroll-cue 2.4s ease-in-out infinite;
   }
 
-  /* Hero compass brass bezel — slow sheen rotation. */
-  .animate-bezel {
-    animation: bezel-spin 48s linear infinite;
+  /* Hero compass — the rose turns beneath the swaying needle. */
+  .animate-compass-rose {
+    animation: bezel-spin 60s linear infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
   }
-  .animate-bezel-reverse {
-    animation: bezel-spin-reverse 80s linear infinite;
+  .animate-compass-rose.compass-boost {
+    animation-duration: 1.4s;
+  }
+  .compass-pop {
+    animation: compass-pop 0.5s ease-out;
+  }
+  .animate-compass-needle {
+    animation: needle-sway 5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
   }
 
   /* Split-flap board 3D helpers (Tailwind v4.1+ provides these; define
@@ -315,8 +341,10 @@
     animation: none;
   }
 
-  .animate-bezel,
-  .animate-bezel-reverse {
+  .animate-compass-rose,
+  .animate-compass-rose.compass-boost,
+  .animate-compass-needle,
+  .compass-pop {
     animation: none;
   }
 
