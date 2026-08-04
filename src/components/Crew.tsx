@@ -66,9 +66,11 @@ export default function Crew({ crew, coaches, photos }: CrewProps) {
           data-animate="slide-left"
           className="border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)] sm:p-8"
         >
-          <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
+          <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">
+            Officers &amp; Coaches
+          </h3>
           <ul data-stagger className="mt-5 space-y-3">
-            {crew.map((member) => (
+            {coaches.map((member) => (
               <MemberRow key={member.key} member={member} photos={photos} />
             ))}
           </ul>
@@ -78,11 +80,9 @@ export default function Crew({ crew, coaches, photos }: CrewProps) {
           data-animate="slide-right"
           className="border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)] sm:p-8"
         >
-          <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">
-            Officers &amp; Coaches
-          </h3>
+          <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">
-            {coaches.map((member) => (
+            {crew.map((member) => (
               <MemberRow key={member.key} member={member} photos={photos} />
             ))}
           </ul>
