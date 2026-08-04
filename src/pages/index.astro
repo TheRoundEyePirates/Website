@@ -19,6 +19,7 @@ import Footer from '../components/Footer.tsx';
 import TreasureChest from '../components/TreasureChest.tsx';
 import CourseLine from '../components/CourseLine.tsx';
 import { getLogo } from '../lib/brand';
+import { getCrewPhotos } from '../lib/crew';
 
 const log = await getEntry('logs', 'robot-log');
 if (!log) {
@@ -28,6 +29,7 @@ const { Content } = await render(log);
 
 const lightLogo = getLogo('light');
 const darkLogo = getLogo('dark');
+const crewPhotos = getCrewPhotos();
 ---
 
 <BaseLayout
@@ -70,7 +72,7 @@ const darkLogo = getLogo('dark');
     <RobotLog client:visible {...log.data}>
       <Content />
     </RobotLog>
-    <Crew />
+    <Crew photos={crewPhotos} />
     <MediaGallerySection />
     <Bulletin client:visible />
     <History />

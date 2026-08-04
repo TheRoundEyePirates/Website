@@ -1,7 +1,10 @@
 import { Anchor } from 'lucide-react';
 import ShipDivider from './ShipDivider';
 
+export type CrewPhotos = Record<string, string[]>;
+
 interface CrewMember {
+  key: string;
   title?: string;
   first: string;
   last: string;
@@ -9,17 +12,59 @@ interface CrewMember {
 }
 
 const CREW: CrewMember[] = [
-  { first: 'Lihan', last: 'Badenhorst' },
-  { first: 'Ryan', last: 'Fox', nickname: 'Spillover' },
-  { first: 'Hunter', last: 'Cameron', nickname: 'Tickets' },
+  { key: 'lihan', first: 'Lihan', last: 'Badenhorst' },
+  { key: 'ryan', first: 'Ryan', last: 'Fox', nickname: 'Spillover' },
+  { key: 'hunter', first: 'Hunter', last: 'Cameron', nickname: 'Tickets' },
 ];
 
 const COACHES: CrewMember[] = [
-  { title: 'Dr.', first: 'Ricardo', last: 'Fox', nickname: 'Lostfoxy' },
-  { title: 'Mr.', first: 'White', last: '' },
+  { key: 'ricardo', title: 'Dr.', first: 'Ricardo', last: 'Fox', nickname: 'Lostfoxy' },
+  { key: 'white', title: 'Mr.', first: 'White', last: '' },
 ];
 
-export default function Crew() {
+interface CrewProps {
+  photos?: CrewPhotos;
+}
+
+function MemberRow({ member, photos }: { member: CrewMember; photos?: CrewPhotos }) {
+  const memberPhotos = photos?.[member.key] ?? [];
+
+  return (
+    <li
+      key={`${member.first}${member.last}`}
+      className="group relative flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
+    >
+      <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
+      {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
+      {member.first}
+      {member.nickname && (
+        <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
+      )}
+      {member.last}
+
+      {memberPhotos.length > 0 && (
+        <span
+          aria-hidden="true"
+          className="absolute left-0 top-full z-20 mt-3 hidden w-max max-w-xs opacity-0 transition-all duration-200 group-hover:block group-hover:opacity-100"
+        >
+          <span className="flex flex-wrap gap-2 border border-ink/25 bg-card p-2 shadow-[0_14px_28px_-14px_rgba(28,25,23,0.45)]">
+            {memberPhotos.map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt=""
+                className="h-16 w-16 object-cover"
+                loading="lazy"
+              />
+            ))}
+          </span>
+        </span>
+      )}
+    </li>
+  );
+}
+
+export default function Crew({ photos }: CrewProps) {
   return (
     <section id="crew" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
       <ShipDivider label="Crew" />
@@ -36,18 +81,7 @@ export default function Crew() {
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">
             {CREW.map((member) => (
-              <li
-                key={`${member.first}${member.last}`}
-                className="flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
-              >
-                <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
-                {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
-                {member.first}
-                {member.nickname && (
-                  <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
-                )}
-                {member.last}
-              </li>
+              <MemberRow key={member.key} member={member} photos={photos} />
             ))}
           </ul>
         </div>
@@ -61,18 +95,7 @@ export default function Crew() {
           </h3>
           <ul data-stagger className="mt-5 space-y-3">
             {COACHES.map((member) => (
-              <li
-                key={`${member.first}${member.last}`}
-                className="flex items-center gap-3 border-b border-ink/10 pb-3 font-display text-lg text-ink last:border-b-0 last:pb-0"
-              >
-                <Anchor size={14} strokeWidth={1.5} className="shrink-0 text-gold" aria-hidden="true" />
-                {member.title && <span className="font-mono text-sm text-ink/60">{member.title}</span>}
-                {member.first}
-                {member.nickname && (
-                  <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
-                )}
-                {member.last}
-              </li>
+              <MemberRow key={member.key} member={member} photos={photos} />
             ))}
           </ul>
         </div>
