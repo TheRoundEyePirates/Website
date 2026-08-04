@@ -137,6 +137,18 @@
   }
 }
 
+@keyframes bezel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bezel-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 @keyframes coin-fall {
   0% {
     transform: translate3d(0, -12vh, 0) rotate(0deg);
@@ -241,6 +253,14 @@
     animation: scroll-cue 2.4s ease-in-out infinite;
   }
 
+  /* Hero compass brass bezel — slow sheen rotation. */
+  .animate-bezel {
+    animation: bezel-spin 36s linear infinite;
+  }
+  .animate-bezel-reverse {
+    animation: bezel-spin-reverse 60s linear infinite;
+  }
+
   /* Split-flap board 3D helpers (Tailwind v4.1+ provides these; define
      explicitly so the flip animation is depth-correct regardless). */
   .perspective-dramatic {
@@ -314,6 +334,11 @@
   }
 
   .animate-scroll-cue {
+    animation: none;
+  }
+
+  .animate-bezel,
+  .animate-bezel-reverse {
     animation: none;
   }
 

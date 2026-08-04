@@ -8,6 +8,7 @@ interface MediaGalleryProps {
 
 export default function MediaGallery({ media }: MediaGalleryProps) {
   const [active, setActive] = useState<number | null>(null);
+  const [videoRatios, setVideoRatios] = useState<Record<string, number>>({});
 
   const step = useCallback(
     (dir: 1 | -1) => {
@@ -50,37 +51,60 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
   return (
     <>
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {media.map((item, index) => (
-          <li key={item.src}>
-            {item.type === 'video' ? (
-              <figure className="group relative aspect-[4/3] overflow-hidden border border-ink/20 bg-ink/10">
-                <video
-                  src={item.src}
-                  controls
-                  preload="metadata"
-                  className="h-full w-full object-cover"
-                />
-              </figure>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setActive(index)}
-                aria-label={`Open ${item.caption}`}
-                className="group relative block aspect-[4/3] w-full overflow-hidden border border-ink/20 bg-ink/10 text-left"
-              >
-                <img
-                  src={item.src}
-                  alt={item.caption}
-                  loading="lazy"
-                  className="image-fade h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-ink/70 to-transparent px-3 pb-2 pt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-sand-light transition-transform duration-300 group-hover:translate-y-0">
-                  {item.caption}
-                </span>
-              </button>
-            )}
-          </li>
-        ))}
+        {media.map((item, index) => {
+          const ratio =
+            item.type === 'image' && item.width && item.height
+              ? `${item.width} / ${item.height}`
+              : item.type === 'video' && videoRatios[item.src]
+                ? `${videoRatios[item.src]}`
+                : undefined;
+          const aspectStyle = ratio ? { aspectRatio: ratio } : undefined;
+
+          return (
+            <li key={item.src}>
+              {item.type === 'video' ? (
+                <figure
+                  className="group relative overflow-hidden border border-ink/20 bg-ink/10"
+                  style={aspectStyle}
+                >
+                  <video
+                    src={item.src}
+                    controls
+                    preload="metadata"
+                    onLoadedMetadata={(event) => {
+                      const video = event.currentTarget;
+                      if (video.videoWidth && video.videoHeight) {
+                        setVideoRatios((prev) => ({
+                          ...prev,
+                          [item.src]: video.videoWidth / video.videoHeight,
+                        }));
+                      }
+                    }}
+                    className="h-full w-full object-cover"
+                  />
+                </figure>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setActive(index)}
+                  aria-label={`Open ${item.caption}`}
+                  className="group relative block w-full overflow-hidden border border-ink/20 bg-ink/10 text-left"
+                  style={aspectStyle}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.caption}
+                    loading="lazy"
+                    className="image-fade h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-ink/70 to-transparent px-3 pb-2 pt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-sand-light transition-transform duration-300 group-hover:translate-y-0">
+                    {item.caption}
+                  </span>
+                </button>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       {active !== null && (

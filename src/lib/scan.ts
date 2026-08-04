@@ -1,4 +1,6 @@
-export type GlobModule = { default: string | { src: string } };
+export type GlobModule = {
+  default: string | { src: string; width?: number; height?: number };
+};
 
 export const IMAGE_EXT = /\.(jpe?g|png|gif|webp|avif|bmp|svg)$/i;
 export const VIDEO_EXT = /\.(mp4|webm|ogg|mov|m4v)$/i;

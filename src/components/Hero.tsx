@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import CompassRose from './CompassRose';
 
 const CARDINALS = [
-  { label: 'N', className: 'left-1/2 top-2 -translate-x-1/2' },
-  { label: 'E', className: 'right-2 top-1/2 -translate-y-1/2' },
-  { label: 'S', className: 'bottom-2 left-1/2 -translate-x-1/2' },
-  { label: 'W', className: 'left-2 top-1/2 -translate-y-1/2' },
+  { label: 'N', className: 'left-1/2 top-1.5 -translate-x-1/2' },
+  { label: 'E', className: 'right-1.5 top-1/2 -translate-y-1/2' },
+  { label: 'S', className: 'bottom-1.5 left-1/2 -translate-x-1/2' },
+  { label: 'W', className: 'left-1.5 top-1/2 -translate-y-1/2' },
 ] as const;
 
 export default function Hero() {
@@ -73,21 +73,33 @@ export default function Hero() {
       <div data-animate className="mb-8 flex items-center justify-center">
         <div
           ref={parallaxRef}
-          className="relative h-64 w-64 will-change-transform"
+          className="relative h-60 w-60 will-change-transform"
         >
-          <div className="absolute inset-0 rounded-full border border-ink/20" aria-hidden="true" />
-          <div className="absolute inset-3 rounded-full border border-ink/10" aria-hidden="true" />
-          <div className="absolute inset-6 rounded-full border border-gold/30" aria-hidden="true" />
+          {/* Soft grounding shadow so the instrument floats above the page. */}
+          <div
+            className="absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(28,25,23,0.3),rgba(28,25,23,0)_68%)]"
+            aria-hidden="true"
+          />
+          {/* Slowly rotating brass bezel plate. */}
+          <div
+            className="animate-bezel absolute -inset-2 rounded-full shadow-[0_0_36px_rgba(180,83,9,0.3)] [background:conic-gradient(from_120deg,#7c4d10,#e2b24a_25%,#f2d291_50%,#e2b24a_75%,#7c4d10)]"
+            aria-hidden="true"
+          />
+          {/* Counter-rotating dashed tick ring. */}
+          <div
+            className="animate-bezel-reverse absolute inset-0 rounded-full border border-dashed border-gold/30"
+            aria-hidden="true"
+          />
           {CARDINALS.map((cardinal) => (
             <span
               key={cardinal.label}
               aria-hidden="true"
-              className={`absolute font-mono text-[10px] tracking-[0.2em] text-gold ${cardinal.className}`}
+              className={`absolute font-mono text-[11px] tracking-[0.2em] text-gold [text-shadow:0_1px_3px_rgba(28,25,23,0.55)] ${cardinal.className}`}
             >
               {cardinal.label}
             </span>
           ))}
-          <CompassRose height={176} width={176} />
+          <CompassRose height={200} width={200} />
         </div>
       </div>
 

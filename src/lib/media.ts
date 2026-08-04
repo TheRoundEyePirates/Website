@@ -4,6 +4,8 @@ export interface MediaItem {
   src: string;
   type: 'image' | 'video';
   caption: string;
+  width?: number;
+  height?: number;
 }
 
 const modules = import.meta.glob('../content/MEDIA/**/*', { eager: true }) as Record<
@@ -25,10 +27,24 @@ export function getMedia(): MediaItem[] {
     .map((key) => {
       const base = key.split('/').pop() ?? key;
       if (IMAGE_EXT.test(base)) {
-        return { src: toUrl(modules[key]), type: 'image' as const, caption: toCaption(base) };
+        const value = modules[key].default;
+        const meta = typeof value === 'object' ? value : null;
+        const item: MediaItem = {
+          src: toUrl(modules[key]),
+          type: 'image',
+          caption: toCaption(base),
+          width: meta?.width,
+          height: meta?.height,
+        };
+        return item;
       }
       if (VIDEO_EXT.test(base)) {
-        return { src: toUrl(modules[key]), type: 'video' as const, caption: toCaption(base) };
+        const item: MediaItem = {
+          src: toUrl(modules[key]),
+          type: 'video',
+          caption: toCaption(base),
+        };
+        return item;
       }
       return null;
     })
