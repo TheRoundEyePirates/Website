@@ -1,6 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Mail } from 'lucide-react';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CrewPhotoGallery from '../../components/CrewPhotoGallery.tsx';
 import TeamStatsPanel from '../../components/TeamStatsPanel.tsx';
@@ -24,6 +24,7 @@ const [folder, key] = entry.id.split('/');
 const { first, last, title, nickname } = entry.data;
 const name = `${title ? `${title} ` : ''}${first} ${last}`.trim();
 const roleLabel = folder === 'officers' ? 'Officer & Coach' : 'Crew';
+const email = nickname ? `${nickname.toLowerCase()}@theroundeyepirates.com` : null;
 const photos = getCrewPhotos()[key] ?? [];
 const photoHint = `src/content/crew/${folder}/${key}/`;
 ---
@@ -52,6 +53,15 @@ const photoHint = `src/content/crew/${folder}/${key}/`;
         {' '}
         {last}
       </h1>
+      {email && (
+        <a
+          href={`mailto:${email}`}
+          class="mt-4 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/60 transition-colors hover:text-gold"
+        >
+          <Mail size={13} strokeWidth={1.5} class="text-gold" aria-hidden="true" />
+          {email}
+        </a>
+      )}
     </header>
 
     {photos.length > 0 ? (
