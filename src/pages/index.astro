@@ -13,6 +13,7 @@ import MediaGallerySection from '../components/MediaGallerySection.astro';
 import Bulletin from '../components/Bulletin.tsx';
 import History from '../components/History.astro';
 import QuoteTicker from '../components/QuoteTicker.tsx';
+import GitHubRepos from '../components/GitHubRepos.tsx';
 import Location from '../components/Location.tsx';
 import Footer from '../components/Footer.tsx';
 import TreasureChest from '../components/TreasureChest.tsx';
@@ -74,6 +75,7 @@ const darkLogo = getLogo('dark');
     <Bulletin client:visible />
     <History />
     <QuoteTicker client:visible />
+    <GitHubRepos client:visible />
     <Location />
   </main>
 
