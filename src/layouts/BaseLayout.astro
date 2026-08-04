@@ -70,27 +70,13 @@ const {
           return;
         }
 
-        var start = performance.now();
-
-        var finished = false;
-        function finish() {
-          if (finished) return;
-          finished = true;
-
-          var elapsed = performance.now() - start;
-          var wait = Math.max(0, 1400 - elapsed);
-
+        setTimeout(function () {
+          boot.classList.add('boot-done');
+          sessionStorage.setItem('boot', '1');
           setTimeout(function () {
-            boot.classList.add('boot-done');
-            sessionStorage.setItem('boot', '1');
-            setTimeout(function () {
-              boot.remove();
-            }, 700);
-          }, wait);
-        }
-
-        window.addEventListener('load', finish);
-        setTimeout(finish, 4000);
+            boot.remove();
+          }, 700);
+        }, 1200);
       })();
     </script>
 
