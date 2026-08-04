@@ -42,6 +42,15 @@ const crew = defineCollection({
     role: z.enum(['crew', 'coach', 'mentor']).optional(),
     /** Hide the member from the roster and person pages. */
     hidden: z.boolean().default(false),
+    /** FTC Scout API config — renders a live team-data panel on the person page. */
+    api: z
+      .object({
+        /** FTC team number, e.g. 30841. */
+        team: z.number(),
+        /** Season, e.g. 2025. Omit for the API's default season. */
+        season: z.number().optional(),
+      })
+      .optional(),
   }),
 });
 

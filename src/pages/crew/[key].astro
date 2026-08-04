@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { ArrowLeft } from 'lucide-react';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CrewPhotoGallery from '../../components/CrewPhotoGallery.tsx';
+import TeamStatsPanel from '../../components/TeamStatsPanel.tsx';
 import { getCrewPhotos } from '../../lib/crew';
 
 export async function getStaticPaths() {
@@ -60,6 +61,12 @@ const photoHint = `src/content/crew/${folder}/${key}/`;
       <p class="mt-10 border border-ink/25 bg-card p-6 font-mono text-sm text-ink/70">
         No photos on board yet — drop them into <code class="text-ink">{photoHint}</code>.
       </p>
+    )}
+
+    {entry.data.api && (
+      <section class="mt-10">
+        <TeamStatsPanel client:load team={entry.data.api.team} season={entry.data.api.season} />
+      </section>
     )}
 
     <section class="mt-10 border border-ink/25 bg-card px-6 py-8 sm:px-10 sm:py-10">
