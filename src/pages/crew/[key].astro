@@ -7,7 +7,7 @@ import { getCrewPhotos } from '../../lib/crew';
 export async function getStaticPaths() {
   const entries = await getCollection('crew');
   return entries.map((entry) => ({
-    params: { key: entry.id.split('/')[0] },
+    params: { key: entry.id.split('/')[1] },
     props: { entry },
   }));
 }
@@ -18,11 +18,12 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const key = entry.id.split('/')[0];
-const { first, last, title, nickname, role } = entry.data;
+const [folder, key] = entry.id.split('/');
+const { first, last, title, nickname } = entry.data;
 const name = `${title ? `${title} ` : ''}${first} ${last}`.trim();
-const roleLabel = role === 'coach' ? 'Officer & Coach' : 'Crew';
+const roleLabel = folder === 'officers' ? 'Officer & Coach' : 'Crew';
 const photos = getCrewPhotos()[key] ?? [];
+const photoHint = `src/content/crew/${folder}/${key}/`;
 ---
 
 <BaseLayout
@@ -63,7 +64,7 @@ const photos = getCrewPhotos()[key] ?? [];
       </section>
     ) : (
       <p class="mt-10 border border-ink/25 bg-card p-6 font-mono text-sm text-ink/70">
-        No photos on board yet — drop them into <code class="text-ink">src/content/crew/{key}/</code>.
+        No photos on board yet — drop them into <code class="text-ink">{photoHint}</code>.
       </p>
     )}
 

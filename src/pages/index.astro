@@ -31,8 +31,8 @@ const lightLogo = getLogo('light');
 const darkLogo = getLogo('dark');
 const crewPhotos = getCrewPhotos();
 const crewEntries = await getCrewCollection();
-const crewMembers = crewEntries.filter((e) => e.data.role === 'crew').map(toCrewMember);
-const coachMembers = crewEntries.filter((e) => e.data.role === 'coach').map(toCrewMember);
+const crewMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'crew');
+const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coach');
 ---
 
 <BaseLayout

@@ -3,8 +3,11 @@ import { IMAGE_EXT, toUrl, type GlobModule } from './scan';
 
 export type CrewMemberEntry = CollectionEntry<'crew'>;
 
+export type CrewRole = 'crew' | 'coach';
+
 export interface CrewMember {
   key: string;
+  role: CrewRole;
   title?: string;
   first: string;
   last: string;
@@ -13,7 +16,9 @@ export interface CrewMember {
 
 /**
  * All crew entries from the `crew` content collection (one `bio.md` per
- * person in `src/content/crew/<key>/`), sorted by their roster order.
+ * person in `src/content/crew/<crew|officers>/<key>/`), sorted by roster order.
+ * The folder — `crew/` or `officers/` — decides which roster column a member
+ * appears in.
  */
 export async function getCrewCollection(): Promise<CrewMemberEntry[]> {
   const entries = await getCollection('crew');
@@ -22,8 +27,10 @@ export async function getCrewCollection(): Promise<CrewMemberEntry[]> {
 
 /** Map a content entry onto the shape the roster component renders. */
 export function toCrewMember(entry: CrewMemberEntry): CrewMember {
+  const [folder, key] = entry.id.split('/');
   return {
-    key: entry.id.split('/')[0],
+    key,
+    role: folder === 'officers' ? 'coach' : 'crew',
     title: entry.data.title,
     first: entry.data.first,
     last: entry.data.last,
@@ -37,16 +44,16 @@ const photos = import.meta.glob('../content/crew/**/*', { eager: true }) as Reco
 >;
 
 /**
- * Photos dropped into `src/content/crew/<key>/` are picked up at build time.
- * The `<key>` folder name must match the person's `bio.md` folder.
- * Returns a map of member key → list of photo URLs.
+ * Photos dropped into `src/content/crew/<crew|officers>/<key>/` are picked up
+ * at build time. The `<key>` folder name must match the person's `bio.md`
+ * folder. Returns a map of member key → list of photo URLs.
  */
 export function getCrewPhotos(): Record<string, string[]> {
   const result: Record<string, string[]> = {};
   for (const [path, mod] of Object.entries(photos)) {
-    const match = path.match(/(?:^|\/)crew\/([^/]+)\/([^/]+)$/);
+    const match = path.match(/(?:^|\/)crew\/([^/]+)\/([^/]+)\/([^/]+)$/);
     if (!match) continue;
-    const [, key, base] = match;
+    const [, , key, base] = match;
     if (IMAGE_EXT.test(base)) {
       (result[key] ??= []).push(toUrl(mod));
     }

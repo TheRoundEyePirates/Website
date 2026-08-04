@@ -36,8 +36,6 @@ const crew = defineCollection({
     title: z.string().optional(),
     /** Nickname shown between first and last name. */
     nickname: z.string().optional(),
-    /** Which roster column the member appears in. */
-    role: z.enum(['crew', 'coach']),
     /** Roster order within the column, lowest first. */
     order: z.number().default(0),
   }),
