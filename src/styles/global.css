@@ -204,23 +204,44 @@
   }
 }
 
-@keyframes boot-in {
+@keyframes dino-run {
   from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.96);
+    background-position: -44px 0;
   }
   to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    background-position: -132px 0;
   }
 }
 
-@keyframes boot-shine {
+@keyframes dino-jump {
+  0%,
+  35% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-60px);
+  }
+  65%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes dino-obstacle-move {
+  0% {
+    right: -50px;
+  }
+  100% {
+    right: 100%;
+  }
+}
+
+@keyframes dino-ground-move {
   from {
-    background-position: 220% 0;
+    background-position: 0 0;
   }
   to {
-    background-position: -220% 0;
+    background-position: -1200px 0;
   }
 }
 
@@ -375,59 +396,15 @@
   pointer-events: none;
 }
 
-.boot-wrap {
+.boot-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1.5rem;
-  animation: boot-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.boot-emblem {
-  position: relative;
-  width: 132px;
-  height: 132px;
-}
-
-.boot-rim {
-  position: absolute;
-  inset: -4px;
-  border-radius: 9999px;
-  border: 1px solid rgba(217, 165, 60, 0.5);
-  box-shadow:
-    0 0 0 1px rgba(245, 240, 230, 0.06),
-    0 0 26px rgba(217, 165, 60, 0.22);
-}
-
-.boot-ring {
-  position: absolute;
-  inset: -16px;
-  border-radius: 9999px;
-  border: 1px dashed rgba(217, 165, 60, 0.55);
-  animation: bezel-spin 26s linear infinite;
-}
-
-.boot-ring--outer {
-  inset: -28px;
-  border-color: rgba(180, 83, 9, 0.4);
-  border-style: dotted;
-  animation-direction: reverse;
-  animation-duration: 20s;
-}
-
-.boot-logo {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 9999px;
-  padding: 7px;
-  filter: drop-shadow(0 0 14px rgba(217, 165, 60, 0.3));
+  padding: 0 1.5rem;
 }
 
 .boot-title {
-  margin-top: 2rem;
   font-family: var(--font-display);
   font-size: 1.05rem;
   letter-spacing: 0.3em;
@@ -439,6 +416,7 @@
 
 .boot-sub {
   margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.45em;
@@ -447,46 +425,54 @@
   color: rgba(217, 165, 60, 0.9);
 }
 
-.boot-quip {
-  margin-top: 1.4rem;
-  min-height: 1.3em;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-align: center;
-  color: rgba(245, 238, 222, 0.72);
-}
-
-.boot-track {
-  margin-top: 1.1rem;
-  width: 250px;
-  max-width: 74vw;
-  height: 8px;
-  border-radius: 9999px;
-  background: rgba(245, 240, 230, 0.1);
-  border: 1px solid rgba(217, 165, 60, 0.35);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-}
-
-.boot-fill {
-  position: relative;
-  height: 100%;
+/* From Uiverse.io by ashif_6672 */
+.dino-loader {
   width: 100%;
-  border-radius: 9999px;
-  transform-origin: left center;
-  transform: scaleX(0);
-  background: linear-gradient(90deg, #8a5a17, #d9a53c 55%, #f0cf82);
+  max-width: 600px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
 }
 
-.boot-fill::after {
-  content: "";
+.dino-runner {
+  width: 44px;
+  height: 47px;
   position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  background: linear-gradient(100deg, transparent 32%, rgba(255, 255, 255, 0.45) 50%, transparent 68%);
-  background-size: 220% 100%;
-  animation: boot-shine 1.5s linear infinite;
+  bottom: 12px;
+  left: 50%;
+  margin-left: -22px;
+  z-index: 2;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAAvAgMAAABiRrxWAAAADFBMVEX///9TU1P39/f///+TS9URAAAAAXRSTlMAQObYZgAAAPpJREFUeF7d0jFKRkEMhdGLMM307itNLALyVmHvJuzTDMjdn72E95PGFEZSmeoU4YMMgxhskvQec8YSVFX1NhGcS5ywtbmC8khcZeKq+ZWJ4F8Sr2+ZCErjkJFEfcjAc/6/BMlfcz6xHdhRthYzIZhIHMcTVY1scUUiAphK8CMSPUbieTBhvD9Lj0vyV4wklEGzHpciKGOJoBp7XDcFs4kWxxM7Ey3iZ8JbzASAvMS7XLOJHTTvEkEZSeQl7DMuwVyCasqK5+XzQRYLUJlMbPXjFcn3m8eKBSjWZMJwvGIOvViAzCbUj1VEDoqFOEQGE3SyInJQLOQMJL4B7enP1UbLXJQAAAAASUVORK5CYII=");
+
+  animation:
+    dino-run 0.25s infinite steps(2),
+    dino-jump 1.5s infinite linear;
+}
+
+.dino-obstacle {
+  width: 17px;
+  height: 35px;
+  position: absolute;
+  bottom: 12px;
+  right: -50px;
+  z-index: 1;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGYAAAAjCAMAAABRlI+PAAAADFBMVEX////////39/dTU1PhglcSAAAAAXRSTlMAQObYZgAAAPNJREFUeF7tlkEKwzAMBLXr//+5iQhU7gRRQkyhZI+DhwH74jhmO+oIJBVwURljuAXagG5QqkSgBLqg3JnxJ1Cb8SmQ3o6gpO85owGlOB4m2BNKJ11BSd01owGlOHkcIAuHkz6UNpPKgozPM54dADHjJuNhZiJxdQCQgZJeBczgCAAy3yhPJvcnmdC9mZwBIsQMFV5AkzHBNknFgcKM+oyDIFcfCAoy03m+jSMIcmoVZkKqSjr1fghyahRmoKRUHYLiSI1SMlCq5CDgX6BXmKkfn+oQ0KEyyrzoy8GbXJ9xrM/YjhUZgl9nnsyTCe9rgSRdV15CwRcIEu8GGQAAAABJRU5ErkJggg==");
+
+  animation: dino-obstacle-move 1.5s infinite linear;
+}
+
+.dino-ground {
+  width: 100%;
+  height: 12px;
+  position: absolute;
+  bottom: 5px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAAMAgMAAAAPCKxBAAAABlBMVEX///9TU1NYzE1OAAAAAXRSTlMAQObYZgAAALJJREFUeF7t1EEKAyEMhtEvMNm7sPfJEVyY+1+ltLgYAsrQCtWhbxEhQvgxIJtSZypxa/WGshgzKdbq/UihMFMlt3o/CspEYoihIMaAb6mCvM6C+BTAeyo+wN4yykV/6pVfkdLpVyI1hh7GJ6QunUoLEQlQglNP2nkQkeF8+ei9cLxMue1qxVRfk1Ej0s6AEGWfVOk0QUtnK5Xo0Lac6wpdtnQqB6VxomPaz+dgF1PaqqmeWJlz1jYUaSIAAAAASUVORK5CYII=");
+  background-repeat: repeat-x;
+  animation: dino-ground-move 4s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -523,9 +509,9 @@
     animation: none;
   }
 
-  #boot .boot-wrap,
-  #boot .boot-ring,
-  #boot .boot-fill::after {
+  .dino-runner,
+  .dino-obstacle,
+  .dino-ground {
     animation: none;
   }
 
