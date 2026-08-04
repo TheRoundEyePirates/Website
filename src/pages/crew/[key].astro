@@ -5,7 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCrewPhotos } from '../../lib/crew';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('crew');
+  const entries = (await getCollection('crew')).filter((entry) => !entry.data.hidden);
   return entries.map((entry) => ({
     params: { key: entry.id.split('/')[1] },
     props: { entry },

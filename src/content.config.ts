@@ -38,6 +38,8 @@ const crew = defineCollection({
     nickname: z.string().optional(),
     /** Roster order within the column, lowest first. */
     order: z.number().default(0),
+    /** Hide the member from the roster and person pages. */
+    hidden: z.boolean().default(false),
   }),
 });
 

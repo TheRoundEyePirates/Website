@@ -22,7 +22,9 @@ export interface CrewMember {
  */
 export async function getCrewCollection(): Promise<CrewMemberEntry[]> {
   const entries = await getCollection('crew');
-  return [...entries].sort((a, b) => a.data.order - b.data.order);
+  return [...entries]
+    .filter((entry) => !entry.data.hidden)
+    .sort((a, b) => a.data.order - b.data.order);
 }
 
 /** Map a content entry onto the shape the roster component renders. */
