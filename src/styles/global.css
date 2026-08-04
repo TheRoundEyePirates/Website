@@ -328,6 +328,56 @@
     @apply text-navy underline decoration-gold/50 underline-offset-4 transition-colors hover:text-gold;
   }
 
+  /* Aged pirate ship's log for person-page bios. */
+  .person-log {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 2;
+    color: var(--color-ink);
+  }
+  .person-log > p:first-of-type::first-letter {
+    float: left;
+    padding: 0.1em 0.14em 0 0;
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 0.9;
+    color: var(--color-gold);
+  }
+  .person-log p {
+    margin-bottom: 1.1rem;
+    text-wrap: pretty;
+  }
+  .person-log strong {
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+  .person-log em {
+    color: var(--color-gold);
+  }
+  .person-log ul {
+    margin-bottom: 1.1rem;
+  }
+  .person-log li {
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .person-log li::before {
+    content: "›";
+    position: absolute;
+    left: 0.25rem;
+    color: #b45309;
+    font-weight: 700;
+  }
+  .person-log a {
+    color: var(--color-navy);
+    text-decoration: underline;
+    text-decoration-color: rgba(180, 83, 9, 0.5);
+    text-underline-offset: 4px;
+    transition: color 0.2s ease;
+  }
+  .person-log a:hover {
+    color: var(--color-gold);
+  }
   /* Rendered markdown timeline entry body */
   .timeline-body p {
     @apply mb-2;
