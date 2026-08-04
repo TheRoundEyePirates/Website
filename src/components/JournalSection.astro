@@ -1,0 +1,27 @@
+---
+import { getEntry, render } from 'astro:content';
+import ShipDivider from './ShipDivider.tsx';
+
+const entry = await getEntry('journal', 'journal');
+if (!entry) {
+  throw new Error('Missing content entry: src/content/journal/journal.md');
+}
+const { Content } = await render(entry);
+---
+
+<section id="journal" class="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
+  <ShipDivider label="Ship's Journal" />
+
+  <div
+    data-animate="scale"
+    class="border border-ink/25 bg-card px-6 py-8 shadow-[4px_4px_0_rgba(28,25,23,0.08)] sm:px-10 sm:py-10"
+  >
+    <header class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink/15 pb-4">
+      <h2 class="font-display text-2xl text-ink">The Crew's Journal</h2>
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-ink/50">
+        Entry No. {entry.data.entry} — {entry.data.date}
+      </p>
+    </header>
+    <div class="log-body"><Content /></div>
+  </div>
+</section>

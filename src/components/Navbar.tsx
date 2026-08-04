@@ -7,6 +7,7 @@ const LINKS = [
   { label: 'Ship', href: '#ship' },
   { label: 'Robot', href: '#robot' },
   { label: 'Crew', href: '#crew' },
+  { label: 'Journal', href: '#journal' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'History', href: '#history' },
   { label: 'Code', href: '#code' },

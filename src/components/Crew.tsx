@@ -61,6 +61,10 @@ export default function Crew({ crew, coaches, photos }: CrewProps) {
         Ship's Roster
       </h2>
 
+      <p data-animate="slide-up" className="mt-4 max-w-md font-mono text-sm leading-6 text-ink/60">
+        Click on any name to read more about us.
+      </p>
+
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <div
           data-animate="slide-left"

@@ -10,6 +10,7 @@ import ShipSection from '../components/ShipSection.astro';
 import RobotLog from '../components/RobotLog.tsx';
 import Crew from '../components/Crew.tsx';
 import MediaGallerySection from '../components/MediaGallerySection.astro';
+import JournalSection from '../components/JournalSection.astro';
 import Bulletin from '../components/Bulletin.tsx';
 import History from '../components/History.astro';
 import QuoteTicker from '../components/QuoteTicker.tsx';
@@ -76,6 +77,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
       <Content />
     </RobotLog>
     <Crew crew={crewMembers} coaches={coachMembers} photos={crewPhotos} />
+    <JournalSection />
     <MediaGallerySection />
     <Bulletin client:visible />
     <History />

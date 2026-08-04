@@ -45,4 +45,14 @@ const crew = defineCollection({
   }),
 });
 
-export const collections = { logs, timeline, crew };
+const journal = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
+  schema: z.object({
+    /** Display date, e.g. "August 5, 2026". */
+    date: z.string(),
+    /** Entry number shown in the header, e.g. "No. 001". */
+    entry: z.string().default('001'),
+  }),
+});
+
+export const collections = { logs, timeline, crew, journal };
