@@ -53,6 +53,19 @@ const crew = defineCollection({
         season: z.number().optional(),
       })
       .optional(),
+    /** Live display embeds — rendered as iframes on the person page. */
+    live: z
+      .array(
+        z.object({
+          /** Short label shown above the embed, e.g. "Live Stream". */
+          label: z.string(),
+          /** URL to embed. Must be embeddable (no X-Frame-Options block). */
+          url: z.string(),
+          /** Aspect ratio of the embed frame, e.g. "16 / 9". */
+          aspect: z.string().default('16 / 9'),
+        }),
+      )
+      .optional(),
   }),
 });
 

@@ -409,6 +409,45 @@
     color: var(--color-gold);
   }
 
+  /* Markdown links that stand alone on their own line become embedded iframes. */
+  .person-log .markdown-embed {
+    margin: 0.5rem 0 1.6rem;
+  }
+  .person-log .markdown-embed figcaption {
+    margin-bottom: 0.55rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--color-gold);
+  }
+  .person-log .markdown-embed figcaption::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-gold);
+    animation: cursor-blink 1.2s steps(2, start) infinite;
+  }
+  .person-log .markdown-embed-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(28, 25, 23, 0.2);
+    background: var(--color-sand);
+    box-shadow: 3px 3px 0 rgba(28, 25, 23, 0.08);
+  }
+  .person-log .markdown-embed-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
   /* Blinking block cursor while the log is being typed out. */
   .typewriter-cursor {
     display: inline-block;
