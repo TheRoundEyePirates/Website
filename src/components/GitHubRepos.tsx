@@ -16,6 +16,7 @@ interface Repo {
   forks_count: number;
   updated_at: string;
   fork: boolean;
+  archived: boolean;
   source: 'org' | 'user';
 }
 
@@ -31,15 +32,20 @@ const fetchList = (url: string, source: Repo['source'], signal: AbortSignal) =>
       return res.json();
     })
     .then((data: Omit<Repo, 'source'>[]) =>
-      data.filter((repo) => !repo.fork).map((repo) => ({ ...repo, source })),
+      data
+        .filter((repo) => !repo.fork && !repo.archived)
+        .map((repo) => ({ ...repo, source })),
     );
 
 export default function GitHubRepos() {
   const [status, setStatus] = useState<Status>('loading');
   const [repos, setRepos] = useState<Repo[]>([]);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+
+    setStatus('loading');
 
     Promise.allSettled([
       fetchList(`https://api.github.com/orgs/${ORG}/repos?sort=updated&per_page=100`, 'org', controller.signal),
@@ -71,7 +77,7 @@ export default function GitHubRepos() {
       });
 
     return () => controller.abort();
-  }, []);
+  }, [attempt]);
 
   return (
     <section id="code" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
@@ -83,6 +89,11 @@ export default function GitHubRepos() {
       >
         <h2 className="font-display text-3xl text-ink sm:text-4xl">Our Code</h2>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/70">
+          {status === 'ready' && (
+            <span className="text-ink/50">
+              {repos.length} repo{repos.length === 1 ? '' : 's'} on deck
+            </span>
+          )}
           <a
             href={`https://github.com/${USER}`}
             target="_blank"
@@ -121,12 +132,29 @@ export default function GitHubRepos() {
         {status === 'empty' && (
           <p className="border border-ink/25 bg-card p-6 font-mono text-sm text-ink/70 md:col-span-2">
             No public repositories yet — the crew is still carving the first logs.
+            Watch the{' '}
+            <a
+              href={`https://github.com/${ORG}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-gold underline-offset-2 hover:underline"
+            >
+              {ORG}
+            </a>{' '}
+            org for the first code to set sail.
           </p>
         )}
 
         {status === 'error' && (
           <p className="border border-ink/25 bg-card p-6 font-mono text-sm text-ink/70 md:col-span-2">
-            Could not reach the GitHub galley. Check your connection and try again.
+            Could not reach the GitHub galley. Check your connection and try again.{' '}
+            <button
+              type="button"
+              onClick={() => setAttempt((n) => n + 1)}
+              className="text-gold underline-offset-2 hover:underline"
+            >
+              Try again
+            </button>
           </p>
         )}
 

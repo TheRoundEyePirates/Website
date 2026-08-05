@@ -7,9 +7,6 @@ api:
   season: 2025
 ---
 
-<!-- To show a live display, add a markdown link on its own line and it becomes an embedded iframe. E.g.:
-[Live Stream](https://www.youtube.com/embed/YOUR_VIDEO_ID)
--->
 
 # About Me
 
