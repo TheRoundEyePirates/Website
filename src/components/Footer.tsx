@@ -55,6 +55,27 @@ export default function Footer({ logo = null }: FooterProps) {
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-sand-light/60">
           <a
+            href="/"
+            className="transition-colors hover:text-gold"
+          >
+            The Ship
+          </a>
+          <a
+            href="/faq/"
+            className="transition-colors hover:text-gold"
+          >
+            FAQ
+          </a>
+          <a
+            href="/contact/"
+            className="transition-colors hover:text-gold"
+          >
+            Contact
+          </a>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-sand-light/60">
+          <a
             href="https://github.com/orgs/TheRoundEyePirates"
             target="_blank"
             rel="noreferrer"

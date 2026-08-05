@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Anchor, Menu, X } from 'lucide-react';
 
 const LINKS = [
-  { label: 'Home', href: '#home' },
+  { label: 'Home', href: '/' },
   { label: 'About', href: '#about' },
   { label: 'Ship', href: '#ship' },
   { label: 'Robot', href: '#robot' },
@@ -12,7 +12,8 @@ const LINKS = [
   { label: 'History', href: '#history' },
   { label: 'Code', href: '#code' },
   { label: 'Location', href: '#location' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'FAQ', href: '/faq/' },
+  { label: 'Contact', href: '/contact/' },
 ] as const;
 
 interface NavbarProps {
@@ -66,9 +67,10 @@ export default function Navbar({ logo = null }: NavbarProps) {
   }, [open]);
 
   useEffect(() => {
-    const sections = LINKS.map((link) => document.querySelector<HTMLElement>(link.href)).filter(
-      (el): el is HTMLElement => el !== null,
-    );
+    const sections = LINKS.map((link) => link.href)
+      .filter((href) => href.startsWith('#'))
+      .map((href) => document.querySelector<HTMLElement>(href))
+      .filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -121,22 +123,26 @@ export default function Navbar({ logo = null }: NavbarProps) {
           )}
         </a>
 
-        <ul className="hidden items-center gap-7 font-mono text-xs uppercase tracking-[0.25em] text-ink/70 md:flex">
-          {LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                aria-current={active === link.href ? 'true' : undefined}
-                className={`relative transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:bg-gold/60 after:transition-transform after:duration-300 after:ease-out after:content-[''] ${
-                  active === link.href
-                    ? 'text-gold after:scale-x-100'
-                    : 'hover:text-gold hover:after:scale-x-100'
-                }`}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+        <ul className="hidden items-center gap-6 font-mono text-xs uppercase tracking-[0.25em] text-ink/70 lg:flex">
+          {LINKS.map((link) => {
+            const isActive =
+              active === link.href || (link.href === '/' && active === '#home');
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`relative transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:bg-gold/60 after:transition-transform after:duration-300 after:ease-out after:content-[''] ${
+                    isActive
+                      ? 'text-gold after:scale-x-100'
+                      : 'hover:text-gold hover:after:scale-x-100'
+                  }`}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <button
@@ -145,7 +151,7 @@ export default function Navbar({ logo = null }: NavbarProps) {
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? 'Close navigation' : 'Open navigation'}
-          className="flex items-center justify-center rounded-sm border border-ink/20 p-2 text-ink transition-colors hover:border-gold/50 hover:text-gold md:hidden"
+          className="flex items-center justify-center rounded-sm border border-ink/20 p-2 text-ink transition-colors hover:border-gold/50 hover:text-gold lg:hidden"
         >
           {open ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
         </button>
@@ -153,7 +159,7 @@ export default function Navbar({ logo = null }: NavbarProps) {
 
       <div
         id="mobile-menu"
-        className={`grid transition-[grid-template-rows] duration-300 ease-out md:hidden ${
+        className={`grid transition-[grid-template-rows] duration-300 ease-out lg:hidden ${
           open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
         }`}
       >
@@ -163,20 +169,24 @@ export default function Navbar({ logo = null }: NavbarProps) {
               open ? 'opacity-100' : 'opacity-0'
             }`}
           >
-          {LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                onClick={() => setOpen(false)}
-                aria-current={active === link.href ? 'true' : undefined}
-                className={`block px-2 py-2 font-mono text-xs uppercase tracking-[0.25em] transition-colors ${
-                  active === link.href ? 'text-gold' : 'text-ink/70 hover:text-gold'
-                }`}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {LINKS.map((link) => {
+            const isActive =
+              active === link.href || (link.href === '/' && active === '#home');
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`block px-2 py-2 font-mono text-xs uppercase tracking-[0.25em] transition-colors ${
+                    isActive ? 'text-gold' : 'text-ink/70 hover:text-gold'
+                  }`}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
           </ul>
         </div>
       </div>

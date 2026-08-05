@@ -1,0 +1,101 @@
+---
+import { ArrowUpRight, Building2, Flag, Mail, User } from 'lucide-react';
+import { getLogo } from '../lib/brand';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+
+const lightLogo = getLogo('light');
+const darkLogo = getLogo('dark');
+
+const links = [
+  {
+    icon: Mail,
+    label: 'hello@roundeyepirates.dev',
+    sub: 'Email the Crew',
+    href: 'mailto:hello@roundeyepirates.dev',
+  },
+  {
+    icon: Building2,
+    label: 'TheRoundEyePirates',
+    sub: 'GitHub Organization',
+    href: 'https://github.com/orgs/TheRoundEyePirates',
+  },
+  {
+    icon: User,
+    label: 'the-round-eye-pirates',
+    sub: 'GitHub Team Account',
+    href: 'https://github.com/the-round-eye-pirates',
+  },
+  {
+    icon: Flag,
+    label: 'firstinspires.org/robotics/ftc',
+    sub: 'About FIRST Tech Challenge',
+    href: 'https://www.firstinspires.org/robotics/ftc',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact — The Round Eye Pirates"
+  description="Get in touch with FTC Team 37060, The Round Eye Pirates. Email, GitHub, and FIRST links."
+>
+  <Navbar client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+    <ShipDivider label="Contact" />
+
+    <h1 class="font-pirate text-5xl text-ink sm:text-6xl">Send Word Across the Seas</h1>
+
+    <p class="mt-4 font-mono text-sm leading-7 text-ink/70">
+      The crew is reachable on the links below — more channels coming soon.
+    </p>
+
+    <div class="mt-12 space-y-4">
+      {links.map((link) => {
+        const Icon = link.icon;
+        return (
+          <a
+            href={link.href}
+            target={link.href.startsWith('http') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+            class="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)]"
+          >
+            <span class="flex min-w-0 items-center gap-4">
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <span class="min-w-0">
+                <span class="block font-mono text-xs uppercase tracking-[0.25em] text-gold">
+                  {link.sub}
+                </span>
+                <span class="mt-1 block truncate font-display text-lg text-ink transition-colors group-hover:text-gold">
+                  {link.label}
+                </span>
+              </span>
+            </span>
+            <ArrowUpRight
+              size={18}
+              strokeWidth={1.5}
+              className="shrink-0 text-ink/40 transition-colors group-hover:text-gold"
+              aria-hidden="true"
+            />
+          </a>
+        );
+      })}
+    </div>
+
+    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+      <p class="font-mono text-sm text-ink/70">
+        Got a quick question?{' '}
+        <a href="/faq/" class="text-gold underline-offset-2 hover:underline">
+          Check the FAQ
+        </a>{' '}
+        first.
+      </p>
+    </div>
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+</BaseLayout>
