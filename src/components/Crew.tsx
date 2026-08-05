@@ -20,6 +20,7 @@ function MemberRow({ member }: { member: CrewMember }) {
         {member.nickname && (
           <span className="font-mono text-sm text-gold">&ldquo;{member.nickname}&rdquo;</span>
         )}
+        {' '}
         {member.last}
       </a>
     </li>

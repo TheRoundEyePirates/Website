@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, BookOpen, Code2, GitFork, Star } from 'lucide-react';
+import { ArrowUpRight, BookOpen, Building2, Code2, GitFork, Star, User } from 'lucide-react';
 import ShipDivider from './ShipDivider';
 
 const ORG = 'TheRoundEyePirates';
+const USER = 'the-round-eye-pirates';
 
 interface Repo {
   id: number;
@@ -15,6 +16,7 @@ interface Repo {
   forks_count: number;
   updated_at: string;
   fork: boolean;
+  source: 'org' | 'user';
 }
 
 type Status = 'loading' | 'ready' | 'empty' | 'error';
@@ -22,28 +24,52 @@ type Status = 'loading' | 'ready' | 'empty' | 'error';
 const fmtDate = (iso: string) =>
   new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 
+const fetchList = (url: string, source: Repo['source'], signal: AbortSignal) =>
+  fetch(url, { headers: { Accept: 'application/vnd.github+json' }, signal })
+    .then((res) => {
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      return res.json();
+    })
+    .then((data: Omit<Repo, 'source'>[]) =>
+      data.filter((repo) => !repo.fork).map((repo) => ({ ...repo, source })),
+    );
+
 export default function GitHubRepos() {
   const [status, setStatus] = useState<Status>('loading');
   const [repos, setRepos] = useState<Repo[]>([]);
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`https://api.github.com/orgs/${ORG}/repos?sort=updated&per_page=100`, {
-      headers: { Accept: 'application/vnd.github+json' },
-      signal: controller.signal,
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-        return res.json();
-      })
-      .then((data: Repo[]) => {
-        setRepos(data.filter((repo) => !repo.fork));
-        setStatus(data.length === 0 ? 'empty' : 'ready');
+
+    Promise.allSettled([
+      fetchList(`https://api.github.com/orgs/${ORG}/repos?sort=updated&per_page=100`, 'org', controller.signal),
+      fetchList(`https://api.github.com/users/${USER}/repos?sort=updated&per_page=100`, 'user', controller.signal),
+    ])
+      .then((results) => {
+        const collected = results.flatMap((result) =>
+          result.status === 'fulfilled' ? result.value : [],
+        );
+        if (collected.length === 0 && results.every((result) => result.status === 'rejected')) {
+          throw new Error('GitHub API unreachable');
+        }
+        const byName = new Map<string, Repo>();
+        for (const repo of collected) {
+          const existing = byName.get(repo.name);
+          if (!existing || (repo.source === 'org' && existing.source === 'user')) {
+            byName.set(repo.name, repo);
+          }
+        }
+        const merged = [...byName.values()].sort((a, b) =>
+          b.updated_at.localeCompare(a.updated_at),
+        );
+        setRepos(merged);
+        setStatus(merged.length === 0 ? 'empty' : 'ready');
       })
       .catch((error) => {
         if (error instanceof DOMException && error.name === 'AbortError') return;
         setStatus('error');
       });
+
     return () => controller.abort();
   }, []);
 
@@ -56,15 +82,26 @@ export default function GitHubRepos() {
         className="flex flex-wrap items-end justify-between gap-4"
       >
         <h2 className="font-display text-3xl text-ink sm:text-4xl">Our Code</h2>
-        <a
-          href={`https://github.com/orgs/${ORG}`}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/70 transition-colors hover:text-gold"
-        >
-          github.com/orgs/{ORG}
-          <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
-        </a>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/70">
+          <a
+            href={`https://github.com/${USER}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 transition-colors hover:text-gold"
+          >
+            @{USER}
+            <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
+          </a>
+          <a
+            href={`https://github.com/orgs/${ORG}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 transition-colors hover:text-gold"
+          >
+            @{ORG}
+            <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
+          </a>
+        </div>
       </div>
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -133,6 +170,14 @@ export default function GitHubRepos() {
                 <span className="inline-flex items-center gap-1.5">
                   <BookOpen size={12} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
                   {repo.language ?? '—'}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  {repo.source === 'org' ? (
+                    <Building2 size={12} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+                  ) : (
+                    <User size={12} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+                  )}
+                  {repo.source === 'org' ? ORG : USER}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <Star size={12} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
