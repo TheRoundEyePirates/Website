@@ -12,6 +12,7 @@ const LINKS = [
   { label: 'History', href: '#history' },
   { label: 'Code', href: '#code' },
   { label: 'Location', href: '#location' },
+  { label: 'What is FTC', href: '/what-is-ftc/' },
   { label: 'FAQ', href: '/faq/' },
   { label: 'Contact', href: '/contact/' },
 ] as const;

@@ -1,0 +1,393 @@
+---
+import {
+  ArrowUpRight,
+  Award,
+  BookOpen,
+  Calendar,
+  Compass,
+  Cpu,
+  Gamepad2,
+  Handshake,
+  Rocket,
+  School,
+  Target,
+  Trophy,
+  Users,
+  Wrench,
+  MonitorPlay,
+} from 'lucide-react';
+import { getLogo } from '../lib/brand';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+
+const lightLogo = getLogo('light');
+const darkLogo = getLogo('dark');
+
+const videos = [
+  {
+    title: 'What is FIRST Tech Challenge?',
+    source: 'More Than Robotics Education — FIRST Tech Challenge UK',
+    id: 'cf0HPyb1mvo',
+    featured: true,
+  },
+  {
+    title: 'A Season on the High Seas',
+    source: 'DECODE presented by RTX — Game Animation',
+    id: 'LCqWA6gSCXA',
+  },
+  {
+    title: 'The Field, Charted',
+    source: 'DECODE presented by RTX — Field Tour',
+    id: 'lW0NzkG2zAo',
+  },
+];
+
+const pillars = [
+  {
+    icon: Wrench,
+    title: 'Design & Build',
+    text: 'Each season starts with a brand-new game. The crew studies the rules, sketches ideas, and turns spare parts into a competition robot that fits in an 18-inch cube — one that starts small and grows up to twice that size once the match begins.',
+  },
+  {
+    icon: Cpu,
+    title: 'Program',
+    text: 'The robot is powered by a REV Control Hub running Android, coded in Blocks or Java. Teams write autonomous routines so the robot can run on its own for the first 30 seconds, guided by sensors and camera AprilTags.',
+  },
+  {
+    icon: Gamepad2,
+    title: 'Compete',
+    text: 'Matches are played on a 12-foot square field, two alliances of two teams each. Every match mixes up the partnerships — the team you beat one round might be your ally the next. Strategy, driving, and gracious professionalism all count.',
+  },
+  {
+    icon: Users,
+    title: 'More Than Robots',
+    text: 'Teams are judged on the whole journey, not just the field. Engineering notebooks, outreach, team spirit, and community impact carry real weight — the highest award, the Inspire Award, goes to the team that does everything well.',
+  },
+];
+
+const family = [
+  {
+    icon: School,
+    label: 'FIRST LEGO League',
+    range: 'Ages 4–16',
+    text: 'Students build and code LEGO robots to solve real-world challenges — the first step on the FIRST voyage.',
+    href: 'https://www.firstinspires.org/robotics/fll',
+  },
+  {
+    icon: Compass,
+    label: 'FIRST Tech Challenge',
+    range: 'Ages 12–18',
+    text: 'Small teams design, build, and program an 18-inch competition robot. This is our port of call.',
+    href: 'https://www.firstinspires.org/robotics/ftc',
+    current: true,
+  },
+  {
+    icon: Rocket,
+    label: 'FIRST Robotics Competition',
+    range: 'Ages 14–18',
+    text: 'The heavyweight of FIRST — big teams, big robots, and 120-pound machines in under six weeks.',
+    href: 'https://www.firstinspires.org/robotics/frc',
+  },
+];
+
+const season = [
+  {
+    icon: BookOpen,
+    title: 'Kickoff — September',
+    text: 'The game is revealed for the very first time at Kickoff. The competition manual drops, the season theme is announced, and the six weeks of frantic designing and building begin.',
+  },
+  {
+    icon: Wrench,
+    title: 'Build Season',
+    text: 'Design, build, wire, and code. The crew prototypes, tests, and rebuilds the robot over and over — and keeps a detailed engineering notebook of every decision along the way.',
+  },
+  {
+    icon: Target,
+    title: 'Competition Season',
+    text: 'Qualifiers run from late spring into summer here in New Zealand. Top teams advance from qualifiers to the National Championship, and from there to the FIRST Championship on the world stage.',
+  },
+  {
+    icon: Trophy,
+    title: 'Championship',
+    text: 'The best teams from around the globe gather at FIRST Championship. Advance on robot performance, judged awards, or a strong balance of both.',
+  },
+];
+
+const links = [
+  {
+    label: 'FIRST Tech Challenge',
+    sub: 'The official FTC programme',
+    href: 'https://www.firstinspires.org/robotics/ftc',
+  },
+  {
+    label: 'Game & Season',
+    sub: 'Current game animation and competition manual',
+    href: 'https://www.firstinspires.org/programs/ftc/game-and-season',
+  },
+  {
+    label: 'FIRST New Zealand',
+    sub: 'Local programme, events, and registration',
+    href: 'https://www.firstnz.org/ftc',
+  },
+  {
+    label: 'FTC Events — New Zealand',
+    sub: 'Region teams, events, and results',
+    href: 'https://ftc-events.firstinspires.org/2025/region/NZ',
+  },
+  {
+    label: 'FIRST Tech Challenge on YouTube',
+    sub: 'Kickoffs, game animations, and field tours',
+    href: 'https://www.youtube.com/user/FIRSTTechChallenge',
+  },
+  {
+    label: 'FIRST Tech Challenge on Wikipedia',
+    sub: 'The full story behind the programme',
+    href: 'https://en.wikipedia.org/wiki/FIRST_Tech_Challenge',
+  },
+];
+---
+
+<BaseLayout
+  title="What is FTC — The Round Eye Pirates"
+  description="What is FIRST Tech Challenge? FTC is a global robotics competition where student teams design, build, and program a robot to play a brand-new game every season."
+>
+  <Navbar client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-4xl px-6 py-24 sm:py-32">
+    <ShipDivider label="What is FTC" />
+
+    <h1 class="font-pirate text-5xl text-ink sm:text-6xl">
+      A New Adventure Every Season
+    </h1>
+
+    <p class="mt-4 max-w-2xl font-mono text-sm leading-7 text-ink/70">
+      FIRST Tech Challenge (FTC) is a global robotics competition for students aged
+      12 to 18. Every year a brand-new game is revealed, and small teams of students
+      design, build, and program a robot to play it. Matches are only half the story —
+      engineering process, teamwork, and community outreach matter just as much.
+    </p>
+
+    <p class="mt-4 max-w-2xl font-mono text-sm leading-7 text-ink/70">
+      FTC sits in the middle of the FIRST family — one step up from FIRST LEGO League
+      and one step below FIRST Robotics Competition. It is the port from which The
+      Round Eye Pirates set sail, and the same challenge every crew on this site
+      calls home.
+    </p>
+
+    <!-- Watch -->
+    <section class="mt-16">
+      <div class="flex items-center gap-3">
+        <MonitorPlay size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Watch the Tales</h2>
+      </div>
+
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        {videos.map((video) => (
+          <figure
+            class={video.featured ? 'sm:col-span-2' : ''}
+          >
+            <figcaption class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.3em] text-gold">
+              <span class="h-2 w-2 rounded-full bg-gold" aria-hidden="true"></span>
+              {video.title}
+            </figcaption>
+            <div
+              class="overflow-hidden border border-ink/20 bg-sand shadow-[4px_4px_0_rgba(28,25,23,0.08)]"
+              style="aspect-ratio: 16 / 9"
+            >
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                title={video.source}
+                class="h-full w-full border-0"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen={true}
+                referrerpolicy="strict-origin-when-cross-origin"
+              ></iframe>
+            </div>
+            <p class="mt-2 font-mono text-xs text-ink/60">{video.source}</p>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <!-- Pillars -->
+    <section class="mt-16">
+      <div class="flex items-center gap-3">
+        <Compass size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">What the Crew Actually Does</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        {pillars.map((pillar) => {
+          const Icon = pillar.icon;
+          return (
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <h3 class="mt-4 font-display text-lg text-ink">{pillar.title}</h3>
+              <p class="mt-2 font-mono text-sm leading-7 text-ink/70">{pillar.text}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- FIRST family -->
+    <section class="mt-16">
+      <div class="flex items-center gap-3">
+        <Rocket size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">The FIRST Family</h2>
+      </div>
+
+      <p class="mt-3 max-w-2xl font-mono text-sm leading-7 text-ink/70">
+        FIRST (For Inspiration and Recognition of Science and Technology) runs a
+        ladder of robotics programmes, so students can grow with the challenge:
+      </p>
+
+      <div class="mt-6 grid gap-4 sm:grid-cols-3">
+        {family.map((program) => {
+          const Icon = program.icon;
+          return (
+            <a
+              href={program.href}
+              target="_blank"
+              rel="noreferrer"
+              class={`group flex flex-col border p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)] ${
+                program.current
+                  ? 'border-gold/60 bg-card'
+                  : 'border-ink/25 bg-card hover:border-gold/60'
+              }`}
+            >
+              <span class="flex items-center justify-between">
+                <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                  <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+                </span>
+                {program.current && (
+                  <span class="rounded-full border border-gold/50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+                    Our port
+                  </span>
+                )}
+              </span>
+              <span class="mt-4 block font-display text-lg text-ink transition-colors group-hover:text-gold">
+                {program.label}
+              </span>
+              <span class="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.25em] text-ink/50">
+                {program.range}
+              </span>
+              <span class="mt-3 font-mono text-xs leading-6 text-ink/70">{program.text}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Season timeline -->
+    <section class="mt-16">
+      <div class="flex items-center gap-3">
+        <Calendar size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">The Voyage of a Season</h2>
+      </div>
+
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        {season.map((step) => {
+          const Icon = step.icon;
+          return (
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+              <span class="flex items-center gap-3">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                  <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+                </span>
+                <span class="font-display text-lg text-ink">{step.title}</span>
+              </span>
+              <p class="mt-3 font-mono text-sm leading-7 text-ink/70">{step.text}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- Beyond the robot -->
+    <section class="mt-16">
+      <div class="flex items-center gap-3">
+        <Handshake size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">More Than Points</h2>
+      </div>
+
+      <div class="mt-6 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] sm:p-8">
+        <div class="flex items-center gap-3">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+            <Award size={20} strokeWidth={1.5} aria-hidden="true" />
+          </span>
+          <p class="font-display text-lg text-ink">Awards Are Half the Compass</p>
+        </div>
+        <p class="mt-4 font-mono text-sm leading-7 text-ink/70">
+          Advancing to the next port is not just about winning matches. Half of every
+          advancement comes from judged awards that reward the whole team — the
+          engineering notebook, the design process, team spirit, and community
+          outreach. The <strong class="font-semibold text-ink">Inspire Award</strong>{' '}
+          is the highest honour in FTC: given to the team that embodies everything
+          FIRST stands for, it carries a direct ticket to the next level.
+        </p>
+        <p class="mt-4 font-mono text-sm leading-7 text-ink/70">
+          And at every event, the most important rule is{' '}
+          <strong class="font-semibold text-ink">Gracious Professionalism</strong> —
+          competing fiercely but treating teammates, opponents, and volunteers with
+          kindness and respect.
+        </p>
+      </div>
+    </section>
+
+    <!-- Links -->
+    <section class="mt-16">
+      <div class="flex items-center gap-3">
+        <BookOpen size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Plunder the Resources</h2>
+      </div>
+
+      <div class="mt-6 space-y-4">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            class="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)]"
+          >
+            <span class="min-w-0">
+              <span class="block font-mono text-xs uppercase tracking-[0.25em] text-gold">
+                {link.sub}
+              </span>
+              <span class="mt-1 block truncate font-display text-lg text-ink transition-colors group-hover:text-gold">
+                {link.label}
+              </span>
+            </span>
+            <ArrowUpRight
+              size={18}
+              strokeWidth={1.5}
+              className="shrink-0 text-ink/40 transition-colors group-hover:text-gold"
+              aria-hidden="true"
+            />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+      <p class="font-mono text-sm text-ink/70">
+        Still curious about the crew behind the compass?{' '}
+        <a href="/faq/" class="text-gold underline-offset-2 hover:underline">
+          Browse the FAQ
+        </a>{' '}
+        or{' '}
+        <a href="/contact/" class="text-gold underline-offset-2 hover:underline">
+          send word to the crew
+        </a>
+        .
+      </p>
+    </div>
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+</BaseLayout>
