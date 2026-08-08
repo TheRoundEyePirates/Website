@@ -26,7 +26,6 @@ const name = `${title ? `${title} ` : ''}${first} ${last}`.trim();
 const roleLabel = folder === 'officers' ? 'Officer & Coach' : 'Crew';
 const email = entry.data.showEmail && nickname ? `${nickname.toLowerCase()}@theroundeyepirates.com` : null;
 const photos = getCrewPhotos()[key] ?? [];
-const photoHint = `src/content/crew/${folder}/${key}/`;
 ---
 
 <BaseLayout
@@ -70,7 +69,7 @@ const photoHint = `src/content/crew/${folder}/${key}/`;
       </section>
     ) : (
       <p class="mt-10 border border-ink/25 bg-card p-6 font-mono text-sm text-ink/70">
-        No photos on board yet — drop them into <code class="text-ink">{photoHint}</code>.
+        No photos on board yet.
       </p>
     )}
 

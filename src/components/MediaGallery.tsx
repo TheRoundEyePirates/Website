@@ -41,8 +41,7 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
           The album is empty
         </span>
         <p className="max-w-md font-mono text-sm leading-7 text-ink/60">
-          Drop photos or videos into <code className="text-gold">src/content/MEDIA/</code> and
-          they'll sail in automatically — no code changes needed.
+          We'll fix that — the album should be full of builds and matches soon.
         </p>
       </div>
     );
