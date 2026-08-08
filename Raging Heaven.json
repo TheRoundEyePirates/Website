@@ -1,0 +1,195 @@
+{
+  "name": "Raging Heaven",
+  "hullDimensions": {
+    "unitToMeter": 0.200000003,
+    "lengthUnits": 682.54657,
+    "widthUnits": 125.411606,
+    "depthUnits": 181.646576,
+    "lengthMeters": 136.509323,
+    "widthMeters": 25.0823212,
+    "depthMeters": 36.3293152,
+    "lengthBeamRatio": 5.44245148
+  },
+  "tonnage": 93.2928772,
+  "estimatedSpeed": 6,
+  "propulsion": {
+    "sailCount": 1,
+    "smokestackCount": 0,
+    "enginePartCount": 5
+  },
+  "guns": [],
+  "masts": [
+    {
+      "index": 0,
+      "exportName": "Mast_0",
+      "partName": "",
+      "assetName": "Mast Generated Sprit",
+      "mechanism": "Sprit",
+      "position": [0.156060338, -45, 1],
+      "hasShrouds": false,
+      "shroudAnchorSpacing": 14,
+      "shroudYOffset": -18,
+      "ladderAnchorZOffset": -20,
+      "thresholds": {
+        "topmastScale": 0.5,
+        "topgallantScale": 0.75,
+        "lantern": 0.300000012,
+        "extensions": 0.600000024,
+        "crowsnest": 0.839999974,
+        "ladders": 0.400000006
+      },
+      "sectionScales": {
+        "sectionMin": 0.25,
+        "mainmastMax": 1.39999998,
+        "topmastMin": 0.200000003,
+        "topmastMax": 1,
+        "topgallantMin": 0.200000003,
+        "topgallantMax": 1
+      },
+      "extraExtensions": {
+        "count": 0,
+        "heights": [0.5, 0.300000012, 0.699999988],
+        "scales": [1, 1, 1]
+      },
+      "crowsnestOffset": [0, 0],
+      "lanternOffset": [0, 0]
+    },
+    {
+      "index": 1,
+      "exportName": "Mast_1",
+      "partName": "Victory",
+      "assetName": "Mast Generated  MainMast 2",
+      "mechanism": "MainMast",
+      "position": [0.46498692, 0, 2],
+      "hasShrouds": true,
+      "shroudAnchorSpacing": 0,
+      "shroudYOffset": 0,
+      "ladderAnchorZOffset": 27.3597603,
+      "thresholds": {
+        "topmastScale": 0.5,
+        "topgallantScale": 0.800000012,
+        "lantern": 0.300000012,
+        "extensions": 0.600000024,
+        "crowsnest": 0.5,
+        "ladders": 0.699999988
+      },
+      "sectionScales": {
+        "sectionMin": 0.25,
+        "mainmastMax": 1.60000002,
+        "topmastMin": 0.200000003,
+        "topmastMax": 1,
+        "topgallantMin": 0.400000006,
+        "topgallantMax": 1
+      },
+      "extraExtensions": {
+        "count": 0,
+        "heights": [0.5, 0.300000012, 0.699999988],
+        "scales": [1, 1, 1]
+      },
+      "crowsnestOffset": [0, 0],
+      "lanternOffset": [0, 0]
+    },
+    {
+      "index": 2,
+      "exportName": "Mast_2",
+      "partName": "Victory",
+      "assetName": "Mast Generated  MainMast 2",
+      "mechanism": "MainMast",
+      "position": [0.836092174, 0, 0.69156456],
+      "hasShrouds": false,
+      "shroudAnchorSpacing": 0,
+      "shroudYOffset": 0,
+      "ladderAnchorZOffset": 0,
+      "thresholds": {
+        "topmastScale": 0.5,
+        "topgallantScale": 0.800000012,
+        "lantern": 0.300000012,
+        "extensions": 0.600000024,
+        "crowsnest": 0.5,
+        "ladders": 0.699999988
+      },
+      "sectionScales": {
+        "sectionMin": 0.25,
+        "mainmastMax": 1.60000002,
+        "topmastMin": 0.200000003,
+        "topmastMax": 1,
+        "topgallantMin": 0.400000006,
+        "topgallantMax": 1
+      },
+      "extraExtensions": {
+        "count": 0,
+        "heights": [0.5, 0.300000012, 0.699999988],
+        "scales": [1, 1, 1]
+      },
+      "crowsnestOffset": [0, 0],
+      "lanternOffset": [0, 0]
+    }
+  ],
+  "rotatingChildren": [],
+  "sails": [
+    {
+      "index": 0,
+      "exportName": "Sail Square 3_0",
+      "partName": "Square Rig Stripe Vertical",
+      "assetName": "Sail Square 3",
+      "mechanism": "SailSquare",
+      "placementRule": "MastAxisBackside",
+      "mastIndex": 1,
+      "slotIndex": 1,
+      "isStudding": false,
+      "studdingParentSailIndex": -1,
+      "studdingSide": -1,
+      "worldPosition": [0, 126.26162, -256.435852],
+      "worldRotationEuler": [270, 180, 0],
+      "storedPosition": [0, 126.26162, -256.435852],
+      "storedRotationEuler": [270, 180, 0],
+      "localEulerOffset": [270, 0, 0],
+      "axisOffset": 3,
+      "stretchX": 2,
+      "heightT": 0.266854674,
+      "stretchZ": 2,
+      "uniformScale": 4,
+      "skewAngle": -2.98030615,
+      "raiseValue": 0,
+      "shipPart": {
+        "resolved": true,
+        "boundsHeight": 124.432686,
+        "behaviorVersion": 1,
+        "preferredSailColorIndex": 1,
+        "templateEulerOffset": [270, 0, 0],
+        "templateAxisOffset": 3,
+        "spawnRotation": 0,
+        "spawnRotationOffset": 0,
+        "raiseMin": 0.680000007,
+        "raiseMax": 0,
+        "lowerTiltMin": 0,
+        "lowerTiltMax": 0,
+        "upperTiltMin": 0,
+        "upperTiltMax": 0,
+        "horizontalStretchMin": 0,
+        "horizontalStretchMax": 0,
+        "windAngleOffset": 0,
+        "windMultiplier": 7.5999999,
+        "maxWindPower": 3.1500001,
+        "absWind": true,
+        "absWindNegate": false,
+        "rotationMin": -60,
+        "rotationMax": 60,
+        "rotationOffset": 0,
+        "invertRotation": true,
+        "xStretchMin": 0.5,
+        "xStretchMax": 2,
+        "heightStretchMin": 0.407000005,
+        "heightStretchMax": 2,
+        "heightStretchBottomThreshold": 0.0520000011,
+        "heightStretchTopThreshold": 0.971000016,
+        "uniformHeightScale": false,
+        "xStretchHandleNegated": true,
+        "stretchDown": false,
+        "boomDistortEnabled": false,
+        "boomDistortMin": -45,
+        "boomDistortMax": 45
+      }
+    }
+  ]
+}
