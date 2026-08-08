@@ -5,6 +5,8 @@ motors: 0
 servos: 0
 controlSystem: "TBC"
 status: "In Build"
+nextEvent: "2026-09-12T09:00:00+12:00"
+nextEventLabel: "Season Kickoff"
 ---
 
 **Captain's Log — Day 1, July 26, 2026.**

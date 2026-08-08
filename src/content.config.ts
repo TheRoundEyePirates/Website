@@ -11,6 +11,10 @@ const logs = defineCollection({
     servos: z.number().int().nonnegative(),
     controlSystem: z.string(),
     status: z.enum(['Operational', 'In Build', 'Retired']),
+    /** ISO date of the next event the crew is counting down to, e.g. "2026-09-12T09:00:00+12:00". */
+    nextEvent: z.string().optional(),
+    /** Short label for that event, shown on the countdown. */
+    nextEventLabel: z.string().optional(),
   }),
 });
 

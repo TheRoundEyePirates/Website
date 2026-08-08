@@ -11,6 +11,8 @@ import RobotLog from '../components/RobotLog.tsx';
 import Crew from '../components/Crew.tsx';
 import MediaGallerySection from '../components/MediaGallerySection.astro';
 import JournalSection from '../components/JournalSection.astro';
+import Countdown from '../components/Countdown.tsx';
+import Glossary from '../components/Glossary.tsx';
 import Bulletin from '../components/Bulletin.tsx';
 import History from '../components/History.astro';
 import QuoteTicker from '../components/QuoteTicker.tsx';
@@ -70,6 +72,13 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
 
   <main id="main">
     <Hero client:visible />
+    {log.data.nextEvent && (
+      <Countdown
+        client:visible
+        target={log.data.nextEvent}
+        label={log.data.nextEventLabel ?? 'Season Kickoff'}
+      />
+    )}
     <About client:visible />
     <ShipSection />
     <RobotLog client:visible {...log.data}>
@@ -80,6 +89,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
     <MediaGallerySection />
     <Bulletin client:visible />
     <History />
+    <Glossary client:visible />
     <QuoteTicker client:visible />
     <GitHubRepos client:visible />
     <Location />
