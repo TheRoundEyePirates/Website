@@ -1,116 +1,228 @@
 import { useEffect, useRef } from 'react';
+import {
+  motion,
+  MotionConfig,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  type Variants,
+} from 'motion/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CompassRose from './CompassRose';
 
+gsap.registerPlugin(ScrollTrigger);
+
+const TITLE_WORDS = ['The', 'Round', 'Eye', 'Pirates'];
+
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 26, filter: 'blur(6px)' },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 export default function Hero() {
-  const parallaxRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
+  // Magnetic compass: pointer position eases into a 3D tilt via springs.
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const smoothX = useSpring(pointerX, { stiffness: 90, damping: 20, mass: 0.6 });
+  const smoothY = useSpring(pointerY, { stiffness: 90, damping: 20, mass: 0.6 });
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-14, 14]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [10, -10]);
+
+  // Horizontal pan: the hero is pinned while its track slides sideways as you
+  // scroll; when the last panel has passed, the pin releases and the page
+  // carries on downward. Runs from this component's own effect so it fires
+  // after React has taken over the DOM (setting it up from the global engine
+  // conflicts with React hydration and silently no-ops).
   useEffect(() => {
-    const frame = parallaxRef.current;
-    if (!frame) return;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const section = sectionRef.current;
+    const track = trackRef.current;
+    if (!section || !track) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // Butter-smooth pointer parallax: targets update on pointermove, but the
-    // transform is eased toward them on a rAF loop (no CSS transition lag,
-    // no jumps). Eases back to level when the pointer leaves.
-    let raf = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
+    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+    if (distance() <= 0) return;
 
-    const tick = () => {
-      currentX += (targetX - currentX) * 0.1;
-      currentY += (targetY - currentY) * 0.1;
-      frame.style.transform = `perspective(700px) rotateY(${(currentX * 16).toFixed(2)}deg) rotateX(${(-currentY * 16).toFixed(2)}deg)`;
-      if (Math.abs(targetX - currentX) > 0.001 || Math.abs(targetY - currentY) > 0.001) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        raf = 0;
-      }
-    };
+    const tween = gsap.fromTo(
+      track,
+      { x: 0 },
+      {
+        x: () => -distance(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => '+=' + distance(),
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      },
+    );
 
-    const start = () => {
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (reduced) return;
-      const rect = frame.getBoundingClientRect();
-      targetX = (event.clientX - rect.left) / rect.width - 0.5;
-      targetY = (event.clientY - rect.top) / rect.height - 0.5;
-      start();
-    };
-
-    const onPointerLeave = () => {
-      if (reduced) return;
-      targetX = 0;
-      targetY = 0;
-      start();
-    };
-
-    frame.addEventListener('pointermove', onPointerMove);
-    frame.addEventListener('pointerleave', onPointerLeave);
     return () => {
-      frame.removeEventListener('pointermove', onPointerMove);
-      frame.removeEventListener('pointerleave', onPointerLeave);
-      cancelAnimationFrame(raf);
+      tween.scrollTrigger?.kill();
+      tween.kill();
     };
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="home"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-24 text-center"
+      data-hero-horizontal
+      className="relative flex h-screen overflow-hidden"
+      onPointerMove={(event) => {
+        if (event.pointerType !== 'mouse') return;
+        pointerX.set(event.clientX / window.innerWidth - 0.5);
+        pointerY.set(event.clientY / window.innerHeight - 0.5);
+      }}
+      onPointerLeave={() => {
+        pointerX.set(0);
+        pointerY.set(0);
+      }}
     >
-      {/* Compass instrument */}
-      <div data-animate className="mb-8 flex items-center justify-center">
-        <div
-          ref={parallaxRef}
-          className="relative h-64 w-64 will-change-transform sm:h-72 sm:w-72"
-        >
-          {/* Soft grounding shadow so the instrument floats above the page. */}
-          <div
-            className="absolute -inset-12 rounded-full bg-[radial-gradient(circle,rgba(28,25,23,0.35),rgba(28,25,23,0)_70%)]"
-            aria-hidden="true"
-          />
-          <CompassRose />
+      <MotionConfig reducedMotion="user">
+        {/* The track is pinned while it pans sideways as you scroll; once the
+            last panel has passed, the pin releases and the page continues
+            downward. */}
+        <div ref={trackRef} data-hero-track className="flex h-full w-max items-center">
+          {/* Panel 1 — the compass */}
+          <div className="relative flex h-full w-screen shrink-0 flex-col items-center justify-center px-6 pt-20 text-center">
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col items-center"
+            >
+              <motion.div variants={item} className="mb-8 flex items-center justify-center">
+                <motion.div
+                  style={{ rotateX, rotateY, transformPerspective: 700 }}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative h-60 w-60 will-change-transform sm:h-72 sm:w-72"
+                >
+                  {/* Soft golden grounding glow so the instrument floats above the page. */}
+                  <div
+                    className="absolute -inset-12 rounded-full bg-[radial-gradient(circle,rgba(212,160,44,0.16),rgba(212,160,44,0)_70%)]"
+                    aria-hidden="true"
+                  />
+                  {/* Gentle buoy — the compass rides the swell. */}
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                    className="relative h-full w-full"
+                  >
+                    <CompassRose />
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+
+              <motion.p
+                variants={item}
+                className="font-mono text-xs uppercase tracking-[0.4em] text-gold sm:text-sm"
+              >
+                FTC 37060
+              </motion.p>
+            </motion.div>
+
+            <span
+              className="absolute top-1/2 right-0 hidden h-24 w-px -translate-y-1/2 bg-gold/30 sm:block"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Panel 2 — the name */}
+          <div className="relative flex h-full w-screen shrink-0 flex-col items-center justify-center px-6 pt-20 text-center">
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col items-center"
+            >
+              <motion.p
+                variants={item}
+                className="font-mono text-xs uppercase tracking-[0.35em] text-gold sm:text-sm"
+              >
+                Ahoy — welcome aboard
+              </motion.p>
+
+              <h1 className="mt-5 font-display text-4xl leading-tight text-ink sm:text-6xl md:text-7xl">
+                {TITLE_WORDS.map((word) => (
+                  <motion.span
+                    key={word}
+                    variants={item}
+                    className="mr-[0.28em] inline-block last:mr-0"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </h1>
+
+              <motion.p variants={item} className="mt-4 font-pirate text-2xl text-gold sm:text-3xl">
+                丸い目の海賊団
+              </motion.p>
+            </motion.div>
+
+            <span
+              className="absolute top-1/2 right-0 hidden h-24 w-px -translate-y-1/2 bg-gold/30 sm:block"
+              aria-hidden="true"
+            />
+          </div>
+
+          {/* Panel 3 — the tagline */}
+          <div className="relative flex h-full w-screen shrink-0 flex-col items-center justify-center px-6 pt-20 text-center">
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col items-center"
+            >
+              <motion.p variants={item} className="font-mono text-sm text-ink/70">
+                Charting course since July 2026.
+              </motion.p>
+
+              <motion.hr variants={item} className="mt-10 w-24 border-ink/30" />
+
+              <motion.p variants={item} className="mt-8 max-w-sm text-sm text-ink/50">
+                The story of FTC Team 37060 begins below — crew, robot, journal, and all.
+              </motion.p>
+            </motion.div>
+          </div>
         </div>
-      </div>
 
-      <p data-animate data-delay="0.1" className="font-mono text-xs uppercase tracking-[0.4em] text-navy sm:text-sm">
-        FTC 37060
-      </p>
-
-      <h1
-        data-animate
-        data-delay="0.2"
-        className="mt-5 font-display text-4xl leading-tight text-ink sm:text-6xl md:text-7xl"
-      >
-        The Round Eye Pirates
-      </h1>
-
-      <p data-animate data-delay="0.25" className="mt-4 font-pirate text-2xl text-gold sm:text-3xl">
-        丸い目の海賊団
-      </p>
-
-      <p data-animate data-delay="0.3" className="mt-6 font-mono text-sm text-ink/70">
-        Charting course since July 2026.
-      </p>
-
-      <hr data-animate data-delay="0.4" className="mt-10 w-24 border-ink/30" />
-
-      {/* Scroll cue */}
-      <div
-        data-animate
-        data-delay="0.6"
-        aria-hidden="true"
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3"
-      >
-        <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-ink/45">Set Course</span>
-        <span className="relative block h-10 w-px overflow-hidden bg-ink/15">
-          <span className="animate-scroll-cue absolute inset-0 bg-gold" />
-        </span>
-      </div>
+        {/* Scroll cue */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          aria-hidden="true"
+          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-ink/45">
+            Set Course
+          </span>
+          <span className="relative block h-px w-16 overflow-hidden bg-ink/15">
+            <span className="animate-scroll-cue-x absolute inset-0 bg-gold" />
+          </span>
+        </motion.div>
+      </MotionConfig>
     </section>
   );
 }

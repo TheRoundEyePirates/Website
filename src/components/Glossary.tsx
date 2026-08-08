@@ -99,7 +99,7 @@ export default function Glossary() {
                   flipped ? 'rotate-y-180' : ''
                 }`}
               >
-                <div className="backface-hidden absolute inset-0 flex flex-col border border-ink/20 bg-card p-5 shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+                <div className="backface-hidden absolute inset-0 flex flex-col border border-ink/20 bg-card p-5 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
                   <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
                     <span>No. {String(index + 1).padStart(2, '0')}</span>
                     <span aria-hidden="true">↻</span>

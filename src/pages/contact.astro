@@ -2,7 +2,7 @@
 import { ArrowUpRight, Building2, Flag, Mail, User } from 'lucide-react';
 import { getLogo } from '../lib/brand';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.tsx';
+import PillNav from '../components/PillNav.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
@@ -41,7 +41,7 @@ const links = [
   title="Contact — The Round Eye Pirates"
   description="Get in touch with FTC Team 37060, The Round Eye Pirates. Email, GitHub, and FIRST links."
 >
-  <Navbar client:load logo={lightLogo} />
+  <PillNav client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
     <ShipDivider label="Contact" />
@@ -60,7 +60,7 @@ const links = [
             href={link.href}
             target={link.href.startsWith('http') ? '_blank' : undefined}
             rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
-            class="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)]"
+            class="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
           >
             <span class="flex min-w-0 items-center gap-4">
               <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
@@ -86,7 +86,7 @@ const links = [
       })}
     </div>
 
-    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
       <p class="font-mono text-sm text-ink/70">
         Got a quick question?{' '}
         <a href="/faq/" class="text-gold underline-offset-2 hover:underline">

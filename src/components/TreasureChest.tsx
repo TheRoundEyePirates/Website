@@ -145,7 +145,7 @@ function TreasureChest() {
       </span>
 
       {toast && !open && (
-        <p className="toast-pop fixed bottom-6 left-1/2 z-[95] -translate-x-1/2 border border-gold/40 bg-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-gold shadow-[4px_4px_0_rgba(28,25,23,0.4)]">
+        <p className="toast-pop fixed bottom-6 left-1/2 z-[95] -translate-x-1/2 border border-gold/40 bg-black/90 px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-gold shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]">
           Booty secured — {booty} haul{booty === 1 ? '' : 's'}
         </p>
       )}
@@ -155,7 +155,7 @@ function TreasureChest() {
           role="dialog"
           aria-modal="true"
           aria-label="Treasure chest"
-          className="animate-overlay fixed inset-0 z-[90] flex items-center justify-center overflow-hidden bg-ink/80 p-6 backdrop-blur-sm"
+          className="animate-overlay fixed inset-0 z-[90] flex items-center justify-center overflow-hidden bg-black/80 p-6 backdrop-blur-sm"
           onClick={closeChest}
         >
           <span
@@ -192,7 +192,7 @@ function TreasureChest() {
           ))}
 
           <div
-            className="animate-pop relative w-full max-w-md border border-gold/40 bg-sand p-8 text-center shadow-[8px_8px_0_rgba(28,25,23,0.4)] sm:p-10"
+            className="animate-pop relative w-full max-w-md border border-gold/40 bg-sand p-8 text-center shadow-[8px_8px_0_rgba(0,0,0,0.7)] sm:p-10"
             onClick={(event) => event.stopPropagation()}
           >
             <button
@@ -209,9 +209,9 @@ function TreasureChest() {
               <path d="M8 50h84v22a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6Z" fill="#6f4a26" />
               <path d="M8 40c0-20 18-34 42-34s42 14 42 34Z" fill="#7f5730" />
               <rect x="6" y="36" width="88" height="8" rx="3" fill="#9a6b35" />
-              <rect x="6" y="12" width="88" height="6" rx="3" fill="#b45309" />
-              <rect x="14" y="50" width="72" height="6" rx="3" fill="#b45309" />
-              <rect x="40" y="48" width="20" height="18" rx="3" fill="#b45309" />
+              <rect x="6" y="12" width="88" height="6" rx="3" fill="#d4a02c" />
+              <rect x="14" y="50" width="72" height="6" rx="3" fill="#d4a02c" />
+              <rect x="40" y="48" width="20" height="18" rx="3" fill="#d4a02c" />
               <rect x="47" y="52" width="6" height="8" rx="1.5" fill="#5c3a1e" />
               <circle cx="50" cy="58" r="1.6" fill="#5c3a1e" />
               <circle cx="50" cy="58" r="3" fill="none" stroke="#e9c568" strokeWidth="0.8" />

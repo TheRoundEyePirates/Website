@@ -3,7 +3,7 @@ import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 import Animate from '../components/Animate.tsx';
-import Navbar from '../components/Navbar.tsx';
+import PillNav from '../components/PillNav.tsx';
 import Hero from '../components/Hero.tsx';
 import About from '../components/About.tsx';
 import ShipSection from '../components/ShipSection.astro';
@@ -17,6 +17,7 @@ import Bulletin from '../components/Bulletin.tsx';
 import History from '../components/History.astro';
 import QuoteTicker from '../components/QuoteTicker.tsx';
 import GitHubRepos from '../components/GitHubRepos.tsx';
+import TechStack from '../components/TechStack.tsx';
 import Location from '../components/Location.tsx';
 import Footer from '../components/Footer.tsx';
 import TreasureChest from '../components/TreasureChest.tsx';
@@ -68,7 +69,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
   <a class="skip-link" href="#main">Skip to content</a>
 
   <Animate client:load />
-  <Navbar client:load logo={lightLogo} />
+  <PillNav client:load logo={lightLogo} />
 
   <main id="main">
     <Hero client:visible />
@@ -77,6 +78,8 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
         client:visible
         target={log.data.nextEvent}
         label={log.data.nextEventLabel ?? 'Season Kickoff'}
+        location={log.data.nextEventLocation}
+        dates={log.data.nextEventDates}
       />
     )}
     <About client:visible />
@@ -92,6 +95,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
     <Glossary client:visible />
     <QuoteTicker client:visible />
     <GitHubRepos client:visible />
+    <TechStack client:visible />
     <Location />
   </main>
 

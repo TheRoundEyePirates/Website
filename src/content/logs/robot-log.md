@@ -5,8 +5,10 @@ motors: 0
 servos: 0
 controlSystem: "TBC"
 status: "In Build"
-nextEvent: "2026-09-12T09:00:00+12:00"
-nextEventLabel: "Season Kickoff"
+nextEvent: "2026-12-13T08:00:00+13:00"
+nextEventLabel: "National Championship"
+nextEventDates: "13–14 December 2026"
+nextEventLocation: "Hastings, New Zealand"
 ---
 
 **Captain's Log — Day 1, July 26, 2026.**

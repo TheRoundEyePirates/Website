@@ -117,7 +117,7 @@ export default function CourseLine() {
         <span className="-translate-y-1/2">
           <span className="block h-2 w-2 rotate-45 border border-gold bg-sand shadow-[0_0_10px_rgba(180,83,9,0.9)]" />
           {current && (
-            <span className="absolute top-1/2 left-4 -translate-y-1/2 font-mono text-[9px] tracking-[0.3em] whitespace-nowrap text-gold [text-shadow:0_1px_2px_rgba(28,25,23,0.6)]">
+            <span className="absolute top-1/2 left-4 -translate-y-1/2 font-mono text-[9px] tracking-[0.3em] whitespace-nowrap text-gold [text-shadow:0_1px_2px_rgba(0,0,0,0.9)]">
               {current}
             </span>
           )}

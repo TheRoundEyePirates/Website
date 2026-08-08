@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import DeepSeaBackground from '../components/DeepSeaBackground.tsx';
 
 interface Props {
   title: string;
@@ -13,7 +14,7 @@ const {
   title,
   description,
   noindex = false,
-  themeColor = '#e9dcc0',
+  themeColor = '#0a0a0f',
 } = Astro.props;
 ---
 
@@ -41,11 +42,24 @@ const {
     <slot name="head" />
 
     <script is:inline>
+      // Theme: default is the black-sea "dark" look; a stored choice wins.
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        var dark = stored ? stored === 'dark' : true;
+        document.documentElement.classList.toggle('dark', dark);
+      })();
+    </script>
+
+    <script is:inline>
       document.documentElement.classList.add('js');
     </script>
   </head>
 
   <body>
+    <DeepSeaBackground client:load />
     <div id="boot" aria-hidden="true">
       <div class="boot-inner">
         <p class="boot-title">The Round Eye Pirates</p>

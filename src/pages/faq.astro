@@ -1,7 +1,7 @@
 ---
 import { getLogo } from '../lib/brand';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.tsx';
+import PillNav from '../components/PillNav.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
@@ -36,7 +36,7 @@ const faqs = [
   title="FAQ — The Round Eye Pirates"
   description="Answers to common questions about FIRST Tech Challenge, the Round Eye Pirates, and how to join our FTC team."
 >
-  <Navbar client:load logo={lightLogo} />
+  <PillNav client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
     <ShipDivider label="FAQ" />
@@ -49,7 +49,7 @@ const faqs = [
 
     <div class="mt-12 space-y-4">
       {faqs.map((faq) => (
-        <div class="border border-ink/25 bg-card shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+        <div class="border border-ink/25 bg-card shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
           <details class="group">
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-display text-lg text-ink transition-colors hover:text-gold marker:hidden">
               {faq.q}
@@ -68,7 +68,7 @@ const faqs = [
       ))}
     </div>
 
-    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
       <p class="font-mono text-sm text-ink/70">
         Still wondering?{' '}
         <a href="/contact/" class="text-gold underline-offset-2 hover:underline">

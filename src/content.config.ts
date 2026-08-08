@@ -15,6 +15,10 @@ const logs = defineCollection({
     nextEvent: z.string().optional(),
     /** Short label for that event, shown on the countdown. */
     nextEventLabel: z.string().optional(),
+    /** Human-readable event dates, e.g. "13–14 December 2026". */
+    nextEventDates: z.string().optional(),
+    /** Where the event is held, e.g. "Hastings, New Zealand". */
+    nextEventLocation: z.string().optional(),
   }),
 });
 

@@ -25,7 +25,7 @@ export default function Footer({ logo = null }: FooterProps) {
   return (
     <footer
       id="contact"
-      className="scroll-mt-24 border-t border-sand-light/10 bg-navy px-6 py-16 text-center"
+      className="scroll-mt-24 border-t border-ink/10 bg-navy px-6 py-16 text-center"
     >
       <div data-stagger className="mx-auto max-w-3xl space-y-6">
         <div className="flex justify-center" aria-hidden="true">
@@ -40,20 +40,20 @@ export default function Footer({ logo = null }: FooterProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.3em] text-sand-light">
+        <div className="flex items-center justify-center gap-2 font-mono text-sm uppercase tracking-[0.3em] text-parchment">
           <Anchor size={18} className="text-gold" strokeWidth={1.5} aria-hidden="true" />
           The Round Eye Pirates
         </div>
 
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-sand-light/60">
+        <p className="font-mono text-xs uppercase tracking-[0.25em] text-parchment/60">
           FTC 37060 · Founded July 2026
         </p>
 
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-sand-light/40">
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-parchment/40">
           Hastings · Napier — Hawke's Bay, New Zealand
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-sand-light/60">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-parchment/60">
           <a
             href="/"
             className="transition-colors hover:text-gold"
@@ -74,7 +74,7 @@ export default function Footer({ logo = null }: FooterProps) {
           </a>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-sand-light/60">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-parchment/60">
           <a
             href="https://github.com/orgs/TheRoundEyePirates"
             target="_blank"
@@ -85,7 +85,7 @@ export default function Footer({ logo = null }: FooterProps) {
           </a>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 border-t border-sand-light/15 pt-8">
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 border-t border-ink/15 pt-8">
           <a
             href="https://www.firstinspires.org/robotics/ftc"
             target="_blank"
@@ -96,12 +96,12 @@ export default function Footer({ logo = null }: FooterProps) {
           </a>
         </div>
 
-        <p className="mx-auto max-w-xl font-mono text-[9px] uppercase tracking-[0.2em] text-sand-light/40">
+        <p className="mx-auto max-w-xl font-mono text-[9px] uppercase tracking-[0.2em] text-parchment/40">
           FIRST® and FIRST Tech Challenge are registered trademarks of FIRST® (For Inspiration and
           Recognition of Science and Technology).
         </p>
 
-        <p className="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-sand-light/40">
+        <p className="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-parchment/40">
           © 2026 The Round Eye Pirates — FTC Team 37060
         </p>
       </div>

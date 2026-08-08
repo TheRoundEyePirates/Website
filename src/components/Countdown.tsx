@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 interface CountdownProps {
   target: string;
   label: string;
+  location?: string;
+  dates?: string;
 }
 
 interface TimeLeft {
@@ -22,7 +24,7 @@ function timeLeft(target: string): TimeLeft {
   };
 }
 
-export default function Countdown({ target, label }: CountdownProps) {
+export default function Countdown({ target, label, location, dates }: CountdownProps) {
   const [now, setNow] = useState<TimeLeft>(() => timeLeft(target));
 
   useEffect(() => {
@@ -46,6 +48,16 @@ export default function Countdown({ target, label }: CountdownProps) {
         {underway ? 'We are underway' : `Next port of call — ${label}`}
       </p>
 
+      {(location || dates) && (
+        <p
+          data-animate="fade-in"
+          data-delay="0.12"
+          className="mt-2 font-mono text-xs uppercase tracking-[0.3em] text-gold"
+        >
+          {[dates, location].filter(Boolean).join(' · ')}
+        </p>
+      )}
+
       <div
         data-animate="fade-up"
         data-delay="0.1"
@@ -53,7 +65,10 @@ export default function Countdown({ target, label }: CountdownProps) {
       >
         {cells.map((cell) => (
           <div key={cell.unit} className="flex items-baseline gap-2">
-            <span className="font-display text-5xl tabular-nums text-ink sm:text-6xl">
+            <span
+              key={cell.value}
+              className="animate-count-tick font-display text-5xl tabular-nums text-ink sm:text-6xl"
+            >
               {String(cell.value).padStart(2, '0')}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink/40">

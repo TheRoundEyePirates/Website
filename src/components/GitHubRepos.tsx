@@ -22,7 +22,7 @@ export default function GitHubRepos() {
           href={`https://github.com/${ORG}`}
           target="_blank"
           rel="noreferrer"
-          className="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)]"
+          className="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
         >
           <span className="flex items-center gap-4">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
@@ -44,7 +44,7 @@ export default function GitHubRepos() {
           href={`https://github.com/${USER}`}
           target="_blank"
           rel="noreferrer"
-          className="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)]"
+          className="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
         >
           <span className="flex items-center gap-4">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">

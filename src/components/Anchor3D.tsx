@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { useThreeScene } from '../lib/useThreeScene';
 
-const GOLD = 0xb45309;
-const DARK_GOLD = 0x8a5a17;
+const GOLD = 0xd4a02c;
+const DARK_GOLD = 0xa87a1f;
 
 interface Anchor3DProps {
   height?: number;

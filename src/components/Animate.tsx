@@ -22,6 +22,10 @@ const VARIANTS: Record<string, Variant> = {
   'slide-right': { from: { opacity: 0, x: 56 }, ease: 'power3.out' },
   scale: { from: { opacity: 0, scale: 0.92 }, ease: 'back.out(1.6)' },
   blur: { from: { opacity: 0, filter: 'blur(10px)', y: 16 }, ease: 'power3.out' },
+  tilt: {
+    from: { opacity: 0, y: 28, rotationX: 16, transformPerspective: 900 },
+    ease: 'power3.out',
+  },
 };
 
 const DEFAULT_DURATION = 0.9;
@@ -32,7 +36,6 @@ const DEFAULT_DURATION = 0.9;
  *    optional `data-y`, `data-x`, `data-delay`, `data-duration`, `data-ease`.
  *  - `[data-stagger]`  animates its DIRECT children in a wave (`data-stagger`
  *    sets the interval).
- *  - `[data-hero-scrub]` drifts + fades as the hero scrolls away.
  *  - `[data-parallax]` drifts vertically against the scroll direction.
  *  - `[data-draw]` grows a vertical line as you scroll (timeline rule).
  * Respects `prefers-reduced-motion`.
@@ -91,6 +94,7 @@ export default function Animate() {
         y: 0,
         x: 0,
         scale: 1,
+        rotationX: 0,
         filter: 'blur(0px)',
         duration: Number(el.dataset.duration ?? DEFAULT_DURATION),
         ease: el.dataset.ease ?? variant.ease,
@@ -99,23 +103,6 @@ export default function Animate() {
           trigger: el,
           start: 'top 85%',
           toggleActions: 'play none none reverse',
-        },
-      });
-      track(tween.scrollTrigger);
-    });
-
-    // ── Hero scrub-out ───────────────────────────────────────────────
-    gsap.utils.toArray<HTMLElement>('[data-hero-scrub]').forEach((el) => {
-      const tween = gsap.to(el, {
-        opacity: 0.15,
-        y: 90,
-        scale: 0.97,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
         },
       });
       track(tween.scrollTrigger);

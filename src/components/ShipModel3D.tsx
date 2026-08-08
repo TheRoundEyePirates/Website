@@ -18,8 +18,9 @@ interface ShipModel3DProps {
 
 /**
  * The Raging Heaven ship, loaded from GLB. The baked (near-black) colors are
- * overwritten to match the Brickwave photo — warm monochrome hull, gray masts,
- * white canvas sail — and the square sail is deformed every frame (bagged,
+ * overwritten to match the Brickwave palette — rich walnut-teak hull, warm oak
+ * masts, tar-dark rigging, parchment-cream canvas — and the square sail is
+ * deformed every frame (bagged,
  * gusting billow, swinging foot, running ripple, edge flutter) so it reads as
  * cloth filling with wind. The camera is orbitable (drag to spin, scroll to
  * zoom, gentle idle auto-rotate that pauses while interacting) and the vessel
@@ -69,13 +70,13 @@ export default function ShipModel3D({ className, fallback }: ShipModel3DProps) {
 
     const hemi = new THREE.HemisphereLight(0xe8f0ff, 0x6b5a45, 2.2);
     scene.add(hemi);
-    const key = new THREE.DirectionalLight(0xffe8c4, 3.5);
+    const key = new THREE.DirectionalLight(0xffe7bd, 3.6);
     key.position.set(3, 4, 2);
     scene.add(key);
     const rim = new THREE.DirectionalLight(0xbfd0ff, 1.5);
     rim.position.set(-2.5, 1.5, -3);
     scene.add(rim);
-    const fill = new THREE.DirectionalLight(0xfff3dd, 0.8);
+    const fill = new THREE.DirectionalLight(0xffca85, 0.9);
     fill.position.set(1.5, -1, 1);
     scene.add(fill);
 
@@ -172,9 +173,9 @@ export default function ShipModel3D({ className, fallback }: ShipModel3DProps) {
             geometry.setAttribute('color', colors);
           }
           const colorArray = colors.array as Float32Array;
-          const top = new THREE.Color(0xf7f4ee);
-          const mid = new THREE.Color(0xe0d7c4);
-          const bot = new THREE.Color(0xbfb39a);
+          const top = new THREE.Color(0xfbf4e4);
+          const mid = new THREE.Color(0xe8d9b8);
+          const bot = new THREE.Color(0xc8b188);
           for (let i = 0; i < count; i += 1) {
             const u = sailParams[i * 2];
             const v = sailParams[i * 2 + 1];
@@ -201,8 +202,8 @@ export default function ShipModel3D({ className, fallback }: ShipModel3DProps) {
         }
 
         // Overwrite the baked (near-black) colors across the whole vessel to
-        // match the Brickwave photo: warm monochrome hull, gray masts and
-        // rigging. The original per-vertex luminance is kept as a subtle
+        // match the Brickwave palette: rich walnut-teak hull, warm oak masts
+        // and rigging. The original per-vertex luminance is kept as a subtle
         // shading map so crevices stay darker.
         const recolor = (mesh: THREE.Mesh, base: THREE.Color) => {
           const geometry = mesh.geometry;
@@ -223,9 +224,9 @@ export default function ShipModel3D({ className, fallback }: ShipModel3DProps) {
           colors.needsUpdate = true;
         };
 
-        const HULL_COLOR = new THREE.Color(0x2b2724);
-        const MAST_COLOR = new THREE.Color(0x6f6a63);
-        const RIGGING_COLOR = new THREE.Color(0x3a3734);
+        const HULL_COLOR = new THREE.Color(0x44301c);
+        const MAST_COLOR = new THREE.Color(0x8a6f4e);
+        const RIGGING_COLOR = new THREE.Color(0x54432f);
         model.traverse((object) => {
           if (!(object instanceof THREE.Mesh) || object.name === SAIL_NAME) return;
           if (object.name === 'Rigging') recolor(object, RIGGING_COLOR);

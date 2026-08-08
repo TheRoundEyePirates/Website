@@ -21,6 +21,9 @@
     "motion": "^12.43.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-external-links": "^3.0.0",
+    "remark-directive": "^4.0.0",
     "three": "^0.175.0"
   },
   "devDependencies": {

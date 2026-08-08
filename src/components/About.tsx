@@ -39,7 +39,7 @@ export default function About() {
           </p>
         </div>
 
-        <figure data-animate="slide-right" data-delay="0.15">
+        <figure data-animate="tilt" data-delay="0.15">
           <div
             data-parallax="0.2"
             className="flex aspect-[4/3] flex-col items-center justify-center gap-3 border border-dashed border-ink/30 bg-sand-deep/70 text-ink/40"

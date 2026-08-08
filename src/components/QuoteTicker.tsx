@@ -38,6 +38,16 @@ export default function QuoteTicker() {
         <footer className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/50">
           — {quote.by}
         </footer>
+        <div
+          className="h-px w-48 overflow-hidden rounded-full bg-ink/10"
+          role="progressbar"
+          aria-label="Seconds until the next tale"
+          aria-valuemin={0}
+          aria-valuemax={IDLE_MS}
+          aria-valuenow={0}
+        >
+          <div className="animate-ticker-progress h-full w-full bg-gold" />
+        </div>
       </blockquote>
     </section>
   );

@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { getLogo } from '../lib/brand';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.tsx';
+import PillNav from '../components/PillNav.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
@@ -153,7 +153,7 @@ const links = [
   title="What is FTC — The Round Eye Pirates"
   description="What is FIRST Tech Challenge? FTC is a global robotics competition where student teams design, build, and program a robot to play a brand-new game every season."
 >
-  <Navbar client:load logo={lightLogo} />
+  <PillNav client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-4xl px-6 py-24 sm:py-32">
     <ShipDivider label="What is FTC" />
@@ -193,7 +193,7 @@ const links = [
               {video.title}
             </figcaption>
             <div
-              class="overflow-hidden border border-ink/20 bg-sand shadow-[4px_4px_0_rgba(28,25,23,0.08)]"
+              class="overflow-hidden border border-ink/20 bg-sand shadow-[4px_4px_0_rgba(212,160,44,0.12)]"
               style="aspect-ratio: 16 / 9"
             >
               <iframe
@@ -223,7 +223,7 @@ const links = [
         {pillars.map((pillar) => {
           const Icon = pillar.icon;
           return (
-            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
               <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
                 <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
               </span>
@@ -255,7 +255,7 @@ const links = [
               href={program.href}
               target="_blank"
               rel="noreferrer"
-              class={`group flex flex-col border p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)] ${
+              class={`group flex flex-col border p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] ${
                 program.current
                   ? 'border-gold/60 bg-card'
                   : 'border-ink/25 bg-card hover:border-gold/60'
@@ -295,7 +295,7 @@ const links = [
         {season.map((step) => {
           const Icon = step.icon;
           return (
-            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
               <span class="flex items-center gap-3">
                 <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
                   <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
@@ -316,7 +316,7 @@ const links = [
         <h2 class="font-display text-2xl text-ink sm:text-3xl">More Than Points</h2>
       </div>
 
-      <div class="mt-6 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] sm:p-8">
+      <div class="mt-6 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)] sm:p-8">
         <div class="flex items-center gap-3">
           <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
             <Award size={20} strokeWidth={1.5} aria-hidden="true" />
@@ -353,7 +353,7 @@ const links = [
             href={link.href}
             target="_blank"
             rel="noreferrer"
-            class="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(28,25,23,0.35)]"
+            class="group flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
           >
             <span class="min-w-0">
               <span class="block font-mono text-xs uppercase tracking-[0.25em] text-gold">
@@ -374,7 +374,7 @@ const links = [
       </div>
     </section>
 
-    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(28,25,23,0.08)]">
+    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
       <p class="font-mono text-sm text-ink/70">
         Still curious about the crew behind the compass?{' '}
         <a href="/faq/" class="text-gold underline-offset-2 hover:underline">
