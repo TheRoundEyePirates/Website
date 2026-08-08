@@ -14,7 +14,7 @@ const {
   title,
   description,
   noindex = false,
-  themeColor = '#0a0a0f',
+  themeColor = '#e9dcc0',
 } = Astro.props;
 ---
 
@@ -42,13 +42,13 @@ const {
     <slot name="head" />
 
     <script is:inline>
-      // Theme: default is the black-sea "dark" look; a stored choice wins.
+      // Theme: default is the parchment "light" look; a stored choice wins.
       (function () {
         var stored = null;
         try {
           stored = localStorage.getItem('theme');
         } catch (e) {}
-        var dark = stored ? stored === 'dark' : true;
+        var dark = stored ? stored === 'dark' : false;
         document.documentElement.classList.toggle('dark', dark);
       })();
     </script>

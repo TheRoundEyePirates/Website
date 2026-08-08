@@ -44,25 +44,17 @@ export default function Countdown({ target, label, location, dates }: CountdownP
 
   return (
     <section id="countdown" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16 sm:py-20">
-      <p data-animate="fade-in" className="font-mono text-xs uppercase tracking-[0.3em] text-ink/50">
+      <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink/50">
         {underway ? 'We are underway' : `Next port of call — ${label}`}
       </p>
 
       {(location || dates) && (
-        <p
-          data-animate="fade-in"
-          data-delay="0.12"
-          className="mt-2 font-mono text-xs uppercase tracking-[0.3em] text-gold"
-        >
+        <p className="mt-2 font-mono text-xs uppercase tracking-[0.3em] text-gold">
           {[dates, location].filter(Boolean).join(' · ')}
         </p>
       )}
 
-      <div
-        data-animate="fade-up"
-        data-delay="0.1"
-        className="mt-6 flex flex-wrap items-baseline gap-x-10 gap-y-4"
-      >
+      <div className="mt-6 flex flex-wrap items-baseline gap-x-10 gap-y-4">
         {cells.map((cell) => (
           <div key={cell.unit} className="flex items-baseline gap-2">
             <span
