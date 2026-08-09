@@ -8,9 +8,8 @@ order: 4
 perks:
   - Everything in Quartermaster
   - Title sponsorship of the season
-  - Logo on the robot and crew shirts
-  - Banner displayed at competitions
-  - VIP invite to events and showcase days
+  - Logo on the robot and crew shirts (if we even have shirts)
+  - Banner displayed at competitions (if we have a banner)
 ---
 
 Captains command the fleet. As title sponsor you are the flag we sail under — your colours on the robot, on the crew, and on the field. Join us at competitions and watch your investment fight it out in the arenas.

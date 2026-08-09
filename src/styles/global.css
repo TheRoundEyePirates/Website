@@ -1301,19 +1301,32 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 }
 
 /* ---------- Section accents, orbs & 3D cards ---------- */
+/* Each accent section becomes a full-bleed band with its own distinct
+   background shade, tinted by its accent color. */
 .section-accent {
   --accent: var(--color-gold);
+  --section-max: 64rem;
   position: relative;
   isolation: isolate;
   overflow: clip;
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
+  padding-inline: max(1.5rem, calc(50vw - (var(--section-max) / 2)));
 }
 
 .section-tint {
-  background: radial-gradient(
-    120% 90% at 50% 0%,
-    color-mix(in srgb, var(--accent) 7%, transparent),
-    transparent 60%
-  );
+  background:
+    radial-gradient(
+      130% 130% at 82% -12%,
+      color-mix(in srgb, var(--accent) 30%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      130% 130% at 8% 112%,
+      color-mix(in srgb, var(--accent) 20%, transparent),
+      transparent 55%
+    ),
+    color-mix(in srgb, var(--accent) 12%, var(--color-sand));
 }
 
 .section-orb {
