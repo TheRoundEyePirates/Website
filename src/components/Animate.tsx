@@ -33,6 +33,14 @@ const VARIANTS: Record<string, Variant> = {
   },
   swing: { from: { opacity: 0, y: -20, rotation: -8 }, ease: 'elastic.out(1, 0.6)' },
   rise: { from: { opacity: 0, y: 72 }, ease: 'power2.out' },
+  spin: { from: { opacity: 0, rotation: 120, scale: 0.8 }, ease: 'power4.out' },
+  'flip-up': {
+    from: { opacity: 0, rotationX: 90, transformPerspective: 900 },
+    ease: 'back.out(1.4)',
+  },
+  zoom: { from: { opacity: 0, scale: 1.5 }, ease: 'power3.out' },
+  skew: { from: { opacity: 0, x: -48, skewX: 10 }, ease: 'power2.out' },
+  bounce: { from: { opacity: 0, y: -64 }, ease: 'bounce.out' },
 };
 
 const DEFAULT_DURATION = 0.9;

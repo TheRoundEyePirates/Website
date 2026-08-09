@@ -1318,15 +1318,15 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   background:
     radial-gradient(
       130% 130% at 82% -12%,
-      color-mix(in srgb, var(--accent) 30%, transparent),
+      color-mix(in srgb, var(--accent) 38%, transparent),
       transparent 58%
     ),
     radial-gradient(
       130% 130% at 8% 112%,
-      color-mix(in srgb, var(--accent) 20%, transparent),
+      color-mix(in srgb, var(--accent) 26%, transparent),
       transparent 55%
     ),
-    color-mix(in srgb, var(--accent) 12%, var(--color-sand));
+    color-mix(in srgb, var(--accent) 16%, var(--color-sand));
 }
 
 .section-orb {
@@ -1335,7 +1335,7 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   height: 360px;
   border-radius: 50%;
   filter: blur(90px);
-  opacity: 0.32;
+  opacity: 0.4;
   pointer-events: none;
   z-index: -1;
   background: radial-gradient(circle, var(--accent), transparent 70%);
