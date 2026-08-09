@@ -47,28 +47,22 @@
     @apply bg-transparent text-ink font-sans antialiased;
   }
 
-  /* Deep-sea backdrop: a faint ocean-blue glow overhead, a touch of gold on
-     the horizon, and a fine light grain. Painted on `body::before` at
-     z-index -1 so it sits above the html background but below page content. */
+  /* Flat sand backdrop with a fine light grain. Painted on `body::before`
+     at z-index -1 so it sits above the html background but below content. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image:
-      radial-gradient(1100px 520px at 18% -5%, rgba(245, 238, 222, 0.6), transparent 62%),
-      radial-gradient(900px 460px at 85% 108%, rgba(216, 198, 161, 0.55), transparent 60%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.47 0 0 0 0 0.39 0 0 0 0 0.25 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
-    background-size: auto, auto, 140px 140px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.47 0 0 0 0 0.39 0 0 0 0 0.25 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
     opacity: 0.5;
   }
 
   .dark body::before {
-    background-image:
-      radial-gradient(1100px 620px at 18% -5%, rgba(31, 49, 80, 0.55), transparent 62%),
-      radial-gradient(900px 500px at 85% 108%, rgba(212, 160, 44, 0.07), transparent 60%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.93 0 0 0 0 0.89 0 0 0 0 0.82 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.93 0 0 0 0 0.89 0 0 0 0 0.82 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
     opacity: 0.35;
   }
 
@@ -1300,68 +1294,7 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   }
 }
 
-/* ---------- Section accents, orbs & 3D cards ---------- */
-/* Each accent section becomes a full-bleed band with its own distinct
-   background shade, tinted by its accent color. */
-.section-accent {
-  --accent: var(--color-gold);
-  --section-max: 64rem;
-  position: relative;
-  isolation: isolate;
-  overflow: clip;
-  max-width: none;
-  margin-inline: calc(50% - 50vw);
-  padding-inline: max(1.5rem, calc(50vw - (var(--section-max) / 2)));
-}
-
-.section-tint {
-  background:
-    radial-gradient(
-      130% 130% at 82% -12%,
-      color-mix(in srgb, var(--accent) 38%, transparent),
-      transparent 58%
-    ),
-    radial-gradient(
-      130% 130% at 8% 112%,
-      color-mix(in srgb, var(--accent) 26%, transparent),
-      transparent 55%
-    ),
-    color-mix(in srgb, var(--accent) 16%, var(--color-sand));
-}
-
-.section-orb {
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: -1;
-  background: radial-gradient(circle, var(--accent), transparent 70%);
-  animation: orb-drift 14s ease-in-out infinite alternate;
-}
-
-.section-orb.orb-a {
-  top: -130px;
-  right: -130px;
-}
-
-.section-orb.orb-b {
-  bottom: -150px;
-  left: -130px;
-  animation-delay: -6s;
-}
-
-@keyframes orb-drift {
-  from {
-    transform: translate3d(0, -24px, 0) scale(1);
-  }
-  to {
-    transform: translate3d(36px, 28px, 0) scale(1.18);
-  }
-}
-
+/* ---------- Ambient animations & 3D cards ---------- */
 /* Ambient float for decorative elements. */
 .animate-float {
   animation: float-y 5s ease-in-out infinite;
@@ -1432,10 +1365,6 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .section-orb {
-    animation: none;
-  }
-
   .card-3d,
   .card-3d:hover {
     transform: none;

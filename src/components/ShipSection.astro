@@ -6,15 +6,8 @@ import { getShipPhoto } from '../lib/brand';
 const photo = getShipPhoto();
 ---
 
-<section
-  id="ship"
-  class="section-accent section-tint mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32"
-  style="--accent: #38bdf8"
->
-  <span class="section-orb orb-a" data-parallax="0.3" aria-hidden="true" />
-  <span class="section-orb orb-b" data-parallax="0.4" aria-hidden="true" />
-
-  <ShipDivider label="The Ship" color="#38bdf8" />
+<section id="ship" class="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
+  <ShipDivider label="The Ship" />
 
   <div class="grid gap-12 md:grid-cols-2 md:items-center">
     <div data-stagger class="space-y-5">
@@ -28,7 +21,7 @@ const photo = getShipPhoto();
     </div>
 
     <figure data-animate="tilt" data-delay="0.15">
-      <div class="card-3d flex items-center justify-center overflow-hidden rounded-3xl border border-sky-400/25 bg-sand-deep/40 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+      <div class="card-3d flex items-center justify-center overflow-hidden rounded-3xl border border-ink/25 bg-sand-deep/40 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
         <ShipModel3D
           client:visible
           fallback={photo}

@@ -29,15 +29,8 @@ function MemberRow({ member }: { member: CrewMember }) {
 
 export default function Crew({ crew, coaches }: CrewProps) {
   return (
-    <section
-      id="crew"
-      className="section-accent section-tint mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32"
-      style={{ '--accent': '#fb7185' } as React.CSSProperties}
-    >
-      <span className="section-orb orb-a" data-parallax="0.3" aria-hidden="true" />
-      <span className="section-orb orb-b" data-parallax="0.4" aria-hidden="true" />
-
-      <ShipDivider label="Crew" color="#fb7185" />
+    <section id="crew" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
+      <ShipDivider label="Crew" />
 
       <h2 data-animate="pop" className="font-display text-3xl text-ink sm:text-4xl">
         Ship's Roster
