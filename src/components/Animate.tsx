@@ -26,6 +26,13 @@ const VARIANTS: Record<string, Variant> = {
     from: { opacity: 0, y: 28, rotationX: 16, transformPerspective: 900 },
     ease: 'power3.out',
   },
+  pop: { from: { opacity: 0, scale: 0.6 }, ease: 'back.out(2.2)' },
+  flip: {
+    from: { opacity: 0, rotationY: 90, transformPerspective: 900 },
+    ease: 'power4.out',
+  },
+  swing: { from: { opacity: 0, y: -20, rotation: -8 }, ease: 'elastic.out(1, 0.6)' },
+  rise: { from: { opacity: 0, y: 72 }, ease: 'power2.out' },
 };
 
 const DEFAULT_DURATION = 0.9;

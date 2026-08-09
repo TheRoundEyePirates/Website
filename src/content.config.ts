@@ -77,6 +77,26 @@ const crew = defineCollection({
   }),
 });
 
+const sponsors = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/sponsors' }),
+  schema: z.object({
+    /** Tier name, e.g. "Shipmate". */
+    tier: z.string(),
+    /** Display price, e.g. "$150 per season". */
+    price: z.string(),
+    /** One-line pitch under the tier name. */
+    tagline: z.string(),
+    /** Accent color for the tier card. */
+    color: z.string().default('#fbbf24'),
+    /** Whether this is the highlighted tier. */
+    featured: z.boolean().default(false),
+    /** Card order on the page, lowest first. */
+    order: z.number().default(0),
+    /** Bullet list of perks. */
+    perks: z.array(z.string()),
+  }),
+});
+
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
   schema: z.object({
@@ -87,4 +107,4 @@ const journal = defineCollection({
   }),
 });
 
-export const collections = { logs, timeline, crew, journal };
+export const collections = { logs, timeline, crew, journal, sponsors };

@@ -12,11 +12,12 @@ const LINKS = [
   { label: 'Gallery', href: '#gallery' },
   { label: 'History', href: '#history' },
   { label: 'Code', href: '/code/' },
+  { label: 'Sponsor', href: '/sponsor/' },
   { label: 'Contact', href: '/contact/' },
 ] as const;
 
-interface PillNavProps {
-  /** Logo for dark surfaces (the pill track). Falls back to a text brand. */
+interface NavBarProps {
+  /** Logo for dark surfaces (the nav track). Falls back to a text brand. */
   logo?: string | null;
   logoAlt?: string;
   ease?: string;
@@ -27,7 +28,7 @@ interface PillNavProps {
   onMobileMenuClick?: () => void;
 }
 
-export default function PillNav({
+export default function NavBar({
   logo = null,
   logoAlt = 'The Round Eye Pirates',
   ease = 'power3.easeOut',
@@ -36,7 +37,7 @@ export default function PillNav({
   hoveredPillTextColor = 'var(--color-parchment)',
   pillTextColor,
   onMobileMenuClick,
-}: PillNavProps) {
+}: NavBarProps) {
   const resolvedPillTextColor = pillTextColor ?? 'var(--color-sand)';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string>(() =>
@@ -79,8 +80,8 @@ export default function PillNav({
           transformOrigin: `50% ${originY}px`,
         });
 
-        const label = pill.querySelector('.pill-label');
-        const white = pill.querySelector('.pill-label-hover');
+        const label = pill.querySelector('.nav-label');
+        const white = pill.querySelector('.nav-label-hover');
 
         if (label) gsap.set(label, { y: 0 });
         if (white) gsap.set(white, { y: h + 12, opacity: 0 });
@@ -253,22 +254,22 @@ export default function PillNav({
 
   const cssVars = {
     '--base': baseColor,
-    '--pill-bg': pillColor,
+    '--nav-bg': pillColor,
     '--hover-text': hoveredPillTextColor,
-    '--pill-text': resolvedPillTextColor,
+    '--nav-text': resolvedPillTextColor,
   } as React.CSSProperties;
 
   return (
-    <div className="pill-nav-container">
+    <div className="nav-bar-container">
       <span
         ref={progressRef}
         aria-hidden="true"
-        className="pill-progress"
+        className="nav-progress"
         style={{ transform: 'scaleX(0)' }}
       />
-      <nav className="pill-nav" aria-label="Primary" style={cssVars}>
+      <nav className="nav-bar" aria-label="Primary" style={cssVars}>
         <a
-          className="pill-logo"
+          className="nav-logo"
           href="/"
           aria-label="Home"
           onMouseEnter={handleLogoEnter}
@@ -277,12 +278,12 @@ export default function PillNav({
           {logo ? (
             <img src={logo} alt={logoAlt} ref={logoImgRef} />
           ) : (
-            <span className="pill-logo-text">REP</span>
+            <span className="nav-logo-text">REP</span>
           )}
         </a>
 
-        <div className="pill-nav-items desktop-only" ref={navItemsRef}>
-          <ul className="pill-list">
+        <div className="nav-items desktop-only" ref={navItemsRef}>
+          <ul className="nav-list">
             {LINKS.map((item, i) => {
               const isActive =
                 activeHref === item.href ||
@@ -291,22 +292,22 @@ export default function PillNav({
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className={`pill${isActive ? ' is-active' : ''}`}
+                    className={`nav-item${isActive ? ' is-active' : ''}`}
                     aria-label={item.label}
                     aria-current={isActive ? 'true' : undefined}
                     onMouseEnter={() => handleEnter(i)}
                     onMouseLeave={() => handleLeave(i)}
                   >
                     <span
-                      className="hover-circle"
+                      className="nav-hover-circle"
                       aria-hidden="true"
                       ref={(el) => {
                         circleRefs.current[i] = el;
                       }}
                     />
                     <span className="label-stack">
-                      <span className="pill-label">{item.label}</span>
-                      <span className="pill-label-hover" aria-hidden="true">
+                      <span className="nav-label">{item.label}</span>
+                      <span className="nav-label-hover" aria-hidden="true">
                         {item.label}
                       </span>
                     </span>
@@ -317,11 +318,11 @@ export default function PillNav({
           </ul>
         </div>
 
-        <div className="pill-actions">
+        <div className="nav-actions">
           <AnimatedThemeToggler
             variant="star"
             duration={600}
-            className="pill-toggler"
+            className="nav-toggler"
             aria-label="Toggle theme"
           />
           <button

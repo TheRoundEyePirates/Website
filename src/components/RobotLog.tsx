@@ -41,12 +41,19 @@ export default function RobotLog({
   ];
 
   return (
-    <section id="robot" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
-      <ShipDivider label="The Robot" />
+    <section
+      id="robot"
+      className="section-accent section-tint mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32"
+      style={{ '--accent': '#34d399' } as React.CSSProperties}
+    >
+      <span className="section-orb orb-a" data-parallax="0.3" aria-hidden="true" />
+      <span className="section-orb orb-b" data-parallax="0.4" aria-hidden="true" />
+
+      <ShipDivider label="The Robot" color="#34d399" />
 
       <div
         data-animate="scale"
-        className="border border-ink/25 bg-card px-6 py-8 shadow-[4px_4px_0_rgba(212,160,44,0.12)] sm:px-10 sm:py-10"
+        className="card-3d rounded-3xl border border-emerald-400/25 bg-card px-6 py-8 shadow-[4px_4px_0_rgba(52,211,153,0.15)] sm:px-10 sm:py-10"
       >
         <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink/15 pb-4">
           <h2 className="font-display text-2xl text-ink">Captain's Log</h2>

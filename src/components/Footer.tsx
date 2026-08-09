@@ -73,6 +73,12 @@ export default function Footer({ logo = null }: FooterProps) {
             Code
           </a>
           <a
+            href="/sponsor/"
+            className="transition-colors hover:text-gold"
+          >
+            Sponsor
+          </a>
+          <a
             href="/contact/"
             className="transition-colors hover:text-gold"
           >

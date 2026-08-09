@@ -29,8 +29,15 @@ function MemberRow({ member }: { member: CrewMember }) {
 
 export default function Crew({ crew, coaches }: CrewProps) {
   return (
-    <section id="crew" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
-      <ShipDivider label="Crew" />
+    <section
+      id="crew"
+      className="section-accent section-tint mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32"
+      style={{ '--accent': '#fb7185' } as React.CSSProperties}
+    >
+      <span className="section-orb orb-a" data-parallax="0.3" aria-hidden="true" />
+      <span className="section-orb orb-b" data-parallax="0.4" aria-hidden="true" />
+
+      <ShipDivider label="Crew" color="#fb7185" />
 
       <h2 data-animate="blur" className="font-display text-3xl text-ink sm:text-4xl">
         Ship's Roster
@@ -43,7 +50,7 @@ export default function Crew({ crew, coaches }: CrewProps) {
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         <div
           data-animate="slide-left"
-          className="border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] sm:p-8"
+          className="card-3d rounded-3xl border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] sm:p-8"
         >
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">
             Officers &amp; Coaches
@@ -57,7 +64,7 @@ export default function Crew({ crew, coaches }: CrewProps) {
 
         <div
           data-animate="slide-right"
-          className="border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] sm:p-8"
+          className="card-3d rounded-3xl border border-ink/25 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] sm:p-8"
         >
           <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-gold">Crew</h3>
           <ul data-stagger className="mt-5 space-y-3">

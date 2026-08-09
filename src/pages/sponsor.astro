@@ -1,0 +1,217 @@
+---
+import { getCollection } from 'astro:content';
+import { getLogo } from '../lib/brand';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+
+const lightLogo = getLogo('light');
+const darkLogo = getLogo('dark');
+
+const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Sponsor the Pirates — The Round Eye Pirates"
+  description="Sponsorship tiers for FTC Team 37060, The Round Eye Pirates. Fund the voyage, put your name on the robot, and join us on the field."
+>
+  <NavBar client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-6xl px-6 py-24 sm:py-32">
+    <ShipDivider label="Sponsor Us" color="#fbbf24" />
+
+    <h1 class="font-pirate text-5xl text-ink sm:text-6xl">Join the Crew</h1>
+
+    <p class="mt-4 max-w-2xl font-mono text-sm leading-7 text-ink/70">
+      Every doubloon you drop keeps our cannons loaded — batteries charged, parts ordered, and a
+      robot on the field for every competition. Pick a tier below and we'll nail your name to the
+      mast.
+    </p>
+
+    <div class="sponsor-grid mt-14">
+      {tiers.map((tier) => (
+        <article
+          class={`tier-card${tier.data.featured ? ' tier-featured' : ''}`}
+          style={`--tier: ${tier.data.color}`}
+        >
+          {tier.data.featured && <div class="tier-ribbon">Captain's Pick</div>}
+
+          <div class="tier-head">
+            <h2 class="font-pirate text-3xl">{tier.data.tier}</h2>
+            <p class="tier-price">{tier.data.price}</p>
+            <p class="tier-tagline">{tier.data.tagline}</p>
+          </div>
+
+          <p class="tier-desc">{tier.body}</p>
+
+          <ul class="tier-perks">
+            {tier.data.perks.map((perk) => (
+              <li>{perk}</li>
+            ))}
+          </ul>
+
+          <a class="tier-cta" href="/contact/">
+            Set Sail →
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-14 text-center font-mono text-xs leading-6 text-ink/60">
+      Not sure which tier fits?{' '}
+      <a href="/contact/" class="text-gold underline-offset-2 hover:underline">
+        Talk to the captain
+      </a>{' '}
+      and we'll find you a berth. All tiers run for the FTC season.
+    </p>
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+
+  <style>
+    .sponsor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .tier-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.75rem 1.5rem;
+      border-radius: 1.75rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 8%, var(--color-card)), var(--color-card));
+      border: 1px solid color-mix(in srgb, var(--tier) 35%, transparent);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 12px 32px rgba(0, 0, 0, 0.35);
+      transform: perspective(900px) rotateX(0) rotateY(0);
+      transition:
+        transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+    }
+
+    .tier-card:hover {
+      transform: perspective(900px) rotateX(4deg) rotateY(-3deg) translateY(-6px);
+      border-color: color-mix(in srgb, var(--tier) 65%, transparent);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 22px 48px rgba(0, 0, 0, 0.45),
+        0 0 32px color-mix(in srgb, var(--tier) 25%, transparent);
+    }
+
+    .tier-featured {
+      background: linear-gradient(180deg, color-mix(in srgb, var(--tier) 16%, var(--color-card)), var(--color-card));
+      border-color: var(--tier);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 0 1px color-mix(in srgb, var(--tier) 55%, transparent),
+        0 18px 44px color-mix(in srgb, var(--tier) 18%, transparent);
+    }
+
+    .tier-ribbon {
+      position: absolute;
+      top: 1rem;
+      right: -0.5rem;
+      padding: 0.3rem 0.9rem;
+      border-radius: 0.5rem 0 0 0.5rem;
+      background: var(--tier);
+      color: #1a1206;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .tier-head h2 {
+      color: var(--color-ink);
+      line-height: 1.1;
+    }
+
+    .tier-price {
+      margin-top: 0.4rem;
+      font-family: var(--font-pirate);
+      font-size: 1.35rem;
+      color: var(--tier);
+    }
+
+    .tier-tagline {
+      margin-top: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--color-ink) 70%, transparent);
+    }
+
+    .tier-desc {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: color-mix(in srgb, var(--color-ink) 72%, transparent);
+    }
+
+    .tier-perks {
+      list-style: none;
+      margin: 0;
+      padding: 1rem 0 0;
+      border-top: 1px dashed color-mix(in srgb, var(--tier) 30%, transparent);
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .tier-perks li {
+      position: relative;
+      padding-left: 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--color-ink);
+    }
+
+    .tier-perks li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--tier);
+    }
+
+    .tier-cta {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 1.25rem;
+      border-radius: 9999px;
+      background: var(--tier);
+      color: #1a1206;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tier-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px color-mix(in srgb, var(--tier) 40%, transparent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tier-card,
+      .tier-card:hover {
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</BaseLayout>

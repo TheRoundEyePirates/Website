@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { getLogo } from '../lib/brand';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PillNav from '../components/PillNav.tsx';
+import NavBar from '../components/NavBar.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
@@ -153,7 +153,7 @@ const links = [
   title="What is FTC — The Round Eye Pirates"
   description="What is FIRST Tech Challenge? FTC is a global robotics competition where student teams design, build, and program a robot to play a brand-new game every season."
 >
-  <PillNav client:load logo={lightLogo} />
+  <NavBar client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-4xl px-6 py-24 sm:py-32">
     <ShipDivider label="What is FTC" />

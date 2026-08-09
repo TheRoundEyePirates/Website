@@ -3,7 +3,7 @@ import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 import Animate from '../components/Animate.tsx';
-import PillNav from '../components/PillNav.tsx';
+import NavBar from '../components/NavBar.tsx';
 import Hero from '../components/Hero.tsx';
 import About from '../components/About.tsx';
 import ShipSection from '../components/ShipSection.astro';
@@ -69,7 +69,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
   <a class="skip-link" href="#main">Skip to content</a>
 
   <Animate client:load />
-  <PillNav client:load logo={lightLogo} />
+  <NavBar client:load logo={lightLogo} />
 
   <main id="main">
     <Hero client:visible />

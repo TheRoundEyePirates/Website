@@ -30,7 +30,7 @@ const STACK: StackItem[] = [
     name: 'Android Studio',
     purpose: 'FTC robot development',
     icon: Smartphone,
-    logo: 'https://cdn.simpleicons.org/androidstudio',
+    logo: 'https://cdn.simpleicons.org/androidstudio/3DDC84',
   },
   {
     name: 'Java',

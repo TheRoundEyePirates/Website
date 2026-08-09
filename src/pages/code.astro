@@ -3,7 +3,7 @@ import { createHighlighter } from 'shiki';
 import { getLogo } from '../lib/brand';
 import { getCodeSnippets } from '../lib/code';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PillNav from '../components/PillNav.tsx';
+import NavBar from '../components/NavBar.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 import CodeBlock from '../components/CodeBlock.tsx';
@@ -29,7 +29,7 @@ const highlighted = snippets.map((snippet) => ({
   title="Ship's Code — The Round Eye Pirates"
   description="Code snippets from FTC Team 37060, The Round Eye Pirates — pedroPathing setup, drive constants, and more."
 >
-  <PillNav client:load logo={lightLogo} />
+  <NavBar client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-5xl px-6 py-24 sm:py-32">
     <ShipDivider label="Ship's Code" />

@@ -1,7 +1,7 @@
 ---
 import { getLogo } from '../lib/brand';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PillNav from '../components/PillNav.tsx';
+import NavBar from '../components/NavBar.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
@@ -36,7 +36,7 @@ const faqs = [
   title="FAQ — The Round Eye Pirates"
   description="Answers to common questions about FIRST Tech Challenge, the Round Eye Pirates, and how to join our FTC team."
 >
-  <PillNav client:load logo={lightLogo} />
+  <NavBar client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
     <ShipDivider label="FAQ" />
