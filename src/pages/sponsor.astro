@@ -32,8 +32,8 @@ const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.
     <div class="sponsor-grid mt-14">
       {tiers.map((tier) => (
         <article
-          class={`tier-card${tier.data.featured ? ' tier-featured' : ''}`}
-          style={`--tier: ${tier.data.color}`}
+          class={`tier-card glow-pulse${tier.data.featured ? ' tier-featured' : ''}`}
+          style={`--tier: ${tier.data.color}; --glow: ${tier.data.color}`}
         >
           {tier.data.featured && <div class="tier-ribbon">Captain's Pick</div>}
 
@@ -51,7 +51,7 @@ const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.
             ))}
           </ul>
 
-          <a class="tier-cta" href="/contact/">
+          <a class="tier-cta btn-shine" href="/contact/">
             Set Sail →
           </a>
         </article>

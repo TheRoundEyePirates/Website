@@ -39,7 +39,7 @@ export default function Crew({ crew, coaches }: CrewProps) {
 
       <ShipDivider label="Crew" color="#fb7185" />
 
-      <h2 data-animate="blur" className="font-display text-3xl text-ink sm:text-4xl">
+      <h2 data-animate="pop" className="font-display text-3xl text-ink sm:text-4xl">
         Ship's Roster
       </h2>
 

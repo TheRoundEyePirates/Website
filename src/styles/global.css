@@ -1362,6 +1362,66 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   }
 }
 
+/* Ambient float for decorative elements. */
+.animate-float {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Soft breathing glow (non-transform, safe alongside hover tilts). */
+.glow-pulse {
+  animation: glow-pulse 3.4s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow, var(--color-gold)) 45%, transparent),
+      0 14px 40px color-mix(in srgb, var(--glow, var(--color-gold)) 14%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow, var(--color-gold)) 70%, transparent),
+      0 18px 56px color-mix(in srgb, var(--glow, var(--color-gold)) 30%, transparent);
+  }
+}
+
+/* Shine sweep across buttons/links on hover. */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--shine, #fff) 45%, transparent),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+.btn-shine:hover::after {
+  left: 110%;
+}
+
 .card-3d {
   transform-style: preserve-3d;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -1379,6 +1439,16 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   .card-3d,
   .card-3d:hover {
     transform: none;
+    transition: none;
+  }
+
+  .animate-float,
+  .glow-pulse {
+    animation: none;
+  }
+
+  .btn-shine::after {
+    left: -40%;
     transition: none;
   }
 }
