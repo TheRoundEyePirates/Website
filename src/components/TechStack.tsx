@@ -23,6 +23,8 @@ interface StackItem {
   logo?: string;
   invertOnDark?: boolean;
   legendary?: boolean;
+  /** Official website — the card links out to it when set. */
+  url?: string;
 }
 
 const STACK: StackItem[] = [
@@ -31,20 +33,33 @@ const STACK: StackItem[] = [
     purpose: 'FTC robot development',
     icon: Smartphone,
     logo: 'https://cdn.simpleicons.org/androidstudio/3DDC84',
+    url: 'https://developer.android.com/studio',
   },
   {
     name: 'Java',
     purpose: 'Robot programming',
     icon: Coffee,
     logo: 'https://www.google.com/s2/favicons?domain=java.oracle.com&sz=128',
+    url: 'https://www.java.com/',
   },
-  { name: 'FTC SDK', purpose: 'Robot control framework', icon: Cpu },
-  { name: 'Pedro Pathing', purpose: 'Autonomous path planning', icon: Route },
+  {
+    name: 'FTC SDK',
+    purpose: 'Robot control framework',
+    icon: Cpu,
+    url: 'https://github.com/FIRST-Tech-Challenge/FtcRobotController',
+  },
+  {
+    name: 'Pedro Pathing',
+    purpose: 'Autonomous path planning',
+    icon: Route,
+    url: 'https://pedropathing.com/',
+  },
   {
     name: 'Onshape',
     purpose: 'CAD and robot design',
     icon: Box,
     logo: 'https://www.google.com/s2/favicons?domain=onshape.com&sz=128',
+    url: 'https://www.onshape.com/',
   },
   {
     name: 'GitHub',
@@ -52,6 +67,7 @@ const STACK: StackItem[] = [
     icon: GitBranch,
     logo: 'https://cdn.simpleicons.org/github',
     invertOnDark: true,
+    url: 'https://github.com/',
   },
   {
     name: 'Vercel',
@@ -59,12 +75,14 @@ const STACK: StackItem[] = [
     icon: Triangle,
     logo: 'https://cdn.simpleicons.org/vercel',
     invertOnDark: true,
+    url: 'https://vercel.com/',
   },
   {
     name: 'Cloudflare',
     purpose: 'DNS, domains and security',
     icon: Cloud,
     logo: 'https://cdn.simpleicons.org/cloudflare',
+    url: 'https://www.cloudflare.com/',
   },
   {
     name: 'Resend',
@@ -72,18 +90,21 @@ const STACK: StackItem[] = [
     icon: Mail,
     logo: 'https://cdn.simpleicons.org/resend',
     invertOnDark: true,
+    url: 'https://resend.com/',
   },
   {
     name: 'WhatsApp',
     purpose: 'Team communication',
     icon: MessageCircle,
     logo: 'https://cdn.simpleicons.org/whatsapp',
+    url: 'https://www.whatsapp.com/',
   },
   {
     name: 'Blender',
     purpose: '3D modelling and visualisation',
     icon: Shapes,
     logo: 'https://cdn.simpleicons.org/blender',
+    url: 'https://www.blender.org/',
   },
   { name: 'Sleep', purpose: 'Critical team hardware dependency', icon: MoonStar, legendary: true },
 ];
@@ -133,15 +154,14 @@ export default function TechStack() {
         </p>
 
         <div data-stagger className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {STACK.map((item, i) => (
-            <article
-                key={item.name}
-                className={`group relative flex items-start gap-4 rounded-2xl border bg-card/70 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.12)] ${
-                  item.legendary
-                    ? 'border-gold/50 bg-gold/10 hover:border-gold'
-                    : 'border-ink/10 hover:border-gold/50'
-                }`}
-              >
+          {STACK.map((item, i) => {
+            const cardClass = `group relative flex items-start gap-4 rounded-2xl border bg-card/70 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.12)] ${
+              item.legendary
+                ? 'border-gold/50 bg-gold/10 hover:border-gold'
+                : 'border-ink/10 hover:border-gold/50'
+            }`;
+            const cardContent = (
+              <>
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gold/30 text-gold transition-transform duration-300 group-hover:scale-110">
                   <BrandIcon item={item} />
                 </span>
@@ -158,8 +178,25 @@ export default function TechStack() {
                 <span className="absolute right-4 top-4 font-mono text-[10px] tracking-widest text-ink/30">
                   {String(i + 1).padStart(2, '0')}
                 </span>
+              </>
+            );
+            return item.url ? (
+              <a
+                key={item.name}
+                href={item.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${item.name} website`}
+                className={cardClass}
+              >
+                {cardContent}
+              </a>
+            ) : (
+              <article key={item.name} className={cardClass}>
+                {cardContent}
               </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
