@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   motion,
   MotionConfig,
@@ -7,11 +7,10 @@ import {
   useTransform,
   type Variants,
 } from 'motion/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CompassRose from './CompassRose';
 
-gsap.registerPlugin(ScrollTrigger);
+const PANEL_COUNT = 3;
 
 const TITLE_WORDS = ['The', 'Round', 'Eye', 'Pirates'];
 
@@ -33,8 +32,20 @@ const item: Variants = {
 };
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
+  const pausedRef = useRef(false);
+  const [index, setIndex] = useState(0);
+
+  // Auto-advance the top carousel so it stays in one area — no scroll-pinning,
+  // you can scroll straight down past the hero.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => {
+      if (!pausedRef.current) setIndex((i) => (i + 1) % PANEL_COUNT);
+    }, 6000);
+    return () => clearInterval(id);
+  }, []);
+
+  const go = (dir: number) => setIndex((i) => (i + dir + PANEL_COUNT) % PANEL_COUNT);
 
   // Magnetic compass: pointer position eases into a 3D tilt via springs.
   const pointerX = useMotionValue(0);
@@ -44,47 +55,8 @@ export default function Hero() {
   const rotateY = useTransform(smoothX, [-0.5, 0.5], [-14, 14]);
   const rotateX = useTransform(smoothY, [-0.5, 0.5], [10, -10]);
 
-  // Horizontal pan: the hero is pinned while its track slides sideways as you
-  // scroll; when the last panel has passed, the pin releases and the page
-  // carries on downward. Runs from this component's own effect so it fires
-  // after React has taken over the DOM (setting it up from the global engine
-  // conflicts with React hydration and silently no-ops).
-  useEffect(() => {
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    if (!section || !track) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-    if (distance() <= 0) return;
-
-    const tween = gsap.fromTo(
-      track,
-      { x: 0 },
-      {
-        x: () => -distance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => '+=' + distance(),
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      },
-    );
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
-  }, []);
-
   return (
     <section
-      ref={sectionRef}
       id="home"
       data-hero-horizontal
       className="relative flex h-screen overflow-hidden"
@@ -97,12 +69,22 @@ export default function Hero() {
         pointerX.set(0);
         pointerY.set(0);
       }}
+      onMouseEnter={() => {
+        pausedRef.current = true;
+      }}
+      onMouseLeave={() => {
+        pausedRef.current = false;
+      }}
     >
       <MotionConfig reducedMotion="user">
-        {/* The track is pinned while it pans sideways as you scroll; once the
-            last panel has passed, the pin releases and the page continues
-            downward. */}
-        <div ref={trackRef} data-hero-track className="flex h-full w-max items-center">
+        {/* The top intro slides sideways on a timer (not scroll) so the whole
+            hero fits in one viewport. */}
+        <motion.div
+          data-hero-track
+          className="flex h-full w-max items-center"
+          animate={{ x: `-${index * 100}vw` }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        >
           {/* Panel 1 — the compass */}
           <div className="relative flex h-full w-screen shrink-0 flex-col items-center justify-center px-6 pt-20 text-center">
             <motion.div
@@ -205,6 +187,39 @@ export default function Hero() {
               </motion.p>
             </motion.div>
           </div>
+        </motion.div>
+
+        {/* Carousel arrows */}
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          aria-label="Previous panel"
+          className="absolute top-1/2 left-3 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-card/70 text-gold backdrop-blur transition hover:bg-gold hover:text-card sm:left-6"
+        >
+          <ChevronLeft size={20} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          aria-label="Next panel"
+          className="absolute top-1/2 right-3 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-gold/40 bg-card/70 text-gold backdrop-blur transition hover:bg-gold hover:text-card sm:right-6"
+        >
+          <ChevronRight size={20} aria-hidden="true" />
+        </button>
+
+        {/* Carousel dots */}
+        <div className="absolute bottom-20 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
+          {Array.from({ length: PANEL_COUNT }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Go to panel ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all ${
+                i === index ? 'w-6 bg-gold' : 'w-1.5 bg-ink/25 hover:bg-gold/60'
+              }`}
+            />
+          ))}
         </div>
 
         {/* Scroll cue */}

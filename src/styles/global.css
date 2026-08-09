@@ -9,7 +9,7 @@
      overrides these tokens to the black-sea palette, so every utility that
      references a `--color-*` token themes itself at runtime. */
   --color-parchment: #f5f0e6;
-  --color-sand: #e9dcc0;
+  --color-sand: #d6c29b;
   --color-sand-light: #f5eede;
   --color-sand-deep: #d8c6a1;
   --color-card: #f6efdd;
@@ -746,7 +746,7 @@
   background:
     radial-gradient(760px 520px at 50% 26%, rgba(245, 238, 222, 0.55), transparent 64%),
     radial-gradient(1100px 700px at 50% 120%, rgba(216, 198, 161, 0.9), transparent 62%),
-    #e9dcc0;
+    #d6c29b;
   transition: opacity 0.55s ease, visibility 0.55s ease;
 }
 .dark #boot {
