@@ -739,20 +739,6 @@
       transform: translateX(110%);
     }
   }
-
-  /* Tech stack icons bob like buoys, offset per card. */
-  .animate-icon-float {
-    animation: icon-float 4.5s ease-in-out infinite;
-  }
-  @keyframes icon-float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-3px);
-    }
-  }
 }
 
 /* ---------- Boot / load screen ---------- */
@@ -906,8 +892,7 @@
   .animate-pop,
   .image-fade,
   .animate-count-tick,
-  .animate-ticker-progress,
-  .animate-icon-float {
+  .animate-ticker-progress {
     animation: none;
   }
 

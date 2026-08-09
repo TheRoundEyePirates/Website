@@ -88,20 +88,11 @@ const STACK: StackItem[] = [
   { name: 'Sleep', purpose: 'Critical team hardware dependency', icon: MoonStar, legendary: true },
 ];
 
-function BrandIcon({ item, delay }: { item: StackItem; delay: number }) {
+function BrandIcon({ item }: { item: StackItem }) {
   const [failed, setFailed] = useState(false);
-  const style = { animationDelay: `${delay}s` };
   if (!item.logo || failed) {
     const Icon = item.icon;
-    return (
-      <Icon
-        size={20}
-        strokeWidth={1.5}
-        aria-hidden="true"
-        className="animate-icon-float"
-        style={style}
-      />
-    );
+    return <Icon size={20} strokeWidth={1.5} aria-hidden="true" />;
   }
   return (
     <img
@@ -109,8 +100,7 @@ function BrandIcon({ item, delay }: { item: StackItem; delay: number }) {
       alt=""
       loading="lazy"
       onError={() => setFailed(true)}
-      style={style}
-      className={`animate-icon-float h-5 w-5 object-contain ${item.invertOnDark ? 'dark:invert' : ''}`}
+      className={`h-5 w-5 object-contain ${item.invertOnDark ? 'dark:invert' : ''}`}
     />
   );
 }
@@ -152,8 +142,8 @@ export default function TechStack() {
                     : 'border-ink/10 hover:border-gold/50'
                 }`}
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-sand-light/60 text-gold transition-transform duration-300 group-hover:scale-110">
-                  <BrandIcon item={item} delay={i * 0.35} />
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gold/30 text-gold transition-transform duration-300 group-hover:scale-110">
+                  <BrandIcon item={item} />
                 </span>
                 <span className="min-w-0">
                   <h3
