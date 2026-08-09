@@ -91,36 +91,6 @@
     will-change: transform;
   }
 
-  /* Without JS (or when the user prefers reduced motion) the horizontal
-     hero pan can't run, so stack its panels vertically instead of clipping
-     them off the side of the viewport. */
-  :root:not(.js) [data-hero-horizontal] {
-    height: auto;
-    overflow: visible;
-  }
-  :root:not(.js) [data-hero-track] {
-    flex-direction: column;
-    width: 100%;
-  }
-  :root:not(.js) [data-hero-track] > * {
-    width: 100%;
-    min-height: 100vh;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    [data-hero-horizontal] {
-      height: auto;
-      overflow: visible;
-    }
-    [data-hero-track] {
-      flex-direction: column;
-      width: 100%;
-    }
-    [data-hero-track] > * {
-      width: 100%;
-      min-height: 100vh;
-    }
-  }
-
   /* Keyboard navigation */
   a:focus-visible,
   button:focus-visible {
