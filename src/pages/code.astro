@@ -1,0 +1,65 @@
+---
+import { createHighlighter } from 'shiki';
+import { getLogo } from '../lib/brand';
+import { getCodeSnippets } from '../lib/code';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PillNav from '../components/PillNav.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+import CodeBlock from '../components/CodeBlock.tsx';
+
+const lightLogo = getLogo('light');
+const darkLogo = getLogo('dark');
+
+const snippets = getCodeSnippets();
+const languages = [...new Set(snippets.map((snippet) => snippet.language))];
+
+const highlighter = await createHighlighter({
+  themes: ['nord'],
+  langs: languages,
+});
+
+const highlighted = snippets.map((snippet) => ({
+  ...snippet,
+  html: highlighter.codeToHtml(snippet.code, { lang: snippet.language, theme: 'nord' }),
+}));
+---
+
+<BaseLayout
+  title="Ship's Code — The Round Eye Pirates"
+  description="Code snippets from FTC Team 37060, The Round Eye Pirates — pedroPathing setup, drive constants, and more."
+>
+  <PillNav client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-5xl px-6 py-24 sm:py-32">
+    <ShipDivider label="Ship's Code" />
+
+    <h1 class="font-pirate text-5xl text-ink sm:text-6xl">The Code Book</h1>
+
+    <p class="mt-4 max-w-xl font-mono text-sm leading-7 text-ink/70">
+      Battle-tested snippets from the crew's voyage. Each one lives as a plain{' '}
+      <code class="rounded-sm bg-card px-1.5 py-0.5 font-mono text-xs text-gold">.m</code>{' '}
+      file in the repo — copy it, drop it in your project, and set sail.
+    </p>
+
+    <div class="mt-12 space-y-10">
+      {highlighted.map((snippet) => (
+        <CodeBlock
+          client:visible
+          id={snippet.id}
+          title={snippet.title}
+          language={snippet.language}
+          code={snippet.code}
+          html={snippet.html}
+        />
+      ))}
+    </div>
+
+    <p class="mt-12 font-mono text-xs leading-6 text-ink/60">
+      More snippets joining the code book soon. Request one via the{' '}
+      <a href="/contact/" class="text-gold underline-offset-2 hover:underline">contact page</a>.
+    </p>
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+</BaseLayout>

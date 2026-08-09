@@ -11,7 +11,7 @@ const LINKS = [
   { label: 'Journal', href: '#journal' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'History', href: '#history' },
-  { label: 'Code', href: '#code' },
+  { label: 'Code', href: '/code/' },
   { label: 'Contact', href: '/contact/' },
 ] as const;
 

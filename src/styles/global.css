@@ -421,6 +421,18 @@
     @apply text-navy underline decoration-gold/50 underline-offset-4 transition-colors hover:text-gold;
   }
 
+  /* Code book: Shiki blocks on /code/ keep a fixed deep-sea terminal look in
+     both themes. */
+  .code-scroll pre {
+    @apply px-5 py-5 font-mono text-[13px] leading-6;
+    min-width: max-content;
+  }
+  .code-scroll code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
   /* Aged pirate ship's log for person-page bios. */
   .person-log {
     font-family: var(--font-pirate);

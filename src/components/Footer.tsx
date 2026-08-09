@@ -67,6 +67,12 @@ export default function Footer({ logo = null }: FooterProps) {
             FAQ
           </a>
           <a
+            href="/code/"
+            className="transition-colors hover:text-gold"
+          >
+            Code
+          </a>
+          <a
             href="/contact/"
             className="transition-colors hover:text-gold"
           >
