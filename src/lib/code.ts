@@ -36,6 +36,13 @@ const META: Record<string, Omit<CodeSnippet, 'id' | 'code'>> = {
     language: 'java',
     order: 1,
   },
+  'constants-pods': {
+    title: 'Two-Wheel Localizer Constants',
+    description:
+      'Updated follower constants with centripetal scaling and a two-wheel dead-wheel pod localizer (Rev Hub IMU) for drift-free autonomous paths.',
+    language: 'java',
+    order: 2,
+  },
 };
 
 export function getCodeSnippets(): CodeSnippet[] {
