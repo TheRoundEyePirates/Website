@@ -3,7 +3,7 @@ first: Ricardo
 last: Fox
 title: Dr.
 nickname: Lostfoxy
-showEmail: false
+showEmail: true
 order: 1
 ---
 
