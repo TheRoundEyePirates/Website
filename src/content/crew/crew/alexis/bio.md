@@ -4,4 +4,4 @@ last: Joblin
 order: 4
 ---
 
-Alexis Joblin is a member of the crew.
+On the 11th of August, Alexis Joblin joined the crew as a Ship Mate.
