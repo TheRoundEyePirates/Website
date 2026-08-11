@@ -1,170 +1,114 @@
 # The Round Eye Pirates — FTC Team 37060
 
-Official single-page website for FIRST Tech Challenge team **37060**, The Round Eye Pirates.
-Founded July 26, 2026.
+**Ahoy!** Official home port of FIRST Tech Challenge Team **37060**, The Round Eye Pirates
+(丸い目の海賊団). Charting course since July 2026 from Hawke's Bay, New Zealand.
 
-Built with **Astro 7**, **React 19 islands**, **TypeScript**, **Tailwind CSS 4**, **GSAP + ScrollTrigger**,
-**Three.js**, and **Motion** (split-flap board). Static output, deploy-ready for Vercel. No backend.
+[![Astro](https://img.shields.io/badge/built%20with-Astro%207-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![React](https://img.shields.io/badge/React%2019%20islands-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind%20CSS%204-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![GSAP](https://img.shields.io/badge/GSAP-88CE02?logo=greensock&logoColor=white)](https://gsap.com)
+[![Three.js](https://img.shields.io/badge/Three.js-000000?logo=threedotjs&logoColor=white)](https://threejs.org)
+[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
 
-## Stack
+**Live site → [round-eye-pirates.vercel.app](https://round-eye-pirates.vercel.app)**
 
-| Concern       | Tool                                        |
-| ------------- | ------------------------------------------- |
-| Framework     | [Astro](https://astro.build) 7.x (static)   |
-| Islands       | [React](https://react.dev) 19 via `@astrojs/react` |
-| Content       | Astro Content Collections (Content Layer API, `@astrojs/mdx`) |
-| Styling       | Tailwind CSS 4 (CSS-first config)           |
-| Animation     | GSAP 3 + ScrollTrigger, Motion (flip board) |
-| 3D            | Three.js (hero compass rose)                |
-| Icons         | lucide-react                                |
-| Type checking | `astro check`                               |
+---
 
-## Project structure
+## What's in the hold
 
-```
-.
-├── astro.config.mjs            # Astro + React + MDX + Tailwind v4 Vite plugin
-├── tsconfig.json               # strict, react-jsx
-├── public/
-│   ├── favicon.svg
-│   ├── robots.txt
-│   └── logos/
-│       └── ftc.svg               # FIRST Tech Challenge logo (footer)
-└── src/
-    ├── content.config.ts       # Content Layer config: glob loaders + Zod schemas
-    ├── content/
-    │   ├── logs/
-    │   │   └── robot-log.md    # "Captain's Log" entry with spec frontmatter
-    │   ├── MEDIA/              # Drop photos/videos here → auto-added to the Gallery
-    │   └── timeline/
-    │       └── team-founded.md # Timeline entry (order, date, title + body)
-    ├── layouts/
-    │   └── BaseLayout.astro    # Shared <head>, fonts, meta, theme-color
-    ├── lib/
-    │   ├── utils.ts            # `cn` classname helper
-    │   ├── media.ts            # import.meta.glob scan of src/content/MEDIA
-    │   └── useThreeScene.ts    # Shared Three.js renderer/scene lifecycle hook
-    ├── styles/
-    │   └── global.css          # Tailwind 4 @theme tokens, grain, prose, reveal CSS
-    ├── components/
-    │   ├── Animate.tsx         # GSAP scroll engine: reveals, stagger, parallax, hero-scrub, draw
-    │   ├── Navbar.tsx          # Fixed nav + scroll progress bar
-    │   ├── Hero.tsx            # FTC 37060 / team name / tagline / compass frame (cursor parallax)
-    │   ├── CompassRose.tsx     # Three.js low-poly golden compass, pauses off-viewport
-    │   ├── SeaWaves.tsx        # Animated layered ocean swell dividers
-    │   ├── About.tsx           # Two-column crew section + ShipWheel3D figure
-    │   ├── ShipWheel3D.tsx     # Three.js rotating golden ship's wheel
-    │   ├── RobotLog.tsx        # Log card rendering collection frontmatter + body
-    │   ├── Crew.tsx            # Ship's roster (crew + coaches)
-    │   ├── MediaGallerySection.astro  # Auto-scanning gallery section
-    │   ├── MediaGallery.tsx    # Photo/video grid + lightbox (keyboard friendly)
-    │   ├── Bulletin.tsx        # Split-flap board section
-    │   ├── TextFlippingBoardDemo.tsx  # Scroll-driven rotating messages for the flip board
-    │   ├── ui/
-    │   │   └── text-flipping-board.tsx  # Split-flap component (ported from Aceternity)
-    │   ├── History.astro       # Dotted timeline, driven by the timeline collection
-    │   ├── QuoteTicker.tsx     # Rotating "Tavern Tales" quote band
-    │   ├── Location.tsx        # Google Maps embed of Hawke's Bay, NZ
-    │   ├── TreasureChest.tsx   # "arrr" easter egg: chest overlay + gold coin rain
-    │   ├── Anchor3D.tsx        # Three.js swaying golden anchor (footer)
-    │   ├── Footer.tsx          # Contact, FIRST/FTC logos, trademark note
-    │   └── ShipDivider.tsx     # Vintage section divider
-    └── pages/
-        ├── index.astro         # Single page wiring all islands + content collection
-        └── 404.astro           # Themed "Lost at Sea" 404
-```
+A single-page pirate voyage full of treasure:
 
-> **Note on Tailwind:** v4 uses a CSS-first config — design tokens live in
-> `@theme` inside `src/styles/global.css`, so no `tailwind.config.mjs` is needed.
-> To add a legacy JS config later, load it with `@config` in `global.css`.
+- **Compass helm** — a hand-crafted SVG compass that sways and tilts toward your cursor.
+- **Captain's Log** — the robot's spec sheet plus a countdown to the next event
+  (currently the **National Championship, 12–13 December 2026**).
+- **The Crew** — every pirate gets their own page, photo gallery, and optional live
+  FTC Scout data panel.
+- **The Ship** — a full 3D model of our robot, *Raging Heaven*, rendered from a `.glb`.
+- **Ship's Code** — working *and* broken code snippets, highlighted with Shiki.
+- **Ship's Album** — photos and videos that auto-appear just by dropping files in a folder.
+- **Tavern Tales** — a rotating quote board, a journal, a glossary, and an FAQ.
+- **X marks the spot** — type `arrr` (or `treasure`, `yo ho ho`, `plunder`…) anywhere.
+- A themed **404 — "Lost at Sea"** page for wayward sailors.
 
-> **Note on React:** this is an Astro site, so `"use client"` is not needed — islands hydrate via
-> `client:visible` / `client:load` directives instead.
+## Charting the course
 
-## Getting started
+Built as a **static Astro 7 site** with React islands, so it deploys anywhere with zero
+backend and zero environment variables.
+
+| Concern            | Tool                                               |
+| ------------------ | -------------------------------------------------- |
+| Framework          | [Astro](https://astro.build) 7 (static output)     |
+| Islands            | [React](https://react.dev) 19 via `@astrojs/react` |
+| Content            | Astro Content Collections (Content Layer API) + MDX|
+| Styling            | [Tailwind CSS](https://tailwindcss.com) 4 (CSS-first) |
+| Animation          | [GSAP](https://gsap.com) 3 + ScrollTrigger, [Motion](https://motion.dev) |
+| 3D                 | [Three.js](https://threejs.org)                    |
+| Code highlighting  | Shiki (`nord` theme)                               |
+| Icons              | [lucide-react](https://lucide.dev)                 |
+| Type checking      | `astro check`                                      |
+
+## Setting sail
 
 ```bash
 npm install
-npm run dev
+npm run dev        # → http://localhost:4321
 ```
 
-Open `http://localhost:4321`.
+| Command           | Description                             |
+| ----------------- | --------------------------------------- |
+| `npm run dev`     | Start the dev server                    |
+| `npm run build`   | Static build into `dist/`               |
+| `npm run preview` | Preview the production build            |
+| `npm run check`   | Type-check + lint content with Astro    |
+| `npm run add-code`| Scaffold a new code snippet interactively|
 
-## Scripts
+## The lay of the land
 
-| Command            | Description                          |
-| ------------------ | ------------------------------------ |
-| `npm run dev`      | Start the dev server                 |
-| `npm run build`    | Static build into `dist/`            |
-| `npm run preview`  | Preview the production build         |
-| `npm run check`    | Type-check with `astro check`        |
-
-## Editing the robot log
-
-The "Captain's Log" card is driven by `src/content/logs/robot-log.md`, loaded by the `glob` loader in
-`src/content.config.ts`. Frontmatter is validated by the Zod schema there (adding a field will be
-enforced on build). The markdown body is rendered through `render(entry)` and passed to the
-`RobotLog` island as its children.
-
-```markdown
----
-season: "2026-2027"
-drive: "Mecanum"
-motors: 6
-servos: 2
-controlSystem: "REV Control Hub"
-status: "Operational"
----
-
-Your narrative here (rendered as the log entry body).
+```
+.
+├── astro.config.mjs           # Astro + React + MDX + Tailwind v4 + markdown plugins
+├── public/                    # favicon, FTC logo, robots.txt, 3D models
+└── src/
+    ├── content.config.ts      # Content Layer config: glob loaders + Zod schemas
+    ├── content/               # All the words and media (see docs/content.md)
+    │   ├── logs/              #   robot-log.md — spec + event countdown
+    │   ├── timeline/          #   Ship's Log history entries
+    │   ├── crew/              #   one folder per pirate: bio.md + photos
+    │   ├── sponsors/          #   sponsor tiers
+    │   ├── journal/           #   journal entries
+    │   ├── code/              #   working/ and broken/ code snippets
+    │   ├── MEDIA/             #   gallery — drop files in, done
+    │   ├── ship/              #   robot photo
+    │   └── logos/             #   light/ and dark/ logos
+    ├── layouts/               # BaseLayout.astro (fonts, meta, theme script)
+    ├── pages/                 # index, 404, code, crew/[key], contact, faq, sponsor…
+    ├── lib/                   # build-time helpers: crew, media, code, brand, scan, 3D
+    ├── components/            # React islands + .astro sections
+    ├── styles/global.css      # Tailwind v4 @theme tokens, grain, prose, animations
+    └── content/…
 ```
 
-### Timeline entries
+## Reading the map
 
-The "Ship's Log" timeline is driven by markdown files in `src/content/timeline/`.
-Add a new file to add an entry — entries are sorted by `order`, lowest first:
+- **[docs/](docs/README.md)** — the full map to how this ship works.
+  - [Architecture](docs/architecture.md) — how pages, islands, helpers, and the
+    animation engine fit together.
+  - [Content](docs/content.md) — every way to add or edit content without touching code.
+  - [Components](docs/components.md) — a reference for every component aboard.
 
-```markdown
----
-order: 2
-date: August 4, 2026
-title: First Scrimmage
----
+## Flying colors
 
-Our first taste of competition — three matches, three lessons.
-```
+- Palette: sandy shore with a dune-shaded background, weathered navy, antique gold, and a
+  subtle CSS grain overlay. Full **light/dark** themes with a shape-clipped view-transition toggle.
+- Type: **Pirata One** (display), **Courier Prime** (headings), **IBM Plex Mono** (accents),
+  **Inter** (body).
+- Scroll choreography via `data-animate` / `data-stagger` / `data-parallax` attributes,
+  driven by GSAP ScrollTrigger — with full `prefers-reduced-motion` support.
+- Accessibility: skip link, `:focus-visible` outlines, `aria` states, keyboard-friendly
+  lightbox and treasure chest, and JSON-LD structured data.
 
-## Deploying to Vercel
+## Acknowledgments
 
-1. Push this repo to GitHub.
-2. Import it in Vercel — the **Astro** preset is auto-detected.
-3. Deploy. `npm run build` produces static files served from `dist/`.
-
-No environment variables or server functions are required.
-
-## Adding photos or videos
-
-The **Ship's Album** gallery is automatic. Drop any image (jpg, png, gif, webp, avif, svg) or video
-(mp4, webm, mov, m4v) into `src/content/MEDIA/` and it will appear in the gallery on the next
-build — **no code changes needed**. Files are detected by extension and sorted by name; subfolders
-are scanned too. Click a photo to open the lightbox (arrow keys to navigate, `Esc` to close).
-
-## Design notes
-
-- Palette: sandy shore `#e9dcc0` with a speckled, dune-shaded background, charcoal `#1c1917`,
-  weathered navy `#1e3a5f`, antique gold `#b45309`, plus a subtle CSS grain overlay.
-- Type: Courier Prime (display), IBM Plex Mono (mono accents), Inter (body).
-- Every section fades up (`y: 40 → 0`, `opacity: 0 → 1`, `power3.out`, 1s) via
-  `data-animate` attributes driven by GSAP ScrollTrigger.
-- The navbar gains `backdrop-blur-sm` + sand/90 once you scroll past the hero, with a
-  scroll-spy active link state and a mobile menu.
-- Ocean wave dividers roll beneath the hero and above the footer (pure transform animation).
-- The hero compass rose is a single Three.js scene that pauses its render loop when
-  off-viewport or the tab is hidden, and tilts subtly toward the cursor.
-- All three 3D props (compass, wheel, anchor) share one lifecycle hook: `useThreeScene`.
-- Easter egg: type `arrr` (or `treasure`) anywhere — the compass spins and the hidden
-  treasure chest opens with a rain of gold.
-- Accessibility: skip-to-content link, `:focus-visible` outlines, `aria-current`/`aria-expanded`
-  states, and full `prefers-reduced-motion` support (reveals become static, rotation stops,
-  waves and coins freeze).
-- Also includes a themed 404 page and JSON-LD structured data.
+Built for the FIRST Tech Challenge. The FIRST® and FTC logos are trademarks of FIRST —
+see the footer of the live site for full attribution.
