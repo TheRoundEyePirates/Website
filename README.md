@@ -1,8 +1,20 @@
+<div align="center">
+
+<img
+  src="./src/content/ship/WhatsApp_Image_2026-08-04_at_12.13.08_PM-removebg-preview.png"
+  alt="Brickwave — the Round Eye Pirates robot"
+  width="230"
+/>
+
 # The Round Eye Pirates — FTC Team 37060
 
-**Ahoy!** Official home port of FIRST Tech Challenge Team **37060**, The Round Eye Pirates
-(丸い目の海賊団). Charting course since July 2026 from Hawke's Bay, New Zealand.
+**丸い目の海賊団 · Ahoy, welcome aboard!**
 
+Official home port of FIRST Tech Challenge Team **37060**, The Round Eye Pirates.
+Charting course since July 2026 from Hawke's Bay, New Zealand.
+
+[![FTC Team](https://img.shields.io/badge/FIRST%20Tech%20Challenge-Team%2037060-FF6600)](https://www.firstinspires.org/robotics/ftc)
+[![Est. 2026](https://img.shields.io/badge/Est.-July%202026-8B5CF6)](https://github.com/TheRoundEyePirates/Website)
 [![Astro](https://img.shields.io/badge/built%20with-Astro%207-FF5D01?logo=astro&logoColor=white)](https://astro.build)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/React%2019%20islands-61DAFB?logo=react&logoColor=black)](https://react.dev)
@@ -10,8 +22,11 @@
 [![GSAP](https://img.shields.io/badge/GSAP-88CE02?logo=greensock&logoColor=white)](https://gsap.com)
 [![Three.js](https://img.shields.io/badge/Three.js-000000?logo=threedotjs&logoColor=white)](https://threejs.org)
 [![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/TheRoundEyePirates/Website/pulls)
 
 **Live site → [round-eye-pirates.vercel.app](https://round-eye-pirates.vercel.app)**
+
+</div>
 
 ---
 
