@@ -36,10 +36,10 @@ A single-page pirate voyage full of treasure:
 
 - **Compass helm** — a hand-crafted SVG compass that sways and tilts toward your cursor.
 - **Captain's Log** — the robot's spec sheet plus a countdown to the next event
-  (currently the **National Championship, 12–13 December 2026**).
+  (currently the **National Championship, expected to be on the 12–13 December 2026**).
 - **The Crew** — every pirate gets their own page, photo gallery, and optional live
   FTC Scout data panel.
-- **The Ship** — a full 3D model of our robot, *Raging Heaven*, rendered from a `.glb`.
+- **The Ship** — a full 3D model of our robot, *Raging Heaven* aka Brickwave v1 not done yet, rendered from a `.glb`.
 - **Ship's Code** — working *and* broken code snippets, highlighted with Shiki.
 - **Ship's Album** — photos and videos that auto-appear just by dropping files in a folder.
 - **Tavern Tales** — a rotating quote board, a journal, a glossary, and an FAQ.
