@@ -2,25 +2,72 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler';
 
-const LINKS = [
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface NavGroup {
+  label: string;
+  children: NavLink[];
+}
+
+type NavEntry = NavLink | NavGroup;
+
+const NAV: NavEntry[] = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/#about' },
-  { label: 'Ship', href: '/#ship' },
-  { label: 'Robot', href: '/#robot' },
-  { label: 'Crew', href: '/#crew' },
-  { label: 'Journal', href: '/#journal' },
-  { label: 'Gallery', href: '/#gallery' },
-  { label: 'History', href: '/#history' },
-  { label: 'Code', href: '/code/' },
-  { label: 'Broken Code', href: '/code/broken/' },
+  {
+    label: 'The Ship',
+    children: [
+      { label: 'About', href: '/#about' },
+      { label: 'Ship', href: '/#ship' },
+      { label: 'Robot', href: '/#robot' },
+      { label: 'Crew', href: '/#crew' },
+      { label: 'Journal', href: '/#journal' },
+      { label: 'Gallery', href: '/#gallery' },
+      { label: 'History', href: '/#history' },
+    ],
+  },
+  {
+    label: 'Resources',
+    children: [
+      { label: 'Code', href: '/code/' },
+      { label: 'Broken Code', href: '/code/broken/' },
+      { label: 'What is FTC?', href: '/what-is-ftc/' },
+      { label: 'FAQ', href: '/faq/' },
+    ],
+  },
   { label: 'Sponsor', href: '/sponsor/' },
   { label: 'Contact', href: '/contact/' },
-] as const;
+];
+
+function isGroup(entry: NavEntry): entry is NavGroup {
+  return 'children' in entry;
+}
+
+function allHrefs(entries: NavEntry[]): string[] {
+  return entries.flatMap((entry) =>
+    isGroup(entry) ? entry.children.map((c) => c.href) : [entry.href],
+  );
+}
 
 /** Strip the leading path so `/#about` and `#about` both compare as `#about`. */
 function anchorOf(href: string): string | null {
   const i = href.indexOf('#');
   return i >= 0 ? href.slice(i) : null;
+}
+
+function hrefActive(href: string, activeHref: string): boolean {
+  return (
+    activeHref === href ||
+    (anchorOf(href) !== null && activeHref === anchorOf(href)) ||
+    (href === '/' && activeHref === '#home')
+  );
+}
+
+function entryActive(entry: NavEntry, activeHref: string): boolean {
+  if (isGroup(entry)) return entry.children.some((c) => hrefActive(c.href, activeHref));
+  return hrefActive(entry.href, activeHref);
 }
 
 interface NavBarProps {
@@ -47,6 +94,7 @@ export default function NavBar({
 }: NavBarProps) {
   const resolvedPillTextColor = pillTextColor ?? 'var(--color-sand)';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [activeHref, setActiveHref] = useState<string>(() =>
     typeof window !== 'undefined' ? window.location.pathname : '/',
   );
@@ -164,7 +212,8 @@ export default function NavBar({
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    const sections = LINKS.map((link) => anchorOf(link.href))
+    const sections = allHrefs(NAV)
+      .map((href) => anchorOf(href))
       .filter((hash): hash is string => hash !== null)
       .map((hash) => document.querySelector<HTMLElement>(hash))
       .filter((el): el is HTMLElement => el !== null);
@@ -185,6 +234,24 @@ export default function NavBar({
       observer.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
+  // Close the dropdown when clicking/tapping outside the nav or pressing Escape.
+  useEffect(() => {
+    const onPointerDown = (event: MouseEvent) => {
+      if (navItemsRef.current && !navItemsRef.current.contains(event.target as Node)) {
+        setOpenGroup(null);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpenGroup(null);
+    };
+    window.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, []);
 
@@ -221,6 +288,7 @@ export default function NavBar({
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
+    setOpenGroup(null);
 
     const hamburger = hamburgerRef.current;
     const menu = mobileMenuRef.current;
@@ -291,35 +359,97 @@ export default function NavBar({
 
         <div className="nav-items desktop-only" ref={navItemsRef}>
           <ul className="nav-list">
-            {LINKS.map((item, i) => {
-              const isActive =
-                activeHref === item.href ||
-                (anchorOf(item.href) !== null && activeHref === anchorOf(item.href)) ||
-                (item.href === '/' && activeHref === '#home');
+            {NAV.map((entry, i) => {
+              const active = entryActive(entry, activeHref);
+              const groupOpen = isGroup(entry) && openGroup === entry.label;
               return (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className={`nav-item${isActive ? ' is-active' : ''}`}
-                    aria-label={item.label}
-                    aria-current={isActive ? 'true' : undefined}
-                    onMouseEnter={() => handleEnter(i)}
-                    onMouseLeave={() => handleLeave(i)}
-                  >
-                    <span
-                      className="nav-hover-circle"
-                      aria-hidden="true"
-                      ref={(el) => {
-                        circleRefs.current[i] = el;
-                      }}
-                    />
-                    <span className="label-stack">
-                      <span className="nav-label">{item.label}</span>
-                      <span className="nav-label-hover" aria-hidden="true">
-                        {item.label}
+                <li
+                  key={entry.label}
+                  className="nav-list-item"
+                  onMouseEnter={() => {
+                    handleEnter(i);
+                    if (isGroup(entry)) setOpenGroup(entry.label);
+                  }}
+                  onMouseLeave={() => {
+                    handleLeave(i);
+                    if (isGroup(entry)) setOpenGroup(null);
+                  }}
+                >
+                  {isGroup(entry) ? (
+                    <>
+                      <button
+                        type="button"
+                        className={`nav-item${active ? ' is-active' : ''}`}
+                        aria-haspopup="true"
+                        aria-expanded={groupOpen}
+                        onClick={() => setOpenGroup(groupOpen ? null : entry.label)}
+                      >
+                        <span
+                          className="nav-hover-circle"
+                          aria-hidden="true"
+                          ref={(el) => {
+                            circleRefs.current[i] = el;
+                          }}
+                        />
+                        <span className="label-stack">
+                          <span className="nav-label">{entry.label}</span>
+                          <span className="nav-label-hover" aria-hidden="true">
+                            {entry.label}
+                          </span>
+                        </span>
+                        <svg
+                          className={`nav-caret${groupOpen ? ' is-open' : ''}`}
+                          viewBox="0 0 16 16"
+                          width="10"
+                          height="10"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M3 6l5 5 5-5" />
+                        </svg>
+                      </button>
+                      <div className={`nav-dropdown${groupOpen ? ' is-open' : ''}`} role="menu">
+                        {entry.children.map((child) => (
+                          <a
+                            key={child.href}
+                            href={child.href}
+                            role="menuitem"
+                            className={`nav-dropdown-item${
+                              hrefActive(child.href, activeHref) ? ' is-active' : ''
+                            }`}
+                            onClick={() => setOpenGroup(null)}
+                          >
+                            {child.label}
+                          </a>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <a
+                      href={entry.href}
+                      className={`nav-item${active ? ' is-active' : ''}`}
+                      aria-label={entry.label}
+                      aria-current={active ? 'true' : undefined}
+                    >
+                      <span
+                        className="nav-hover-circle"
+                        aria-hidden="true"
+                        ref={(el) => {
+                          circleRefs.current[i] = el;
+                        }}
+                      />
+                      <span className="label-stack">
+                        <span className="nav-label">{entry.label}</span>
+                        <span className="nav-label-hover" aria-hidden="true">
+                          {entry.label}
+                        </span>
                       </span>
-                    </span>
-                  </a>
+                    </a>
+                  )}
                 </li>
               );
             })}
@@ -348,23 +478,37 @@ export default function NavBar({
 
       <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
         <ul className="mobile-menu-list">
-          {LINKS.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                className={`mobile-menu-link${
-                  activeHref === item.href ||
-                  (anchorOf(item.href) !== null && activeHref === anchorOf(item.href)) ||
-                  (item.href === '/' && activeHref === '#home')
-                    ? ' is-active'
-                    : ''
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
+          {NAV.map((entry) =>
+            isGroup(entry) ? (
+              <li key={entry.label} className="mobile-menu-group">
+                <span className="mobile-menu-group-label">{entry.label}</span>
+                {entry.children.map((child) => (
+                  <a
+                    key={child.href}
+                    href={child.href}
+                    className={`mobile-menu-link${
+                      hrefActive(child.href, activeHref) ? ' is-active' : ''
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </li>
+            ) : (
+              <li key={entry.href}>
+                <a
+                  href={entry.href}
+                  className={`mobile-menu-link${
+                    hrefActive(entry.href, activeHref) ? ' is-active' : ''
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {entry.label}
+                </a>
+              </li>
+            ),
+          )}
         </ul>
       </div>
     </div>
