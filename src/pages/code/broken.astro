@@ -1,0 +1,82 @@
+---
+import { createHighlighter } from 'shiki';
+import { getLogo } from '../../lib/brand';
+import { getCodeSnippets } from '../../lib/code';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NavBar from '../../components/NavBar.tsx';
+import Footer from '../../components/Footer.tsx';
+import ShipDivider from '../../components/ShipDivider.tsx';
+import CodeBlock from '../../components/CodeBlock.tsx';
+
+const lightLogo = getLogo('light');
+const darkLogo = getLogo('dark');
+
+const snippets = getCodeSnippets('broken');
+const languages = [...new Set(snippets.map((snippet) => snippet.language))];
+
+const highlighter = await createHighlighter({
+  themes: ['nord'],
+  langs: languages.length ? languages : ['java'],
+});
+
+const highlighted = snippets.map((snippet) => ({
+  ...snippet,
+  html: highlighter.codeToHtml(snippet.code, { lang: snippet.language, theme: 'nord' }),
+}));
+---
+
+<BaseLayout
+  title="Broken Code — The Round Eye Pirates"
+  description="Half-finished and experimental snippets from FTC Team 37060, The Round Eye Pirates — the stuff that still needs fixing."
+>
+  <NavBar client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-5xl px-6 py-24 sm:py-32">
+    <ShipDivider label="Ship's Code" />
+
+    <h1 class="font-pirate text-5xl text-ink sm:text-6xl">The Scrapyard</h1>
+
+    <p class="mt-4 max-w-xl font-mono text-sm leading-7 text-ink/70">
+      Half-finished experiments, debugging sketches, and the things that exploded in the build
+      bay. Nothing here is guaranteed to work — handle with care.
+    </p>
+
+    <p class="mt-3 font-mono text-xs leading-6 text-ink/60">
+      Looking for the stuff that actually works?{' '}
+      <a href="/code/" class="text-gold underline-offset-2 hover:underline">Back to the code book</a>.
+    </p>
+
+    {
+      highlighted.length > 0 ? (
+        <div class="mt-12 space-y-10">
+          {highlighted.map((snippet) => (
+            <CodeBlock
+              client:visible
+              id={snippet.id}
+              title={snippet.title}
+              language={snippet.language}
+              code={snippet.code}
+              html={snippet.html}
+            />
+          ))}
+        </div>
+      ) : (
+        <div
+          class="mt-12 rounded-3xl border border-dashed border-ink/25 bg-card px-8 py-16 text-center shadow-[4px_4px_0_rgba(212,160,44,0.12)]"
+        >
+          <p class="font-pirate text-3xl text-gold">The scrapyard is empty… for now.</p>
+          <p class="mx-auto mt-4 max-w-md font-mono text-sm leading-6 text-ink/60">
+            When something catches fire in the build bay, drop it here so the crew can pick over
+            the wreckage.
+          </p>
+          <p class="mt-6 font-mono text-xs leading-6 text-ink/50">
+            Crew members: add a snippet with{' '}
+            <code class="rounded-sm bg-sand px-1.5 py-0.5 text-gold">npm run add-code</code>
+          </p>
+        </div>
+      )
+    }
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+</BaseLayout>

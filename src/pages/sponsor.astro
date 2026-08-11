@@ -65,6 +65,41 @@ const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.
       </a>{' '}
       and we'll find you a berth. All tiers run for the FTC season.
     </p>
+
+    <div class="mt-16">
+      <div
+        class="card-3d relative overflow-hidden rounded-3xl border border-gold/40 bg-card px-8 py-12 text-center shadow-[4px_4px_0_rgba(212,160,44,0.18)] sm:px-14"
+      >
+        <div
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,160,44,0.14),rgba(212,160,44,0)_70%)]"
+          aria-hidden="true"
+        />
+
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-gold">Set sail with us</p>
+        <h2 class="mt-3 font-pirate text-4xl text-ink sm:text-5xl">
+          Ready to back the Pirates?
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl font-mono text-sm leading-7 text-ink/70">
+          Every tier is a partnership, not a purchase. Tell us how you'd like to help and we'll
+          shape a sponsorship around your goals — write to us and we'll reply within the day.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="/contact/"
+            class="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-sand shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            Contact Us
+          </a>
+          <a
+            href="mailto:hello@theroundeyepirates.com"
+            class="inline-flex items-center gap-2 rounded-full border border-ink/25 bg-sand px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-ink transition-colors duration-200 hover:border-gold/60 hover:text-gold"
+          >
+            hello@theroundeyepirates.com
+          </a>
+        </div>
+      </div>
+    </div>
   </main>
 
   <Footer client:visible logo={darkLogo} />

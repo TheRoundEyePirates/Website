@@ -1,0 +1,6 @@
+{
+  "title": "Drive Constants & Follower",
+  "description": "Single source of truth for the pedroPathing follower: drivetrain wiring, encoder directions and tick conversion, plus a ready-made follower factory.",
+  "language": "java",
+  "order": 1
+}

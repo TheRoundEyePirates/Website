@@ -71,7 +71,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
   <Animate client:load />
   <NavBar client:load logo={lightLogo} />
 
-  <main id="main">
+  <main id="main" class="home-snap">
     <Hero client:visible />
     {log.data.nextEvent && (
       <Countdown

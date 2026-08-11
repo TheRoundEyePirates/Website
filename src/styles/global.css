@@ -43,6 +43,19 @@
     overflow-x: hidden;
   }
 
+  /* Homepage landing: scroll snaps section-to-section, one screen per scroll.
+     Enabled only on the homepage (`#home-snap`), so every other page scrolls
+     normally. */
+  html:has(#home-snap) {
+    scroll-snap-type: y proximity;
+  }
+
+  #home-snap > * {
+    scroll-snap-align: start;
+    scroll-margin-top: 0;
+    min-height: 100svh;
+  }
+
   body {
     @apply bg-transparent text-ink font-sans antialiased;
   }

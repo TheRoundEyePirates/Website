@@ -4,17 +4,24 @@ import { AnimatedThemeToggler } from './ui/animated-theme-toggler';
 
 const LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '#about' },
-  { label: 'Ship', href: '#ship' },
-  { label: 'Robot', href: '#robot' },
-  { label: 'Crew', href: '#crew' },
-  { label: 'Journal', href: '#journal' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'History', href: '#history' },
+  { label: 'About', href: '/#about' },
+  { label: 'Ship', href: '/#ship' },
+  { label: 'Robot', href: '/#robot' },
+  { label: 'Crew', href: '/#crew' },
+  { label: 'Journal', href: '/#journal' },
+  { label: 'Gallery', href: '/#gallery' },
+  { label: 'History', href: '/#history' },
   { label: 'Code', href: '/code/' },
+  { label: 'Broken Code', href: '/code/broken/' },
   { label: 'Sponsor', href: '/sponsor/' },
   { label: 'Contact', href: '/contact/' },
 ] as const;
+
+/** Strip the leading path so `/#about` and `#about` both compare as `#about`. */
+function anchorOf(href: string): string | null {
+  const i = href.indexOf('#');
+  return i >= 0 ? href.slice(i) : null;
+}
 
 interface NavBarProps {
   /** Logo for dark surfaces (the nav track). Falls back to a text brand. */
@@ -157,9 +164,9 @@ export default function NavBar({
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    const sections = LINKS.map((link) => link.href)
-      .filter((href) => href.startsWith('#'))
-      .map((href) => document.querySelector<HTMLElement>(href))
+    const sections = LINKS.map((link) => anchorOf(link.href))
+      .filter((hash): hash is string => hash !== null)
+      .map((hash) => document.querySelector<HTMLElement>(hash))
       .filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
@@ -287,6 +294,7 @@ export default function NavBar({
             {LINKS.map((item, i) => {
               const isActive =
                 activeHref === item.href ||
+                (anchorOf(item.href) !== null && activeHref === anchorOf(item.href)) ||
                 (item.href === '/' && activeHref === '#home');
               return (
                 <li key={item.href}>
@@ -345,7 +353,9 @@ export default function NavBar({
               <a
                 href={item.href}
                 className={`mobile-menu-link${
-                  activeHref === item.href || (item.href === '/' && activeHref === '#home')
+                  activeHref === item.href ||
+                  (anchorOf(item.href) !== null && activeHref === anchorOf(item.href)) ||
+                  (item.href === '/' && activeHref === '#home')
                     ? ' is-active'
                     : ''
                 }`}

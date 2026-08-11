@@ -106,7 +106,13 @@ const STACK: StackItem[] = [
     logo: 'https://cdn.simpleicons.org/blender',
     url: 'https://www.blender.org/',
   },
-  { name: 'Sleep', purpose: 'Critical team hardware dependency', icon: MoonStar, legendary: true },
+  {
+    name: 'Sleep',
+    purpose: 'Critical team hardware dependency',
+    icon: MoonStar,
+    legendary: true,
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  },
 ];
 
 function BrandIcon({ item }: { item: StackItem }) {

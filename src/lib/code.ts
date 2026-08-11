@@ -1,66 +1,90 @@
 /**
  * Ship's code snippets.
  *
- * Each snippet is stored as a plain `.m` file under `src/content/code/`
- * (raw source, no frontmatter — what you see on the page is exactly what's
- * in the file). Metadata lives here, keyed by file name without the `.m`.
- * Drop a new `.m` file in and add its entry below to list it on /code/.
+ * Each snippet lives in its own folder under `src/content/code/`:
+ *
+ *   src/content/code/<working|broken>/<id>/code.m      — raw source
+ *   src/content/code/<working|broken>/<id>/meta.json   — title, description, language, order
+ *
+ * Everything is discovered automatically at build time — drop a new folder in
+ * (or run `npm run add-code`) and it shows up on the right page with no other
+ * changes needed. The top-level folder (`working` / `broken`) decides which
+ * page the snippet appears on.
  */
 
+export type CodeCategory = 'working' | 'broken';
+
 export interface CodeSnippet {
-  /** File name without the `.m` extension — used for anchors and ids. */
+  /** Folder name of the snippet, used for anchors and ids. */
   id: string;
+  /** Which page the snippet belongs on. */
+  category: CodeCategory;
   /** Heading shown above the snippet. */
   title: string;
   /** Optional one-line blurb. */
   description?: string;
   /** Shiki language id used for highlighting, e.g. "java". */
   language: string;
-  /** Order on the page, lowest first. Defaults to 0. */
-  order?: number;
+  /** Order on the page, lowest first. */
+  order: number;
   /** Raw file contents. */
   code: string;
 }
 
-const raw = import.meta.glob('../content/code/*.m', {
+interface SnippetMeta {
+  title: string;
+  description?: string;
+  language: string;
+  order?: number;
+}
+
+const metas = import.meta.glob('../content/code/*/*/meta.json', {
+  eager: true,
+}) as Record<string, SnippetMeta>;
+
+const codes = import.meta.glob('../content/code/*/*/code.m', {
   query: '?raw',
   import: 'default',
   eager: true,
 }) as Record<string, string>;
 
-const META: Record<string, Omit<CodeSnippet, 'id' | 'code'>> = {
-  constants: {
-    title: 'Drive Constants & Follower',
-    description:
-      'Single source of truth for the pedroPathing follower: drivetrain wiring, encoder directions and tick conversion, plus a ready-made follower factory.',
-    language: 'java',
-    order: 1,
-  },
-  'constants-pods': {
-    title: 'Two-Wheel Localizer Constants',
-    description:
-      'Updated follower constants with centripetal scaling and a two-wheel dead-wheel pod localizer (Rev Hub IMU) for drift-free autonomous paths.',
-    language: 'java',
-    order: 2,
-  },
-};
+const CATEGORIES: CodeCategory[] = ['working', 'broken'];
 
-export function getCodeSnippets(): CodeSnippet[] {
-  const snippets = Object.entries(raw)
-    .map(([path, code]) => {
-      const id = path.split('/').pop()?.replace(/\.m$/, '') ?? path;
-      const meta = META[id];
-      if (!meta) {
-        console.warn(
-          `[code] No metadata for ${path} — add an entry to META in src/lib/code.ts to list it on /code/.`,
-        );
-        return null;
-      }
-      return { id, code, ...meta } as CodeSnippet;
-    })
-    .filter((snippet): snippet is CodeSnippet => snippet !== null);
+/** All snippets on a page, sorted by roster order. */
+export function getCodeSnippets(category?: CodeCategory): CodeSnippet[] {
+  const snippets: CodeSnippet[] = [];
+
+  for (const [metaPath, meta] of Object.entries(metas)) {
+    const parts = metaPath.split('/');
+    const folder = parts[parts.length - 3];
+    const id = parts[parts.length - 2];
+
+    if (!CATEGORIES.includes(folder as CodeCategory)) {
+      console.warn(
+        `[code] Unknown category "${folder}" for ${metaPath} — expected working or broken.`,
+      );
+      continue;
+    }
+    if (category && folder !== category) continue;
+
+    const code = codes[`${parts.slice(0, -1).join('/')}/code.m`];
+    if (!code) {
+      console.warn(`[code] No code.m found for ${metaPath} — skipping.`);
+      continue;
+    }
+
+    snippets.push({
+      id,
+      category: folder as CodeCategory,
+      code,
+      order: meta.order ?? 0,
+      title: meta.title,
+      description: meta.description,
+      language: meta.language,
+    });
+  }
 
   return snippets.sort(
-    (a, b) => (a.order ?? 0) - (b.order ?? 0) || a.title.localeCompare(b.title),
+    (a, b) => a.order - b.order || a.title.localeCompare(b.title),
   );
 }
