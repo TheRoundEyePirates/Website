@@ -24,7 +24,7 @@ Charting course since July 2026 from Hawke's Bay, New Zealand.
 [![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/TheRoundEyePirates/Website/pulls)
 
-**Live site → [round-eye-pirates.vercel.app](https://round-eye-pirates.vercel.app)**
+**Live site → [theroundeyepirates.com](https://theroundeyepirates.com)**
 
 </div>
 

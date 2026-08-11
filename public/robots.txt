@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://round-eye-pirates.vercel.app/sitemap-index.xml
+Sitemap: https://theroundeyepirates.com/sitemap-index.xml

@@ -10,7 +10,7 @@ import rehypeExternalLinks from 'rehype-external-links';
 
 export default defineConfig({
   output: 'static',
-  site: 'https://round-eye-pirates.vercel.app',
+  site: 'https://theroundeyepirates.com',
   integrations: [react(), mdx()],
   vite: {
     plugins: [tailwindcss()],
