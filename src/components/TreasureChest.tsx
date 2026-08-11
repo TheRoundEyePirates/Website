@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 
 const TREASURE_EVENT = 'rept:treasure';
+const RESET_WORD = 'abandon';
 const SECRETS = [
   'arrr',
   'treasure',
@@ -67,7 +68,7 @@ function TreasureChest() {
   const [sparks, setSparks] = useState<Spark[]>([]);
   const [quote, setQuote] = useState(QUOTES[0]);
   const [booty, setBooty] = useState(0);
-  const [toast, setToast] = useState(false);
+  const [toastText, setToastText] = useState<string | null>(null);
   const toastTimerRef = useRef<number | null>(null);
   const countedRef = useRef(false);
 
@@ -81,10 +82,10 @@ function TreasureChest() {
 
   const closeChest = useCallback(() => {
     setOpen(false);
-    setToast(true);
+    setToastText(`Booty secured — ${booty} haul${booty === 1 ? '' : 's'}`);
     if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
-    toastTimerRef.current = window.setTimeout(() => setToast(false), 2200);
-  }, []);
+    toastTimerRef.current = window.setTimeout(() => setToastText(null), 2200);
+  }, [booty]);
 
   useEffect(() => {
     try {
@@ -104,6 +105,19 @@ function TreasureChest() {
       const char = event.key.length === 1 ? event.key.toLowerCase() : '';
       if (!char) return;
       buffer = (buffer + char).slice(-BUFFER_MAX);
+      if (buffer.includes(RESET_WORD)) {
+        buffer = '';
+        try {
+          localStorage.setItem(BOOTY_KEY, '0');
+        } catch {
+          /* storage unavailable */
+        }
+        setBooty(0);
+        if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+        setToastText('Ledger wiped clean — haul No. 0');
+        toastTimerRef.current = window.setTimeout(() => setToastText(null), 2200);
+        return;
+      }
       if (SECRETS.some((secret) => buffer.includes(secret))) {
         buffer = '';
         openChest();
@@ -144,9 +158,9 @@ function TreasureChest() {
         pssst · type “arrr”
       </span>
 
-      {toast && !open && (
+      {toastText && !open && (
         <p className="toast-pop fixed bottom-6 left-1/2 z-[95] -translate-x-1/2 border border-gold/40 bg-black/90 px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] text-gold shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]">
-          Booty secured — {booty} haul{booty === 1 ? '' : 's'}
+          {toastText}
         </p>
       )}
 
