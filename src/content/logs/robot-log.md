@@ -5,9 +5,9 @@ motors: 0
 servos: 0
 controlSystem: "TBC"
 status: "In Build"
-nextEvent: "2026-12-13T08:00:00+13:00"
+nextEvent: "2026-12-12T08:00:00+13:00"
 nextEventLabel: "National Championship"
-nextEventDates: "13–14 December 2026"
+nextEventDates: "12–13 December 2026"
 nextEventLocation: "Hastings, New Zealand"
 ---
 
