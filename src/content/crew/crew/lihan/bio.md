@@ -1,6 +1,7 @@
 ---
 first: Lihan
 last: Badenhorst
+nickname: Le Pur Et Dur 
 order: 1
 api:
   team: 30841
