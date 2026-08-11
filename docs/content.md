@@ -9,7 +9,7 @@ file (or edit frontmatter) and the next build picks it up.
 
 ---
 
-## 1. The Captain's Log (robot spec + event countdown)
+## 1. The Ship's Log (robot spec + event countdown)
 
 **File:** `src/content/logs/robot-log.md`
 
@@ -29,7 +29,7 @@ nextEventDates: "12–13 December 2026"    # human-readable, shown on the card
 nextEventLocation: "Hastings, New Zealand"
 ---
 
-**Captain's Log — Day 3, August 11, 2026.**
+**Ship's Log — Day 3, August 11, 2026.**
 
 The rumors have company…
 ```
@@ -113,7 +113,7 @@ first.
 
 ```markdown
 ---
-tier: "Captain"
+tier: "Admiral"
 price: "$500+ per season"
 tagline: "First mate on the quarterdeck"
 color: "#fbbf24"         # card accent, default #fbbf24
@@ -127,7 +127,7 @@ perks:
 Optional body copy.
 ```
 
-Current tiers: **Captain** ($500+), **Quartermaster** ($300), **Shipmate** ($150),
+Current tiers: **Admiral** ($500+), **Quartermaster** ($300), **Shipmate** ($150),
 **Swabbie** ($50).
 
 ---

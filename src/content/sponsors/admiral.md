@@ -1,5 +1,5 @@
 ---
-tier: Captain
+tier: Admiral
 price: $500+ per season
 tagline: Rule the seven seas
 color: '#fbbf24'
@@ -12,4 +12,4 @@ perks:
   - Banner displayed at competitions (if we have a banner)
 ---
 
-Captains command the fleet. As title sponsor you are the flag we sail under — your colours on the robot, on the crew, and on the field. Join us at competitions and watch your investment fight it out in the arenas.
+Admirals command the fleet. As title sponsor you are the flag we sail under — your colours on the robot, on the crew, and on the field. Join us at competitions and watch your investment fight it out in the arenas.

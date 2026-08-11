@@ -1,21 +1,13 @@
-import { useEffect } from 'react';
-import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import gsap, { PIRATE_EASE } from '../lib/gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-ScrollTrigger.config({ ignoreMobileResize: true });
-
-interface Variant {
-  from: gsap.TweenVars;
-  ease: string;
-}
 
 /**
  * Entrance variants for `data-animate`. The attribute value selects the
  * variant (e.g. `data-animate="slide-right"`); a bare `data-animate`
  * defaults to a gentle fade-up.
  */
-const VARIANTS: Record<string, Variant> = {
+const VARIANTS: Record<string, { from: gsap.TweenVars; ease: string }> = {
   'fade-up': { from: { opacity: 0, y: 40 }, ease: 'power3.out' },
   'fade-in': { from: { opacity: 0 }, ease: 'power2.out' },
   'slide-left': { from: { opacity: 0, x: -56 }, ease: 'power3.out' },
@@ -43,20 +35,23 @@ const VARIANTS: Record<string, Variant> = {
   bounce: { from: { opacity: 0, y: -64 }, ease: 'bounce.out' },
 };
 
-const DEFAULT_DURATION = 0.9;
-
 /**
  * Global scroll engine:
- *  - `[data-animate]`  entrance reveals with variants (see above), plus
+ *  - `[data-animate]`  entrance reveals with variants (see below), plus
  *    optional `data-y`, `data-x`, `data-delay`, `data-duration`, `data-ease`.
  *  - `[data-stagger]`  animates its DIRECT children in a wave (`data-stagger`
  *    sets the interval).
  *  - `[data-parallax]` drifts vertically against the scroll direction.
- *  - `[data-draw]` grows a vertical line as you scroll (timeline rule).
+ *  - `[data-draw]` grows a vertical line as you scroll (timeline rule); if the
+ *    element is an SVG shape, its stroke is drawn instead (DrawSVGPlugin).
+ *  - `[data-split]`   splits text into words/chars and reveals them in a wave
+ *    (`data-split="words"` or `"chars"`, default chars).
+ *  - `[data-scramble]` scrambles text into place once it scrolls into view.
+ *  - `a[href="#…"]`   smooth-scrolls to in-page anchors (ScrollToPlugin).
  * Respects `prefers-reduced-motion`.
  */
 export default function Animate() {
-  useEffect(() => {
+  useGSAP(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
@@ -73,7 +68,7 @@ export default function Animate() {
 
       const stagger = Number(container.dataset.stagger ?? 0.12);
       const delay = Number(container.dataset.delay ?? 0);
-      const duration = Number(container.dataset.duration ?? DEFAULT_DURATION);
+      const duration = Number(container.dataset.duration ?? 0.9);
 
       const tween = gsap.fromTo(
         children,
@@ -114,7 +109,7 @@ export default function Animate() {
         rotationY: 0,
         skewX: 0,
         filter: 'blur(0px)',
-        duration: Number(el.dataset.duration ?? DEFAULT_DURATION),
+        duration: Number(el.dataset.duration ?? 0.9),
         ease: el.dataset.ease ?? variant.ease,
         delay: Number(el.dataset.delay ?? 0),
         scrollTrigger: {
@@ -143,8 +138,34 @@ export default function Animate() {
       track(tween.scrollTrigger);
     });
 
-    // ── Vertical line draw ───────────────────────────────────────────
+    // ── Vertical line / SVG stroke draw ──────────────────────────────
     gsap.utils.toArray<HTMLElement>('[data-draw]').forEach((el) => {
+      const drawable = el.matches
+        ? (el.matches('path, line, circle, rect, ellipse, polygon, polyline')
+            ? el
+            : el.querySelector<SVGPathElement>(
+                'path, line, circle, rect, ellipse, polygon, polyline',
+              ))
+        : null;
+
+      if (drawable) {
+        gsap.fromTo(
+          drawable,
+          { drawSVG: '0%' },
+          {
+            drawSVG: '100%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 92%',
+              end: 'bottom 40%',
+              scrub: true,
+            },
+          },
+        );
+        return;
+      }
+
       const tween = gsap.fromTo(
         el,
         { scaleY: 0, transformOrigin: 'top center' },
@@ -162,6 +183,81 @@ export default function Animate() {
       track(tween.scrollTrigger);
     });
 
+    // ── Split-text reveals ───────────────────────────────────────────
+    gsap.utils.toArray<HTMLElement>('[data-split]').forEach((el) => {
+      if (el.closest('[data-stagger]')) return;
+
+      const type = el.dataset.split === 'words' ? 'words' : 'chars';
+      const split = new SplitText(el, { type });
+      const targets: HTMLElement[] = split[type] ?? [];
+
+      const tween = gsap.fromTo(
+        targets,
+        { autoAlpha: 0, yPercent: 40, rotateX: -45, transformPerspective: 500 },
+        {
+          autoAlpha: 1,
+          yPercent: 0,
+          rotateX: 0,
+          duration: Number(el.dataset.duration ?? 0.9),
+          ease: PIRATE_EASE,
+          stagger: 0.035,
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        },
+      );
+      track(tween.scrollTrigger);
+    });
+
+    // ── Scramble text ────────────────────────────────────────────────
+    gsap.utils.toArray<HTMLElement>('[data-scramble]').forEach((el) => {
+      const text = el.textContent ?? '';
+      const duration = Number(el.dataset.scrambleDuration ?? 1.4);
+      gsap.fromTo(
+        el,
+        { text: { value: '§·:;!.~', scrambleDuration: 0.3, chars: '⬢⬡◈◇◆◉◎' } },
+        {
+          text: { value: text, duration, ease: 'power2.inOut' },
+          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+        },
+      );
+    });
+
+    // ── Smooth anchor scrolling ──────────────────────────────────────
+    const onClick = (event: MouseEvent) => {
+      const anchor = (event.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href') ?? '';
+      const hashIndex = href.indexOf('#');
+      if (hashIndex === -1 || hashIndex === href.length - 1) return;
+
+      const path = href.slice(0, hashIndex);
+      const hash = href.slice(hashIndex);
+      const current = window.location.pathname;
+      if (
+        path &&
+        path !== current &&
+        path !== `${current}/` &&
+        `${path}/` !== current
+      ) {
+        return; // a different page — let the browser navigate
+      }
+
+      const target = document.querySelector<HTMLElement>(hash);
+      if (!target) return;
+
+      event.preventDefault();
+      history.replaceState(null, '', hash);
+      gsap.to(window, {
+        duration: 0.9,
+        ease: 'power2.inOut',
+        scrollTo: { y: target, offsetY: 72 },
+      });
+    };
+    document.addEventListener('click', onClick);
+
     const refresh = () => ScrollTrigger.refresh();
     const fontsReady = (document as Document & { fonts?: { ready: Promise<unknown> } }).fonts;
     fontsReady?.ready.then(refresh).catch(() => undefined);
@@ -169,6 +265,7 @@ export default function Animate() {
 
     return () => {
       triggers.forEach((trigger) => trigger.kill());
+      document.removeEventListener('click', onClick);
       window.removeEventListener('load', refresh);
     };
   }, []);

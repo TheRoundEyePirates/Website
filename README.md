@@ -35,7 +35,7 @@ Charting course since July 2026 from Hawke's Bay, New Zealand.
 A single-page pirate voyage full of treasure:
 
 - **Compass helm** — a hand-crafted SVG compass that sways and tilts toward your cursor.
-- **Captain's Log** — the robot's spec sheet plus a countdown to the next event
+- **Ship's Log** — the robot's spec sheet plus a countdown to the next event
   (currently the **National Championship, expected to be on the 12–13 December 2026**).
 - **The Crew** — every pirate gets their own page, photo gallery, and optional live
   FTC Scout data panel.

@@ -49,7 +49,7 @@ export default function RobotLog({
         className="card-3d rounded-3xl border border-ink/25 bg-card px-6 py-8 shadow-[4px_4px_0_rgba(212,160,44,0.12)] sm:px-10 sm:py-10"
       >
         <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink/15 pb-4">
-          <h2 className="font-display text-2xl text-ink">Captain's Log</h2>
+          <h2 className="font-display text-2xl text-ink">Ship's Log</h2>
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-ink/50">
             Entry No. 001 — Build Season
           </p>

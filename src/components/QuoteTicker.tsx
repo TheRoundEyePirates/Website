@@ -5,7 +5,7 @@ import ShipDivider from './ShipDivider';
 const QUOTES = [
   { text: 'A smooth sea never made a skilled sailor.', by: 'Sea proverb' },
   { text: 'One eye on the horizon, one on the field.', by: 'The crew' },
-  { text: 'We may be young, but our keel is true.', by: "Captain's log" },
+  { text: 'We may be young, but our keel is true.', by: "Ship's log" },
   { text: 'Fair winds and following seas.', by: 'Traditional sign-off' },
   { text: 'Every build is a ship; every match a crossing.', by: 'The crew' },
 ] as const;

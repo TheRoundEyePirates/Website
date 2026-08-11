@@ -35,7 +35,7 @@ const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.
           class={`tier-card glow-pulse${tier.data.featured ? ' tier-featured' : ''}`}
           style={`--tier: ${tier.data.color}; --glow: ${tier.data.color}`}
         >
-          {tier.data.featured && <div class="tier-ribbon">Captain's Pick</div>}
+          {tier.data.featured && <div class="tier-ribbon">Admiral's Pick</div>}
 
           <div class="tier-head">
             <h2 class="font-pirate text-3xl">{tier.data.tier}</h2>
@@ -61,7 +61,7 @@ const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.
     <p class="mt-14 text-center font-mono text-xs leading-6 text-ink/60">
       Not sure which tier fits?{' '}
       <a href="/contact/" class="text-gold underline-offset-2 hover:underline">
-        Talk to the captain
+        Talk to the admiral
       </a>{' '}
       and we'll find you a berth. All tiers run for the FTC season.
     </p>

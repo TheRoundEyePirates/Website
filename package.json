@@ -15,6 +15,7 @@
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/react": "^6.0.2",
+    "@gsap/react": "^2.1.2",
     "astro": "^7.1.6",
     "gsap": "^3.13.0",
     "lucide-react": "^0.469.0",
