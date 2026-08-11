@@ -19,3 +19,7 @@ The hull is laid and the crew is mustered. What began as an empty table and a st
 
 Rumors drift through the galley: a new hand is said to be joining the crew. The name stays off the books for now, but an empty bunk has been made ready below decks.
 
+**Captain's Log — Day 3, August 11, 2026.**
+
+The rumors have company. A second hand is said to have climbed aboard, still unnamed and unconfirmed — two shadows where there was one. Both bunks are made, both names stay off the books until the ink dries.
+

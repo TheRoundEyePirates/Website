@@ -66,7 +66,7 @@ export default function Crew({ crew, coaches }: CrewProps) {
             ))}
           </ul>
           <p className="mt-5 border-t border-ink/10 pt-3 font-mono text-sm text-ink/40">
-            …and a new crewmate has signed the articles. Name withheld until the ink dries.
+            …and two new crewmates have signed the articles. Names withheld until the ink dries.
           </p>
         </div>
       </div>
