@@ -99,7 +99,11 @@ discovered with `import.meta.glob(..., { eager: true })`:
 
 `src/lib/scan.ts` is the shared glue: `IMAGE_EXT` / `VIDEO_EXT` regexes, `toUrl()` (an
 Astro glob can hand back a string or an `{ src, width, height }` object), and
-`firstImage()`.
+`firstImage()`. It also exports `toResponsiveImage()`, which runs every photo through
+Astro's image service (`getImage`) at build time — outputting WebP plus a responsive
+`srcset`/`sizes` so the browser never downloads a full-res JPEG/PNG for a small
+thumbnail. The photo helpers (`getMedia`, `getCrewPhotos`, `getShipPhoto`, `getLogo`)
+are async and return `ResponsiveImage` objects because of this.
 
 ## The animation engine
 

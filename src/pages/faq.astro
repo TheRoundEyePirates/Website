@@ -5,8 +5,7 @@ import NavBar from '../components/NavBar.tsx';
 import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
-const lightLogo = getLogo('light');
-const darkLogo = getLogo('dark');
+const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
 
 const faqs = [
   {

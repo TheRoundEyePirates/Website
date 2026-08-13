@@ -31,8 +31,7 @@ if (!log) {
 }
 const { Content } = await render(log);
 
-const lightLogo = getLogo('light');
-const darkLogo = getLogo('dark');
+const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
 const crewEntries = await getCrewCollection();
 const crewMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'crew');
 const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coach');

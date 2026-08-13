@@ -1,9 +1,10 @@
 import { Anchor } from 'lucide-react';
 import Anchor3D from './Anchor3D';
+import type { ResponsiveImage } from '../lib/scan';
 
 interface FooterProps {
   /** Logo for dark surfaces (footer). Falls back to the anchor. */
-  logo?: string | null;
+  logo?: ResponsiveImage | null;
 }
 
 function InstagramIcon({ size = 14 }: { size?: number }) {
@@ -52,8 +53,14 @@ export default function Footer({ logo = null }: FooterProps) {
         <div className="flex justify-center" aria-hidden="true">
           {logo ? (
             <img
-              src={logo}
+              src={logo.src}
+              srcSet={logo.srcSet}
+              sizes={logo.sizes}
+              width={logo.width}
+              height={logo.height}
               alt="The Round Eye Pirates"
+              loading="lazy"
+              decoding="async"
               className="h-20 w-auto max-w-[13rem] rounded-xl object-contain shadow-lg ring-1 ring-gold/40"
             />
           ) : (
@@ -133,7 +140,7 @@ export default function Footer({ logo = null }: FooterProps) {
             rel="noreferrer"
             className="inline-flex items-center gap-3 opacity-80 transition-opacity hover:opacity-100"
           >
-            <img src="/logos/ftc.svg" alt="FIRST Tech Challenge" className="h-12 w-auto" />
+            <img src="/logos/ftc.svg" alt="FIRST Tech Challenge" loading="lazy" decoding="async" className="h-12 w-auto" />
           </a>
         </div>
 

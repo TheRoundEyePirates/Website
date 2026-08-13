@@ -137,9 +137,19 @@ export default function DeepSeaBackground() {
 
     const clock = new THREE.Clock();
 
-    const tick = () => {
+    // The drift is glacial — 30 fps is plenty and halves the GPU work. The
+    // whole field is `hidden dark:block`, so skip rendering entirely whenever
+    // the light theme is active (the canvas is not displayed anyway).
+    const isDark = () => document.documentElement.classList.contains('dark');
+    const FRAME_MS = 1000 / 30;
+    let lastFrame = 0;
+
+    const tick = (time: number) => {
       raf = requestAnimationFrame(tick);
       if (!documentVisible) return;
+      if (!isDark()) return;
+      if (time - lastFrame < FRAME_MS) return;
+      lastFrame = time;
 
       const delta = Math.min(clock.getDelta(), 0.05);
       const elapsed = clock.elapsedTime;
@@ -163,7 +173,7 @@ export default function DeepSeaBackground() {
     if (reducedMotion) {
       renderer.render(scene, camera);
     } else {
-      tick();
+      raf = requestAnimationFrame(tick);
     }
 
     return () => {

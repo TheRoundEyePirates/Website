@@ -8,8 +8,7 @@ import Footer from '../../components/Footer.tsx';
 import ShipDivider from '../../components/ShipDivider.tsx';
 import CodeBlock from '../../components/CodeBlock.tsx';
 
-const lightLogo = getLogo('light');
-const darkLogo = getLogo('dark');
+const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
 
 const snippets = getCodeSnippets('broken');
 const languages = [...new Set(snippets.map((snippet) => snippet.language))];

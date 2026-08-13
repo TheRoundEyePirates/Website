@@ -92,8 +92,13 @@ export default function MediaGallery({ media }: MediaGalleryProps) {
                 >
                   <img
                     src={item.src}
+                    srcSet={item.srcSet}
+                    sizes={item.sizes}
+                    width={item.width}
+                    height={item.height}
                     alt={item.caption}
                     loading="lazy"
+                    decoding="async"
                     className="image-fade h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <span className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-8 font-mono text-[10px] uppercase tracking-[0.2em] text-ink transition-transform duration-300 group-hover:translate-y-0">

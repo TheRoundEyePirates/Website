@@ -6,7 +6,7 @@
   "description": "Official site for FTC Team 37060 — The Round Eye Pirates",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/clean-dist.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "add-code": "node scripts/add-code.mjs",

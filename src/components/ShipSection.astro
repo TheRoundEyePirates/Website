@@ -3,7 +3,7 @@ import ShipDivider from './ShipDivider';
 import ShipModel3D from './ShipModel3D';
 import { getShipPhoto } from '../lib/brand';
 
-const photo = getShipPhoto();
+const photo = await getShipPhoto();
 ---
 
 <section id="ship" class="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
@@ -24,7 +24,7 @@ const photo = getShipPhoto();
       <div class="card-3d flex items-center justify-center overflow-hidden rounded-3xl border border-ink/25 bg-sand-deep/40 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
         <ShipModel3D
           client:visible
-          fallback={photo}
+          fallback={photo?.src}
           className="h-[300px] w-full sm:h-[420px]"
         />
       </div>

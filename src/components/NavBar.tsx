@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler';
+import type { ResponsiveImage } from '../lib/scan';
 
 interface NavLink {
   label: string;
@@ -72,7 +73,7 @@ function entryActive(entry: NavEntry, activeHref: string): boolean {
 
 interface NavBarProps {
   /** Logo for light surfaces (the nav bar). Falls back to a text brand. */
-  logo?: string | null;
+  logo?: ResponsiveImage | null;
   logoAlt?: string;
   onMobileMenuClick?: () => void;
 }
@@ -101,11 +102,16 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
 
   // Thin gold scroll progress bar + active-section tracking.
   useEffect(() => {
+    // Cache the page height so the per-frame handler never forces a reflow
+    // by reading `scrollHeight` mid-scroll. Refresh it on resize / load.
+    let max = 0;
+    const refreshMax = () => {
+      max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+    };
+
     const update = () => {
       rafRef.current = null;
       if (progressRef.current) {
-        const doc = document.documentElement;
-        const max = doc.scrollHeight - window.innerHeight;
         const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
         progressRef.current.style.transform = `scaleX(${p})`;
       }
@@ -117,8 +123,11 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
       }
     };
 
+    refreshMax();
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', refreshMax);
+    window.addEventListener('load', refreshMax);
 
     const sections = allHrefs(NAV)
       .map((href) => anchorOf(href))
@@ -142,6 +151,8 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
       observer.disconnect();
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', refreshMax);
+      window.removeEventListener('load', refreshMax);
     };
   }, []);
 
@@ -214,7 +225,19 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
       />
       <nav className="nav-bar" aria-label="Primary" ref={navBarRef}>
         <a className="nav-logo" href="/" aria-label="Home">
-          {logo ? <img src={logo} alt={logoAlt} /> : <span className="nav-logo-text">REP</span>}
+          {logo ? (
+            <img
+              src={logo.src}
+              srcSet={logo.srcSet}
+              sizes={logo.sizes}
+              width={logo.width}
+              height={logo.height}
+              alt={logoAlt}
+              decoding="async"
+            />
+          ) : (
+            <span className="nav-logo-text">REP</span>
+          )}
         </a>
 
         <div className="nav-items desktop-only" ref={navItemsRef}>

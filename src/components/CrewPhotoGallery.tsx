@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import type { ResponsiveImage } from '../lib/scan';
 
 interface CrewPhotoGalleryProps {
-  photos: string[];
+  photos: ResponsiveImage[];
   name: string;
 }
 
@@ -38,16 +39,21 @@ export default function CrewPhotoGallery({ photos, name }: CrewPhotoGalleryProps
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {photos.map((src, index) => (
           <button
-            key={src}
+            key={src.src}
             type="button"
             onClick={() => setActive(index)}
             aria-label={`Open ${name} photo ${index + 1}`}
             className="group relative block w-full overflow-hidden border border-ink/20 bg-sand-deep text-left"
           >
             <img
-              src={src}
+              src={src.src}
+              srcSet={src.srcSet}
+              sizes={src.sizes}
+              width={src.width}
+              height={src.height}
               alt=""
               loading="lazy"
+              decoding="async"
               className="image-fade aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           </button>
@@ -68,7 +74,7 @@ export default function CrewPhotoGallery({ photos, name }: CrewPhotoGalleryProps
           >
             <div className="flex max-h-[75vh] w-full items-center justify-center overflow-hidden border border-gold/30 bg-black/60">
               <img
-                src={photos[active]}
+                src={photos[active].src}
                 alt=""
                 className="image-fade max-h-[75vh] w-auto object-contain"
               />

@@ -25,10 +25,7 @@ interface Milestone {
   reachedAt: number;
 }
 
-function readMilestones(): Milestone[] {
-  const scrollHeight = document.documentElement.scrollHeight;
-  const winHeight = window.innerHeight;
-  const scrollable = Math.max(scrollHeight - winHeight, 1);
+function readMilestones(scrollable: number, winHeight: number): Milestone[] {
   return MILESTONES.flatMap(({ id, label }) => {
     const el = document.getElementById(id);
     if (!el) return [];
@@ -44,35 +41,36 @@ export default function CourseLine() {
 
   useEffect(() => {
     let frame = 0;
-    let measuring = false;
+
+    // Cache the scrollable height so the per-frame scroll handler never forces
+    // a reflow by reading layout. Re-measured on resize / load only.
+    let scrollable = 1;
 
     const measure = () => {
-      measuring = false;
-      setMilestones(readMilestones());
+      const doc = document.documentElement;
+      const winHeight = window.innerHeight;
+      scrollable = Math.max(doc.scrollHeight - winHeight, 1);
+      setMilestones(readMilestones(scrollable, winHeight));
+      setProgress(Math.min(1, Math.max(0, window.scrollY / scrollable)));
     };
 
     const onScroll = () => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
-        const scrollHeight = document.documentElement.scrollHeight;
-        const winHeight = window.innerHeight;
-        setProgress(Math.min(1, Math.max(0, window.scrollY / Math.max(scrollHeight - winHeight, 1))));
-        if (!measuring) {
-          measuring = true;
-          measure();
-        }
+        setProgress(Math.min(1, Math.max(0, window.scrollY / scrollable)));
       });
     };
 
     measure();
-    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('load', measure);
     };
   }, []);
 
