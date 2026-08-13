@@ -107,6 +107,12 @@ export default function Footer({ logo = null }: FooterProps) {
             Sponsor
           </a>
           <a
+            href="/socials/"
+            className="transition-colors hover:text-gold"
+          >
+            Socials
+          </a>
+          <a
             href="/contact/"
             className="transition-colors hover:text-gold"
           >

@@ -1,0 +1,76 @@
+---
+import { ArrowUpRight, Instagram, Send } from 'lucide-react';
+import { getLogo } from '../lib/brand';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+
+const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
+
+const INSTAGRAM_URL = 'https://www.instagram.com/theroundeyepirates.ftc/';
+const INSTAGRAM_DM_URL = 'https://ig.me/m/theroundeyepirates.ftc';
+---
+
+<BaseLayout
+  title="Socials — The Round Eye Pirates"
+  description="Follow FTC Team 37060 on Instagram and DM us at @theroundeyepirates.ftc."
+>
+  <NavBar client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+    <ShipDivider label="Socials" />
+
+    <h1 class="font-pirate text-5xl text-ink sm:text-6xl">Follow the Voyage</h1>
+
+    <p class="mt-4 font-mono text-sm leading-7 text-ink/70">
+      The crew posts build days, match footage, and harbour gossip over on
+      Instagram — come aboard.
+    </p>
+
+    <a
+      href={INSTAGRAM_URL}
+      target="_blank"
+      rel="noreferrer"
+      class="group mt-12 flex items-center justify-between gap-4 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
+    >
+      <span class="flex min-w-0 items-center gap-4">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+          <Instagram size={20} strokeWidth={1.5} aria-hidden="true" />
+        </span>
+        <span class="min-w-0">
+          <span class="block font-mono text-xs uppercase tracking-[0.25em] text-gold">
+            Instagram
+          </span>
+          <span class="mt-1 block truncate font-display text-lg text-ink transition-colors group-hover:text-gold">
+            @theroundeyepirates.ftc
+          </span>
+        </span>
+      </span>
+      <ArrowUpRight
+        size={18}
+        strokeWidth={1.5}
+        className="shrink-0 text-ink/40 transition-colors group-hover:text-gold"
+        aria-hidden="true"
+      />
+    </a>
+
+    <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+      <p class="font-mono text-sm leading-7 text-ink/70">
+        Questions, sponsorships, or want to visit the shipyard? The fastest way
+        to reach us is a DM on Instagram.
+      </p>
+      <a
+        href={INSTAGRAM_DM_URL}
+        target="_blank"
+        rel="noreferrer"
+        class="mt-6 inline-flex items-center gap-2 border border-gold bg-gold px-8 py-3 font-mono text-xs uppercase tracking-[0.25em] text-navy transition-colors hover:bg-navy hover:text-gold"
+      >
+        <Send size={16} strokeWidth={2} aria-hidden="true" />
+        DM us on Instagram
+      </a>
+    </div>
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+</BaseLayout>
