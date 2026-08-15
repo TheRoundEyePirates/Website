@@ -55,10 +55,10 @@ const photos = (await getCrewPhotos())[key] ?? [];
       {email && (
         <a
           href={`mailto:${email}`}
-          class="mt-4 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/60 transition-colors hover:text-gold"
+          class="mt-4 inline-flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs uppercase tracking-[0.25em] text-ink/60 transition-colors hover:text-gold"
         >
           <Mail size={13} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
-          {email}
+          <span class="break-all">{email}</span>
         </a>
       )}
     </header>

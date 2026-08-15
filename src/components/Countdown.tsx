@@ -25,27 +25,27 @@ function timeLeft(target: string): TimeLeft {
 }
 
 export default function Countdown({ target, label, location, dates }: CountdownProps) {
-  const [now, setNow] = useState<TimeLeft>(() => timeLeft(target));
+  const [now, setNow] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
+    setNow(timeLeft(target));
     const id = setInterval(() => setNow(timeLeft(target)), 1000);
     return () => clearInterval(id);
   }, [target]);
 
-  const underway =
-    now.days === 0 && now.hours === 0 && now.minutes === 0 && now.seconds === 0;
+  const underway = !!now && now.days === 0 && now.hours === 0 && now.minutes === 0 && now.seconds === 0;
 
   const cells = [
-    { value: now.days, unit: 'days' },
-    { value: now.hours, unit: 'hours' },
-    { value: now.minutes, unit: 'min' },
-    { value: now.seconds, unit: 'sec' },
+    { value: now?.days, unit: 'days' },
+    { value: now?.hours, unit: 'hours' },
+    { value: now?.minutes, unit: 'min' },
+    { value: now?.seconds, unit: 'sec' },
   ];
 
   return (
     <section id="countdown" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16 sm:py-20">
       <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink/50">
-        {underway ? 'We are underway' : `Next port of call — ${label}`}
+        {now ? (underway ? 'We are underway' : `Next port of call — ${label}`) : `Next port of call — ${label}`}
       </p>
 
       {(location || dates) && (
@@ -58,10 +58,11 @@ export default function Countdown({ target, label, location, dates }: CountdownP
         {cells.map((cell) => (
           <div key={cell.unit} className="flex items-baseline gap-2">
             <span
-              key={cell.value}
+              key={String(cell.value ?? 'placeholder')}
               className="animate-count-tick font-display text-5xl tabular-nums text-ink sm:text-6xl"
+              aria-hidden={!now}
             >
-              {String(cell.value).padStart(2, '0')}
+              {cell.value === undefined ? '––' : String(cell.value).padStart(2, '0')}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink/40">
               {cell.unit}

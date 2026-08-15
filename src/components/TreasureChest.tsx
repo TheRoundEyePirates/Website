@@ -206,7 +206,7 @@ function TreasureChest() {
           ))}
 
           <div
-            className="animate-pop relative w-full max-w-md border border-gold/40 bg-sand p-8 text-center shadow-[8px_8px_0_rgba(0,0,0,0.7)] sm:p-10"
+            className="animate-pop relative w-full max-w-md border border-gold/40 bg-sand p-6 text-center shadow-[8px_8px_0_rgba(0,0,0,0.7)] sm:p-10"
             onClick={(event) => event.stopPropagation()}
           >
             <button

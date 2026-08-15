@@ -82,15 +82,19 @@ interface NavBarProps {
 export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates', onMobileMenuClick }: NavBarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const [activeHref, setActiveHref] = useState<string>(() =>
-    typeof window !== 'undefined' ? window.location.pathname : '/',
-  );
+  const [activeHref, setActiveHref] = useState<string>('/');
   const navBarRef = useRef<HTMLElement | null>(null);
   const navItemsRef = useRef<HTMLDivElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const progressRef = useRef<HTMLSpanElement | null>(null);
   const rafRef = useRef<number | null>(null);
+
+  // Set the initial active link from the address bar only after mount so the
+  // server-rendered markup matches the first client render.
+  useEffect(() => {
+    setActiveHref(window.location.pathname);
+  }, []);
 
   // Entrance animation.
   useEffect(() => {
