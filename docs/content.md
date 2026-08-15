@@ -113,22 +113,23 @@ first.
 
 ```markdown
 ---
-tier: "Admiral"
-price: "$500+ per season"
-tagline: "First mate on the quarterdeck"
-color: "#fbbf24"         # card accent, default #fbbf24
-featured: false
-order: 1
+tier: "Fleet Sponsor"
+price: "$2,500+ per season"
+tagline: "The flag we sail under"
+color: "#f59e0b"         # card accent, default #fbbf24
+featured: true           # highlighted tier (badge + gold card)
+order: 5
 perks:
-  - "Logo on the robot"
-  - "Logo on the site"
+  - "Everything in Captain"
+  - "Major recognition across team branding, website, social media and events"
 ---
-
-Optional body copy.
 ```
 
-Current tiers: **Admiral** ($500+), **Quartermaster** ($300), **Shipmate** ($150),
-**Swabbie** ($50).
+Optional body copy.
+
+Current tiers: **Crewmate** ($100+), **Deckhand** ($250+), **Navigator** ($500+),
+**Captain** ($1,000+), **Fleet Sponsor** ($2,500+, featured). The `/sponsor/` page
+renders these into the "Choose Your Level Of Support" grid, sorted by `order`.
 
 ---
 

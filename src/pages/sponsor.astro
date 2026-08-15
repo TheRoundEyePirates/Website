@@ -1,4 +1,41 @@
 ---
+import {
+  Anchor,
+  ArrowUpRight,
+  Bot,
+  Check,
+  Coins,
+  Cog,
+  Compass,
+  Code2,
+  DraftingCompass,
+  Eye,
+  Flag,
+  FlaskConical,
+  Globe,
+  GraduationCap,
+  Hammer,
+  Handshake,
+  HeartHandshake,
+  Lightbulb,
+  Mail,
+  MapPin,
+  Megaphone,
+  Package,
+  Printer,
+  Rocket,
+  Scissors,
+  Share2,
+  Shirt,
+  Sparkles,
+  Star,
+  Target,
+  TrendingUp,
+  Users,
+  Wrench,
+  Zap,
+} from 'lucide-react';
+import { getCollection } from 'astro:content';
 import { getLogo } from '../lib/brand';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/NavBar.tsx';
@@ -6,21 +43,597 @@ import Footer from '../components/Footer.tsx';
 import ShipDivider from '../components/ShipDivider.tsx';
 
 const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
+
+const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.data.order);
+
+const identity = [
+  {
+    icon: Cog,
+    title: 'Mechanical Design',
+    text: 'Designing robot mechanisms and structures from the ground up.',
+  },
+  {
+    icon: DraftingCompass,
+    title: 'CAD',
+    text: 'Turning ideas into precise digital designs before a single part is cut.',
+  },
+  {
+    icon: Hammer,
+    title: 'Fabrication',
+    text: 'Turning digital designs into physical, functional components.',
+  },
+  {
+    icon: Code2,
+    title: 'Programming',
+    text: 'Developing the software that controls every movement of the robot.',
+  },
+  {
+    icon: FlaskConical,
+    title: 'Testing',
+    text: 'Running mechanisms, finding failures, and improving designs.',
+  },
+  {
+    icon: Users,
+    title: 'Teamwork',
+    text: 'Managing a complex engineering project together as a team.',
+  },
+];
+
+const skills = [
+  'Mechanical engineering & CAD',
+  'Fabrication & manufacturing',
+  'Software programming',
+  'Systems integration',
+  'Problem solving under constraints',
+  'Project & timeline management',
+  'Communication & documentation',
+  'Iterative design thinking',
+];
+
+const mission = [
+  {
+    icon: Target,
+    title: 'Robot Development',
+    text: 'Mechanical components, structural materials and robot construction for each competition season.',
+  },
+  {
+    icon: Wrench,
+    title: 'Fabrication Capability',
+    text: '3D printing, machining, laser cutting, CNC and workshop tooling to manufacture custom parts.',
+  },
+  {
+    icon: Zap,
+    title: 'Rapid Prototyping',
+    text: 'Producing test mechanisms, fixtures, jigs and design iterations quickly and affordably.',
+  },
+  {
+    icon: Shirt,
+    title: 'Team Presentation',
+    text: 'Banners, pit displays, team shirts, jerseys if produced, and sponsor branding at events.',
+  },
+  {
+    icon: Megaphone,
+    title: 'Community Outreach',
+    text: 'Robotics demonstrations, STEM activities and resources for younger students in Hawke\u2019s Bay.',
+  },
+];
+
+const funding = [
+  {
+    icon: Printer,
+    title: '3D Printing',
+    points: ['3D printers & filament', 'Rapid prototypes', 'Custom components'],
+  },
+  {
+    icon: Cog,
+    title: 'Fabrication',
+    points: ['Laser cutting', 'CNC equipment', 'Machining access'],
+  },
+  {
+    icon: Wrench,
+    title: 'Workshop',
+    points: ['Hand & power tools', 'Measuring equipment', 'Safety equipment'],
+  },
+  {
+    icon: Bot,
+    title: 'Robot Materials',
+    points: ['Aluminium & plastics', 'Bearings & gears', 'Fasteners & hardware'],
+  },
+  {
+    icon: Shirt,
+    title: 'Team Branding',
+    points: ['Banners & displays', 'Team shirts', 'Jerseys if produced'],
+  },
+  {
+    icon: Megaphone,
+    title: 'Outreach',
+    points: ['Demo materials', 'Workshop supplies', 'STEM activities'],
+  },
+];
+
+const inKind = [
+  {
+    icon: Printer,
+    title: '3D Printing',
+    text: 'Help us produce prototypes and custom parts faster than any other method.',
+  },
+  {
+    icon: Cog,
+    title: 'CNC Machining',
+    text: 'Provide access to professional manufacturing for precision robot components.',
+  },
+  {
+    icon: Scissors,
+    title: 'Laser Cutting',
+    text: 'Help turn CAD designs into precise, repeatable physical components.',
+  },
+  {
+    icon: Package,
+    title: 'Raw Materials',
+    text: 'Aluminium, plastics and fabrication materials are consumed every season.',
+  },
+  {
+    icon: Wrench,
+    title: 'Tools',
+    text: 'Professional hand tools, power tools and measuring equipment for our workshop.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Industry Expertise',
+    text: 'Share engineering knowledge, advice or mentoring with our student team.',
+  },
+];
+
+const visibility = [
+  {
+    icon: Bot,
+    title: 'Robot',
+    text: 'Sponsor logos where practical on the competition robot.',
+  },
+  {
+    icon: Flag,
+    title: 'Banners',
+    text: 'Sponsor branding on team banners and pit displays at events.',
+  },
+  {
+    icon: Shirt,
+    title: 'Team Clothing',
+    text: 'Sponsor logos on shirts or jerseys, if produced.',
+  },
+  {
+    icon: Globe,
+    title: 'Website',
+    text: 'Sponsor logo and business listing on theroundeyepirates.com.',
+  },
+  {
+    icon: Share2,
+    title: 'Social Media',
+    text: 'Sponsor recognition and selected sponsor features across our channels.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Spotlight',
+    text: 'Dedicated sponsor feature for selected higher-level partners.',
+  },
+];
+
+const learning = [
+  'Mechanical Engineering',
+  'CAD & Digital Design',
+  'Manufacturing & Fabrication',
+  'Programming & Software',
+  'Problem Solving',
+  'Project Management',
+  'Communication',
+  'Teamwork',
+  'Design Iteration',
+];
 ---
 
 <BaseLayout
   title="Sponsor the Pirates — The Round Eye Pirates"
-  description="Sponsorship tiers for FTC Team 37060, The Round Eye Pirates. Fund the voyage, put your name on the robot, and join us on the field."
+  description="FTC sponsorship package for Team 37060, The Round Eye Pirates. Fund student engineering in Hawke's Bay, put your name on the robot, and join us on the field."
 >
   <NavBar client:load logo={lightLogo} />
 
   <main id="main" class="mx-auto max-w-6xl px-6 py-24 sm:py-32">
     <ShipDivider label="Sponsor Us" color="#fbbf24" />
 
-    <div class="mx-auto mt-10 max-w-2xl text-center">
-      <div
-        class="card-3d relative overflow-hidden rounded-3xl border border-gold/40 bg-card px-8 py-16 shadow-[4px_4px_0_rgba(212,160,44,0.18)]"
-      >
+    <div class="mx-auto mt-10 max-w-3xl text-center">
+      <p class="font-mono text-xs uppercase tracking-[0.35em] text-gold">
+        Team 37060 — FTC Sponsorship Package
+      </p>
+      <h1 class="mt-3 font-pirate text-5xl leading-tight text-ink sm:text-6xl">
+        Build With Us.
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl font-mono text-sm leading-7 text-ink/70">
+        Supporting student engineering, robotics and innovation in Hawke's Bay,
+        New Zealand. A student-led FIRST Tech Challenge robotics team working
+        through the full engineering process — from first sketch to competition floor.
+      </p>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-3">
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-gold">Who We Are</p>
+          <p class="mt-3 font-mono text-sm leading-6 text-ink/70">
+            A student-led FTC robotics team based in Hawke's Bay, New Zealand.
+          </p>
+        </div>
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-gold">What We Do</p>
+          <p class="mt-3 font-mono text-sm leading-6 text-ink/70">
+            Design, CAD, manufacture, program and compete with custom competition robots.
+          </p>
+        </div>
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-gold">What We Need</p>
+          <p class="mt-3 font-mono text-sm leading-6 text-ink/70">
+            Support for workshop equipment, fabrication, robot materials, team branding and outreach.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-10 font-pirate text-2xl text-ink sm:text-3xl">
+        Build Robots. <span class="text-gold">Build Skills.</span> Build the Future.
+      </p>
+    </div>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Anchor size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Who Are The Round Eye Pirates?</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        A student-led FIRST Tech Challenge robotics team working through the full
+        engineering process — from first sketch to competition floor.
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {identity.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <h3 class="mt-4 font-display text-lg text-ink">{item.title}</h3>
+              <p class="mt-2 font-mono text-sm leading-7 text-ink/70">{item.text}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <blockquote class="mx-auto mt-10 max-w-2xl border-l-2 border-gold/60 pl-5">
+        <p class="font-mono text-sm italic leading-7 text-ink/80">
+          "Real engineering starts when the first design doesn't work."
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Compass size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">What Is FIRST Tech Challenge?</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        FTC is a student robotics programme where teams design, build and program
+        robots to compete in an annual engineering challenge — working through the
+        full engineering process from strategy to competition.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {['Design', 'CAD', 'Build', 'Program', 'Test'].map((step, i) => (
+          <div class="flex items-center gap-3">
+            <span class="border border-gold/60 bg-card px-5 py-3 font-display text-base text-ink shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+              {step}
+            </span>
+            {i < 4 && <span class="font-mono text-gold" aria-hidden="true">→</span>}
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        FTC gives students an opportunity to work with real engineering
+        constraints and real physical systems. Instead of only learning how
+        something works, students have to make it work — solving problems that
+        textbooks don't cover, managing timelines, working as a team and
+        iterating on designs based on real-world testing.
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <div class="flex items-center gap-3">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+              <Wrench size={20} strokeWidth={1.5} aria-hidden="true" />
+            </span>
+            <h3 class="font-display text-lg text-ink">Technical Skills</h3>
+          </div>
+          <ul class="mt-4 space-y-2">
+            {skills.slice(0, 4).map((skill) => (
+              <li class="flex items-start gap-2 font-mono text-sm text-ink/70">
+                <Check size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+                {skill}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <div class="flex items-center gap-3">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+              <Lightbulb size={20} strokeWidth={1.5} aria-hidden="true" />
+            </span>
+            <h3 class="font-display text-lg text-ink">Professional Skills</h3>
+          </div>
+          <ul class="mt-4 space-y-2">
+            {skills.slice(4).map((skill) => (
+              <li class="flex items-start gap-2 font-mono text-sm text-ink/70">
+                <Check size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+                {skill}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Rocket size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">More Than A Competition Robot</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        Our goal is not simply to build one successful competition robot. We want
+        to develop a stronger engineering workspace that allows our team to
+        prototype, manufacture and improve designs more effectively.
+      </p>
+
+      <div class="mt-8 space-y-4">
+        {mission.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <div class="flex gap-5 border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+              <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <div>
+                <h3 class="font-display text-lg text-ink">
+                  <span class="mr-2 text-gold">{i + 1}.</span>
+                  {item.title}
+                </h3>
+                <p class="mt-2 font-mono text-sm leading-7 text-ink/70">{item.text}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <blockquote class="mx-auto mt-10 max-w-2xl border-l-2 border-gold/60 pl-5">
+        <p class="font-mono text-sm italic leading-7 text-ink/80">
+          "Every piece of equipment we add to our workshop can continue helping
+          students long after a single competition season ends."
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Coins size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Where Your Support Goes</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        Your sponsorship directly funds the equipment, materials and resources
+        that help our team design, build and test better robots.
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {funding.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <h3 class="mt-4 font-display text-lg text-ink">{item.title}</h3>
+              <ul class="mt-3 space-y-1.5">
+                {item.points.map((point) => (
+                  <li class="flex items-start gap-2 font-mono text-sm text-ink/70">
+                    <Check size={15} strokeWidth={2} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Handshake size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Don't Just Fund Us. Build With Us.</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        Financial sponsorship isn't the only way to support Team 37060. For many
+        businesses, providing equipment, materials, manufacturing time or
+        technical expertise can be just as valuable as a cash contribution.
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {inKind.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <h3 class="mt-4 font-display text-lg text-ink">{item.title}</h3>
+              <p class="mt-2 font-mono text-sm leading-7 text-ink/70">{item.text}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div class="mt-8 border border-gold/40 bg-card p-6 text-center shadow-[4px_4px_0_rgba(212,160,44,0.15)]">
+        <p class="font-mono text-sm leading-7 text-ink/80">
+          Your business may already have something we need. We welcome
+          conversations about what support looks like for you.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Star size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Choose Your Level Of Support</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        The following levels are suggested starting points. We are happy to
+        recognise different forms of support, including equipment and services.
+      </p>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {tiers.map((tier) => {
+          const { tier: name, price, tagline, color, featured, perks } = tier.data;
+          return (
+            <div
+              class={`relative flex flex-col border p-7 transition-transform duration-300 hover:-translate-y-1 ${
+                featured
+                  ? 'border-gold bg-card shadow-[6px_6px_0_rgba(212,160,44,0.28)]'
+                  : 'border-ink/25 bg-card shadow-[4px_4px_0_rgba(212,160,44,0.12)]'
+              }`}
+              style={{ borderTopColor: color, borderTopWidth: featured ? 5 : 4 }}
+            >
+              {featured && (
+                <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-gold/60 bg-gold px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-sand">
+                  Most Prestigious
+                </span>
+              )}
+              <p class="font-mono text-xs uppercase tracking-[0.25em]" style={{ color }}>
+                Tier
+              </p>
+              <h3 class="mt-2 font-pirate text-3xl text-ink">{name}</h3>
+              <p class="mt-1 font-mono text-lg font-bold text-gold">{price}</p>
+              <p class="mt-2 font-mono text-xs leading-6 text-ink/60">{tagline}</p>
+              <ul class="mt-5 space-y-2.5 border-t border-ink/15 pt-5">
+                {perks.map((perk) => (
+                  <li class="flex items-start gap-2.5 font-mono text-sm leading-6 text-ink/80">
+                    <Check size={16} strokeWidth={2} className="mt-1 shrink-0 text-gold" aria-hidden="true" />
+                    {perk}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="mailto:team@theroundeyepirates.com?subject=Sponsorship%20Enquiry"
+                class={`btn-shine mt-auto inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.15em] transition-transform duration-200 hover:-translate-y-0.5 ${
+                  featured ? 'bg-gold text-sand shadow-lg' : 'border border-ink/25 bg-sand text-ink hover:border-gold/60 hover:text-gold'
+                }`}
+              >
+                Sail With Us
+              </a>
+            </div>
+          );
+        })}
+      </div>
+
+      <p class="mt-8 text-center font-mono text-xs leading-6 text-ink/60">
+        All tiers are flexible. Equipment donations, materials and services can be
+        recognised at an equivalent level.
+      </p>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <Eye size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Your Support. Your Impact.</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        Depending on the sponsorship level and the materials we produce, sponsors
+        may be recognised through multiple channels.
+      </p>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {visibility.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
+              </span>
+              <h3 class="mt-4 font-display text-lg text-ink">{item.title}</h3>
+              <p class="mt-2 font-mono text-sm leading-7 text-ink/70">{item.text}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="mt-24">
+      <div class="flex items-center gap-3">
+        <HeartHandshake size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink sm:text-3xl">Why Support Us?</h2>
+      </div>
+
+      <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+        Supporting Team 37060 means supporting practical STEM education. Students
+        don't just learn engineering from textbooks — we learn by designing
+        something, building it, discovering that it doesn't work, figuring out
+        why, and trying again.
+      </p>
+
+      <div class="mt-8 grid gap-4 lg:grid-cols-2">
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <div class="flex items-center gap-3">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+              <GraduationCap size={20} strokeWidth={1.5} aria-hidden="true" />
+            </span>
+            <h3 class="font-display text-lg text-ink">What Students Learn</h3>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {learning.map((item) => (
+              <span class="rounded-full border border-gold/40 bg-sand px-3 py-1.5 font-mono text-xs text-ink/80">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div class="border border-ink/25 bg-card p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <div class="flex items-center gap-3">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/60 bg-sand text-gold">
+              <TrendingUp size={20} strokeWidth={1.5} aria-hidden="true" />
+            </span>
+            <h3 class="font-display text-lg text-ink">Long-Term Impact</h3>
+          </div>
+          <p class="mt-4 font-mono text-sm leading-7 text-ink/70">
+            A 3D printer, laser cutter, CNC machine or professional set of
+            workshop tools does more than improve one robot. It creates a better
+            engineering environment that can continue supporting students and
+            future team members for years to come.
+          </p>
+          <p class="mt-4 font-mono text-sm leading-7 text-ink/70">
+            Your investment in Team 37060 is an investment in the next generation
+            of engineers, manufacturers and problem-solvers right here in
+            Hawke's Bay.
+          </p>
+        </div>
+      </div>
+
+      <blockquote class="mx-auto mt-10 max-w-2xl border-l-2 border-gold/60 pl-5">
+        <p class="font-mono text-sm italic leading-7 text-ink/80">
+          "Design it. Build it. Break it. Learn from it. Build it better."
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="mt-24">
+      <div class="relative overflow-hidden rounded-3xl border border-gold/40 bg-card px-8 py-16 text-center shadow-[4px_4px_0_rgba(212,160,44,0.18)]">
         <div
           class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,160,44,0.14),rgba(212,160,44,0)_70%)]"
           aria-hidden="true"
@@ -28,29 +641,49 @@ const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark
 
         <div class="animate-bounce text-6xl" aria-hidden="true">🏴‍☠️</div>
 
-        <h1 class="mt-6 font-pirate text-5xl text-ink sm:text-6xl">Under Construction</h1>
+        <h2 class="mt-6 font-pirate text-4xl text-ink sm:text-5xl">
+          Become A Round Eye Pirates Sponsor
+        </h2>
 
         <p class="mx-auto mt-4 max-w-xl font-mono text-sm leading-7 text-ink/70">
-          We're hammering planks and polishing cannons — our sponsorship tiers are being fitted
-          out. Check back soon, or write to the crew if you'd like to chart a course together.
+          We want to build more than a competition robot. We want to create an
+          environment where students can design, manufacture, test and learn
+          through real engineering. Thank you for considering supporting
+          student-led robotics and engineering in Hawke's Bay.
         </p>
 
         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
-            href="/contact/"
+            href="mailto:team@theroundeyepirates.com?subject=Sponsorship%20Enquiry"
             class="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-sand shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
           >
-            Contact Us
+            Get In Touch
+            <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
           </a>
           <a
-            href="mailto:hello@theroundeyepirates.com"
+            href="/contact/"
             class="inline-flex items-center gap-2 rounded-full border border-ink/25 bg-sand px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-ink transition-colors duration-200 hover:border-gold/60 hover:text-gold"
           >
-            hello@theroundeyepirates.com
+            Visit Our Website
           </a>
         </div>
+
+        <div class="mx-auto mt-10 grid max-w-2xl gap-4 sm:grid-cols-3">
+          <div class="flex flex-col items-center gap-2">
+            <Globe size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+            <p class="font-mono text-xs text-ink/70">theroundeyepirates.com</p>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <Mail size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+            <p class="font-mono text-xs text-ink/70">team@theroundeyepirates.com</p>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <MapPin size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+            <p class="font-mono text-xs text-ink/70">Hawke's Bay, New Zealand</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <Footer client:visible logo={darkLogo} />
