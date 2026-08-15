@@ -32,7 +32,7 @@ export default function Crew({ crew, coaches }: CrewProps) {
     <section id="crew" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
       <ShipDivider label="Crew" />
 
-      <h2 data-animate="pop" className="font-display text-3xl text-ink sm:text-4xl">
+      <h2 data-animate="pop" className="font-display text-fluid-lg text-ink">
         Ship's Roster
       </h2>
 

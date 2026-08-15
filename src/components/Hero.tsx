@@ -91,7 +91,7 @@ export default function Hero() {
             FTC 37060 — Ahoy, welcome aboard
           </motion.p>
 
-          <h1 className="mt-5 font-display text-4xl leading-tight text-ink sm:text-6xl md:text-7xl">
+          <h1 className="mt-5 font-display text-fluid-hero text-ink">
             {TITLE_WORDS.map((word) => (
               <motion.span
                 key={word}
@@ -103,7 +103,7 @@ export default function Hero() {
             ))}
           </h1>
 
-          <motion.p variants={item} className="mt-3 font-pirate text-2xl text-gold sm:text-3xl">
+          <motion.p variants={item} className="mt-3 font-pirate text-fluid-md text-gold">
             丸い目の海賊団
           </motion.p>
 

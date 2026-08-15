@@ -9,7 +9,7 @@ export default function GitHubRepos() {
     <section id="code" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-24 sm:py-32">
       <ShipDivider label="Ship's Code" />
 
-      <h2 data-animate="blur" className="font-display text-3xl text-ink sm:text-4xl">
+      <h2 data-animate="blur" className="font-display text-fluid-lg text-ink">
         Our Code
       </h2>
 

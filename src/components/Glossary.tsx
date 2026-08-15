@@ -73,7 +73,7 @@ export default function Glossary() {
         data-delay="0.1"
         className="mt-3 flex flex-wrap items-baseline justify-between gap-4"
       >
-        <h2 className="font-display text-3xl text-ink sm:text-4xl">Sea &amp; bot lingo</h2>
+        <h2 className="font-display text-fluid-lg text-ink">Sea &amp; bot lingo</h2>
         <p className="max-w-sm font-mono text-xs leading-5 text-ink/60">
           Pirate words we borrow and robot words we made up. Swipe sideways.
         </p>

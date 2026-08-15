@@ -16,7 +16,7 @@ export default function About() {
 
       <div className="grid gap-12 md:grid-cols-2 md:items-center">
         <div data-stagger className="space-y-5">
-          <h2 className="font-display text-3xl text-ink sm:text-4xl">
+          <h2 className="font-display text-fluid-lg text-ink">
             Fresh paint. Clear skies. Unknown waters.
           </h2>
           <p className="leading-7 text-ink/75">

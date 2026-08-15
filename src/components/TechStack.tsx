@@ -151,7 +151,7 @@ export default function TechStack() {
         <p data-animate="fade-in" className="font-mono text-xs uppercase tracking-[0.3em] text-gold">
           The arsenal
         </p>
-        <h2 data-animate="blur" className="mt-3 font-display text-3xl text-ink sm:text-4xl">
+        <h2 data-animate="blur" className="mt-3 font-display text-fluid-lg text-ink">
           Tech Stack
         </h2>
         <p data-animate="slide-up" className="mt-4 max-w-md font-mono text-sm leading-6 text-ink/60">
