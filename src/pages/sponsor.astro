@@ -278,7 +278,7 @@ const learning = [
       </p>
     </div>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Anchor size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">Who Are The Round Eye Pirates?</h2>
@@ -311,7 +311,7 @@ const learning = [
       </blockquote>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Compass size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">What Is FIRST Tech Challenge?</h2>
@@ -323,13 +323,15 @@ const learning = [
         full engineering process from strategy to competition.
       </p>
 
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <div class="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
         {['Design', 'CAD', 'Build', 'Program', 'Test'].map((step, i) => (
-          <div class="flex items-center gap-3">
-            <span class="border border-gold/60 bg-card px-5 py-3 font-display text-base text-ink shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
+          <div class="flex flex-col items-center gap-3 sm:flex-row sm:gap-3">
+            <span class="w-full border border-gold/60 bg-card px-5 py-3 text-center font-display text-base text-ink shadow-[4px_4px_0_rgba(212,160,44,0.12)] sm:w-auto">
               {step}
             </span>
-            {i < 4 && <span class="font-mono text-gold" aria-hidden="true">→</span>}
+            {i < 4 && (
+              <span class="rotate-90 font-mono text-gold sm:rotate-0" aria-hidden="true">→</span>
+            )}
           </div>
         ))}
       </div>
@@ -378,7 +380,7 @@ const learning = [
       </div>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Rocket size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">More Than A Competition Robot</h2>
@@ -418,7 +420,7 @@ const learning = [
       </blockquote>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Coins size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">Where Your Support Goes</h2>
@@ -452,7 +454,7 @@ const learning = [
       </div>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Handshake size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">Don't Just Fund Us. Build With Us.</h2>
@@ -487,7 +489,7 @@ const learning = [
       </div>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Star size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">Choose Your Level Of Support</h2>
@@ -531,7 +533,7 @@ const learning = [
               </ul>
               <a
                 href="mailto:team@theroundeyepirates.com?subject=Sponsorship%20Enquiry"
-                class={`btn-shine mt-auto inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.15em] transition-transform duration-200 hover:-translate-y-0.5 ${
+                class={`btn-shine mt-auto inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] transition-transform duration-200 hover:-translate-y-0.5 sm:py-2.5 ${
                   featured ? 'bg-gold text-sand shadow-lg' : 'border border-ink/25 bg-sand text-ink hover:border-gold/60 hover:text-gold'
                 }`}
               >
@@ -548,7 +550,7 @@ const learning = [
       </p>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <Eye size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">Your Support. Your Impact.</h2>
@@ -575,7 +577,7 @@ const learning = [
       </div>
     </section>
 
-    <section class="mt-24">
+    <section class="mt-16 sm:mt-24">
       <div class="flex items-center gap-3">
         <HeartHandshake size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
         <h2 class="font-display text-2xl text-ink sm:text-3xl">Why Support Us?</h2>
@@ -632,8 +634,8 @@ const learning = [
       </blockquote>
     </section>
 
-    <section class="mt-24">
-      <div class="relative overflow-hidden rounded-3xl border border-gold/40 bg-card px-8 py-16 text-center shadow-[4px_4px_0_rgba(212,160,44,0.18)]">
+    <section class="mt-16 sm:mt-24">
+      <div class="relative overflow-hidden rounded-3xl border border-gold/40 bg-card px-5 py-12 text-center shadow-[4px_4px_0_rgba(212,160,44,0.18)] sm:px-8 sm:py-16">
         <div
           class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,160,44,0.14),rgba(212,160,44,0)_70%)]"
           aria-hidden="true"
@@ -652,17 +654,17 @@ const learning = [
           student-led robotics and engineering in Hawke's Bay.
         </p>
 
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <div class="mt-8 flex w-full flex-col items-stretch justify-center gap-4 sm:flex-row sm:flex-wrap sm:items-center">
           <a
             href="mailto:team@theroundeyepirates.com?subject=Sponsorship%20Enquiry"
-            class="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-sand shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-sand shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
           >
             Get In Touch
             <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
           </a>
           <a
             href="/contact/"
-            class="inline-flex items-center gap-2 rounded-full border border-ink/25 bg-sand px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-ink transition-colors duration-200 hover:border-gold/60 hover:text-gold"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-ink/25 bg-sand px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-ink transition-colors duration-200 hover:border-gold/60 hover:text-gold"
           >
             Visit Our Website
           </a>
