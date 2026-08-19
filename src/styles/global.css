@@ -987,6 +987,30 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   backdrop-filter: blur(14px);
   box-shadow: 0 1px 0 color-mix(in srgb, var(--color-gold) 22%, transparent),
     0 8px 24px color-mix(in srgb, var(--color-gold) 10%, transparent);
+  /* Entrance animation via CSS */
+  opacity: 0;
+  transform: translateY(-24px);
+}
+
+.nav-bar-enter {
+  animation: nav-bar-slide-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes nav-bar-slide-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-bar {
+    opacity: 1;
+    transform: none;
+  }
+  .nav-bar-enter {
+    animation: none;
+  }
 }
 
 .nav-logo {
@@ -1207,8 +1231,18 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   height: 2.5px;
   background: var(--color-gold);
   border-radius: 1px;
-  transition: all 0.01s ease;
   transform-origin: center;
+  /* CSS transitions replace GSAP for reliable hamburger animation */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hamburger open state: lines rotate to form X */
+.mobile-menu-button.is-open .hamburger-line:first-child {
+  transform: rotate(45deg) translateY(3px);
+}
+
+.mobile-menu-button.is-open .hamburger-line:last-child {
+  transform: rotate(-45deg) translateY(-3px);
 }
 
 .mobile-menu-popover {
@@ -1223,11 +1257,20 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 25%, transparent);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
   z-index: 998;
-  opacity: 0;
   transform-origin: top center;
-  visibility: hidden;
   max-height: 100vh;
   overflow-y: auto;
+  /* CSS transitions replace GSAP for reliable mobile menu animation */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.mobile-menu-popover.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .mobile-menu-list {
@@ -1294,13 +1337,6 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
 
   .mobile-menu-button {
     display: flex;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nav-bar,
-  .nav-dropdown {
-    transition: none;
   }
 }
 /* ---------- Ambient animations & 3D cards ---------- */
@@ -1373,11 +1409,78 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   transform: perspective(1100px) rotateX(3.5deg) rotateY(-3.5deg) translateY(-6px);
 }
 
+/* Button press micro-interaction: satisfying scale-down + shadow pull. */
+.btn-press {
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s ease;
+}
+.btn-press:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.3);
+}
+.btn-press:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.2);
+  transition-duration: 0.08s;
+}
+
+/* Magnetic card: subtle glow ring on hover that intensifies near the cursor. */
+.card-magnetic {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+}
+.card-magnetic::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--color-gold) 20%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.card-magnetic:hover::before {
+  opacity: 1;
+}
+.card-magnetic > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Scroll-fade: sections dim as they scroll out of view. */
+[data-fade-scroll] {
+  will-change: opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card-3d,
   .card-3d:hover {
     transform: none;
     transition: none;
+  }
+
+  .btn-press,
+  .btn-press:hover,
+  .btn-press:active {
+    transform: none;
+    box-shadow: none;
+    transition: none;
+  }
+
+  .card-magnetic,
+  .card-magnetic:hover {
+    transform: none;
+  }
+  .card-magnetic::before {
+    display: none;
+  }
+
+  [data-fade-scroll] {
+    opacity: 1 !important;
   }
 
   .animate-float,

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import DeepSeaBackground from '../components/DeepSeaBackground.tsx';
+import BackToTop from '../components/BackToTop.tsx';
 
 interface Props {
   title: string;
@@ -100,5 +101,6 @@ const {
     </script>
 
     <slot />
+    <BackToTop client:idle />
   </body>
 </html>

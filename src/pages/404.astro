@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ShipDivider from '../components/ShipDivider.tsx';
 ---
 
 <BaseLayout
@@ -9,17 +10,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
   <main class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
     <svg
-      viewBox="0 0 64 64"
+      viewBox="0 0 120 120"
       aria-hidden="true"
-      class="h-16 w-16"
-      stroke="#d4a02c"
-      stroke-width="2.5"
+      class="h-28 w-28 animate-compass-needle opacity-60"
       fill="none"
-      stroke-linecap="round"
     >
-      <circle cx="32" cy="32" r="22" />
-      <path d="M32 10v44M10 32h44M15 15l34 34M49 15L15 49" />
-      <path d="M32 12l-5.5 9.5h11z" fill="#d4a02c" stroke="none" />
+      <circle cx="60" cy="60" r="56" stroke="#d4a02c" stroke-width="1.5" opacity="0.4" />
+      <circle cx="60" cy="60" r="48" stroke="#d4a02c" stroke-width="0.8" opacity="0.25" />
+      <!-- Cardinal points -->
+      <text x="60" y="16" text-anchor="middle" fill="#d4a02c" font-family="var(--font-mono)" font-size="8" letter-spacing="0.1em" opacity="0.7">N</text>
+      <text x="60" y="114" text-anchor="middle" fill="#d4a02c" font-family="var(--font-mono)" font-size="8" letter-spacing="0.1em" opacity="0.5">S</text>
+      <text x="8" y="63" text-anchor="middle" fill="#d4a02c" font-family="var(--font-mono)" font-size="8" letter-spacing="0.1em" opacity="0.5">W</text>
+      <text x="112" y="63" text-anchor="middle" fill="#d4a02c" font-family="var(--font-mono)" font-size="8" letter-spacing="0.1em" opacity="0.5">E</text>
+      <!-- Needle -->
+      <polygon points="60,14 56,60 60,56 64,60" fill="#d4a02c" opacity="0.8" />
+      <polygon points="60,106 56,60 60,64 64,60" fill="#1e3a5f" opacity="0.6" />
+      <circle cx="60" cy="60" r="3" fill="#d4a02c" />
     </svg>
 
     <p class="font-mono text-xs uppercase tracking-[0.35em] text-navy">Error 404 — Lost at Sea</p>
@@ -27,14 +33,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h1 class="font-display text-fluid-xl text-ink">The map ends here.</h1>
 
     <p class="max-w-md font-mono text-sm leading-7 text-ink/70">
-      This page has drifted off the charts. Check the coordinates, or return to known waters.
+      This page has drifted off the charts. The sea is wide — let's get you back to known waters.
     </p>
 
-    <a
-      href="/"
-      class="mt-4 border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:border-gold/60 hover:text-gold"
-    >
-      Return to the Ship
-    </a>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href="/"
+        class="btn-press border border-gold bg-gold px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-navy transition-colors hover:bg-navy hover:text-gold"
+      >
+        Return to the Ship
+      </a>
+      <a
+        href="/contact/"
+        class="btn-press border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:border-gold/60 hover:text-gold"
+      >
+        Send Word
+      </a>
+    </div>
+
+    <div class="mt-10 border-t border-ink/15 pt-8">
+      <p class="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/40">
+        Or try one of these:
+      </p>
+      <nav class="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-xs text-ink/60" aria-label="Quick links">
+        <a href="/#about" class="transition-colors hover:text-gold">About</a>
+        <a href="/#crew" class="transition-colors hover:text-gold">Crew</a>
+        <a href="/#robot" class="transition-colors hover:text-gold">Robot</a>
+        <a href="/code/" class="transition-colors hover:text-gold">Code</a>
+        <a href="/faq/" class="transition-colors hover:text-gold">FAQ</a>
+        <a href="/sponsor/" class="transition-colors hover:text-gold">Sponsor</a>
+      </nav>
+    </div>
   </main>
 </BaseLayout>

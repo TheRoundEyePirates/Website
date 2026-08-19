@@ -26,7 +26,7 @@ export default function QuoteTicker() {
   const quote = QUOTES[index];
 
   return (
-    <section className="mx-auto max-w-5xl px-6 py-24 sm:py-28">
+    <section data-fade-scroll="0.4" className="mx-auto max-w-5xl px-6 py-24 sm:py-28">
       <ShipDivider label="Tavern Tales" />
 
       <blockquote

@@ -33,6 +33,34 @@ const VARIANTS: Record<string, { from: gsap.TweenVars; ease: string }> = {
   zoom: { from: { opacity: 0, scale: 1.5 }, ease: 'power3.out' },
   skew: { from: { opacity: 0, x: -48, skewX: 10 }, ease: 'power2.out' },
   bounce: { from: { opacity: 0, y: -64 }, ease: 'bounce.out' },
+  'reveal-left': {
+    from: { opacity: 0, clipPath: 'inset(0 100% 0 0)' },
+    ease: 'power3.inOut',
+  },
+  'reveal-right': {
+    from: { opacity: 0, clipPath: 'inset(0 0 0 100%)' },
+    ease: 'power3.inOut',
+  },
+  'reveal-up': {
+    from: { opacity: 0, clipPath: 'inset(100% 0 0 0)' },
+    ease: 'power3.inOut',
+  },
+  'reveal-down': {
+    from: { opacity: 0, clipPath: 'inset(0 0 100% 0)' },
+    ease: 'power3.inOut',
+  },
+  'typewriter': {
+    from: { opacity: 0, filter: 'blur(4px)', letterSpacing: '0.4em' },
+    ease: 'power2.out',
+  },
+  'wave': {
+    from: { opacity: 0, y: 48, rotationX: -30, transformPerspective: 600 },
+    ease: 'back.out(1.2)',
+  },
+  'glow': {
+    from: { opacity: 0, scale: 0.95, filter: 'blur(6px) brightness(1.6)' },
+    ease: 'power2.out',
+  },
 };
 
 /**
@@ -223,6 +251,78 @@ export default function Animate() {
           scrollTrigger: { trigger: el, start: 'top 90%', once: true },
         },
       );
+    });
+
+    // ── Scroll-linked section fade ────────────────────────────────────
+    gsap.utils.toArray<HTMLElement>('[data-fade-scroll]').forEach((el) => {
+      const minOpacity = Number(el.dataset.fadeScroll ?? 0.35);
+      gsap.fromTo(
+        el,
+        { opacity: 1 },
+        {
+          opacity: minOpacity,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        },
+      );
+    });
+
+    // ── Magnetic cursor pull ──────────────────────────────────────────
+    gsap.utils.toArray<HTMLElement>('[data-magnetic]').forEach((el) => {
+      const strength = Number(el.dataset.magnetic ?? 0.3);
+      const bounds = el.getBoundingClientRect();
+
+      const onMove = (event: MouseEvent) => {
+        const cx = bounds.left + bounds.width / 2;
+        const cy = bounds.top + bounds.height / 2;
+        const dx = (event.clientX - cx) * strength;
+        const dy = (event.clientY - cy) * strength;
+        gsap.to(el, { x: dx, y: dy, duration: 0.4, ease: 'power2.out' });
+        // Track cursor position for the CSS radial-gradient glow.
+        const mx = ((event.clientX - bounds.left) / bounds.width) * 100;
+        const my = ((event.clientY - bounds.top) / bounds.height) * 100;
+        el.style.setProperty('--mx', `${mx}%`);
+        el.style.setProperty('--my', `${my}%`);
+      };
+
+      const onLeave = () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' });
+        el.style.removeProperty('--mx');
+        el.style.removeProperty('--my');
+      };
+
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseleave', onLeave);
+
+      // Keep bounds fresh on scroll/resize.
+      const refresh = () => {
+        const b = el.getBoundingClientRect();
+        Object.assign(bounds, { left: b.left, top: b.top, width: b.width, height: b.height });
+      };
+      window.addEventListener('scroll', refresh, { passive: true });
+      window.addEventListener('resize', refresh);
+    });
+
+    // ── Card-magnetic glow tracking ───────────────────────────────────
+    gsap.utils.toArray<HTMLElement>('.card-magnetic').forEach((el) => {
+      const onMove = (event: MouseEvent) => {
+        const rect = el.getBoundingClientRect();
+        const mx = ((event.clientX - rect.left) / rect.width) * 100;
+        const my = ((event.clientY - rect.top) / rect.height) * 100;
+        el.style.setProperty('--mx', `${mx}%`);
+        el.style.setProperty('--my', `${my}%`);
+      };
+      const onLeave = () => {
+        el.style.removeProperty('--mx');
+        el.style.removeProperty('--my');
+      };
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseleave', onLeave);
     });
 
     // ── Smooth anchor scrolling ──────────────────────────────────────

@@ -166,6 +166,7 @@ export default function TechStack() {
                 ? 'border-gold/50 bg-gold/10 hover:border-gold'
                 : 'border-ink/10 hover:border-gold/50'
             }`;
+            const magnetic = item.legendary ? { 'data-magnetic': '0.15' } : {};
             const cardContent = (
               <>
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-gold/30 text-gold transition-transform duration-300 group-hover:scale-110">
@@ -194,11 +195,12 @@ export default function TechStack() {
                 rel="noreferrer"
                 aria-label={`${item.name} website`}
                 className={cardClass}
+                {...magnetic}
               >
                 {cardContent}
               </a>
             ) : (
-              <article key={item.name} className={cardClass}>
+              <article key={item.name} className={cardClass} {...magnetic}>
                 {cardContent}
               </article>
             );

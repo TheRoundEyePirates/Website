@@ -244,7 +244,7 @@ function TreasureChest() {
             <button
               type="button"
               onClick={closeChest}
-              className="mt-8 border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:border-gold/60 hover:text-gold"
+              className="btn-press mt-8 border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:border-gold/60 hover:text-gold"
             >
               Take the Booty
             </button>

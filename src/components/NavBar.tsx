@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
 import { AnimatedThemeToggler } from './ui/animated-theme-toggler';
 import type { ResponsiveImage } from '../lib/scan';
 
@@ -85,8 +84,6 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
   const [activeHref, setActiveHref] = useState<string>('/');
   const navBarRef = useRef<HTMLElement | null>(null);
   const navItemsRef = useRef<HTMLDivElement | null>(null);
-  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const progressRef = useRef<HTMLSpanElement | null>(null);
   const rafRef = useRef<number | null>(null);
 
@@ -96,12 +93,11 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
     setActiveHref(window.location.pathname);
   }, []);
 
-  // Entrance animation.
+  // Entrance animation via CSS.
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const bar = navBarRef.current;
     if (bar) {
-      gsap.fromTo(bar, { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' });
+      bar.classList.add('nav-bar-enter');
     }
   }, []);
 
@@ -179,74 +175,28 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
     };
   }, []);
 
-  /** Animate the mobile menu closed (GSAP + state). */
+  // Lock body scroll while the mobile menu is open.
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  /** Close the mobile menu (CSS transitions handle the animation). */
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
     setOpenGroup(null);
-
-    const hamburger = hamburgerRef.current;
-    const menu = mobileMenuRef.current;
-
-    if (hamburger) {
-      const lines = hamburger.querySelectorAll('.hamburger-line');
-      lines[0] && gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease: 'power3.out' });
-      lines[1] && gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease: 'power3.out' });
-    }
-
-    if (menu) {
-      gsap.to(menu, {
-        opacity: 0,
-        y: -10,
-        duration: 0.2,
-        ease: 'power3.out',
-        transformOrigin: 'top center',
-        onComplete: () => {
-          gsap.set(menu, { visibility: 'hidden' });
-        },
-      });
-    }
-
     onMobileMenuClick?.();
   };
 
   const toggleMobileMenu = () => {
-    const newState = !isMobileMenuOpen;
-    setIsMobileMenuOpen(newState);
+    setIsMobileMenuOpen((prev) => !prev);
     setOpenGroup(null);
-
-    const hamburger = hamburgerRef.current;
-    const menu = mobileMenuRef.current;
-
-    if (hamburger) {
-      const lines = hamburger.querySelectorAll('.hamburger-line');
-      lines[0] &&
-        gsap.to(lines[0], { rotation: newState ? 45 : 0, y: newState ? 3 : 0, duration: 0.3, ease: 'power3.out' });
-      lines[1] &&
-        gsap.to(lines[1], { rotation: newState ? -45 : 0, y: newState ? -3 : 0, duration: 0.3, ease: 'power3.out' });
-    }
-
-    if (menu) {
-      if (newState) {
-        gsap.set(menu, { visibility: 'visible' });
-        gsap.fromTo(
-          menu,
-          { opacity: 0, y: -10 },
-          { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out', transformOrigin: 'top center' },
-        );
-      } else {
-        gsap.to(menu, {
-          opacity: 0,
-          y: -10,
-          duration: 0.2,
-          ease: 'power3.out',
-          transformOrigin: 'top center',
-          onComplete: () => {
-            gsap.set(menu, { visibility: 'hidden' });
-          },
-        });
-      }
-    }
-
     onMobileMenuClick?.();
   };
 
@@ -352,11 +302,10 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
             aria-label="Toggle theme"
           />
           <button
-            className="mobile-menu-button mobile-only"
+            className={`mobile-menu-button mobile-only${isMobileMenuOpen ? ' is-open' : ''}`}
             onClick={toggleMobileMenu}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
-            ref={hamburgerRef}
           >
             <span className="hamburger-line" />
             <span className="hamburger-line" />
@@ -364,7 +313,7 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
         </div>
       </nav>
 
-      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef}>
+      <div className={`mobile-menu-popover mobile-only${isMobileMenuOpen ? ' is-open' : ''}`}>
         <ul className="mobile-menu-list">
           {NAV.map((entry) =>
             isGroup(entry) ? (

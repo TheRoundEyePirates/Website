@@ -66,7 +66,7 @@ export default function GitHubRepos() {
       <div data-animate="slide-up" className="mt-10 text-center">
         <a
           href="/code/"
-          className="group inline-flex items-center gap-2 border border-gold/60 bg-card px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold hover:text-parchment hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
+          className="btn-press group inline-flex items-center gap-2 border border-gold/60 bg-card px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold hover:text-parchment hover:shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)]"
         >
           <Code size={16} strokeWidth={1.5} aria-hidden="true" />
           View Code Snippets

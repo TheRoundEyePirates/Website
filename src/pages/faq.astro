@@ -46,7 +46,17 @@ const faqs = [
       Everything the curious sailor asks about FIRST Tech Challenge and the Round Eye Pirates.
     </p>
 
-    <div class="mt-12 space-y-4">
+    <div class="mt-4 flex justify-end">
+      <button
+        type="button"
+        id="faq-toggle"
+        class="btn-press font-mono text-xs uppercase tracking-[0.25em] text-gold transition-colors hover:text-navy"
+      >
+        Expand All
+      </button>
+    </div>
+
+    <div class="mt-6 space-y-4">
       {faqs.map((faq) => (
         <div class="border border-ink/25 bg-card shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
           <details class="group">
@@ -66,6 +76,19 @@ const faqs = [
         </div>
       ))}
     </div>
+
+    <script is:inline>
+      (function () {
+        var btn = document.getElementById('faq-toggle');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          var details = document.querySelectorAll('main details');
+          var allOpen = Array.from(details).every(function (d) { return d.open; });
+          details.forEach(function (d) { d.open = !allOpen; });
+          btn.textContent = allOpen ? 'Expand All' : 'Collapse All';
+        });
+      })();
+    </script>
 
     <div class="mt-12 border border-ink/25 bg-card p-6 text-center shadow-[4px_4px_0_rgba(212,160,44,0.12)]">
       <p class="font-mono text-sm text-ink/70">
