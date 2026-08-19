@@ -25,6 +25,8 @@ interface StackItem {
   legendary?: boolean;
   /** Official website — the card links out to it when set. */
   url?: string;
+  /** Local video to play in an overlay when the card is clicked. */
+  videoSrc?: string;
 }
 
 const STACK: StackItem[] = [
@@ -111,7 +113,7 @@ const STACK: StackItem[] = [
     purpose: 'Critical team hardware dependency',
     icon: MoonStar,
     legendary: true,
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    videoSrc: '/videos/rickroll.mp4',
   },
 ];
 
@@ -132,7 +134,7 @@ function BrandIcon({ item }: { item: StackItem }) {
   );
 }
 
-function StackCard({ item, index }: { item: StackItem; index: number }) {
+function StackCard({ item, index, onPlayVideo }: { item: StackItem; index: number; onPlayVideo?: (src: string) => void }) {
   const cardClass = [
     'group relative flex items-start gap-4 rounded-2xl border bg-card/70 p-5 backdrop-blur-sm transition-all duration-300',
     'hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.12)]',
@@ -156,6 +158,19 @@ function StackCard({ item, index }: { item: StackItem; index: number }) {
     </>
   );
 
+  if (item.videoSrc) {
+    return (
+      <button
+        type="button"
+        className={cardClass}
+        onClick={() => onPlayVideo?.(item.videoSrc!)}
+        aria-label={`Play ${item.name}`}
+      >
+        {content}
+      </button>
+    );
+  }
+
   if (item.url) {
     return (
       <a href={item.url} target="_blank" rel="noreferrer" aria-label={`${item.name} website`} className={cardClass}>
@@ -168,6 +183,8 @@ function StackCard({ item, index }: { item: StackItem; index: number }) {
 }
 
 export default function TechStack() {
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+
   return (
     <section
       id="stack"
@@ -196,10 +213,28 @@ export default function TechStack() {
 
         <div data-stagger className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {STACK.map((item, i) => (
-            <StackCard key={item.name} item={item} index={i} />
+            <StackCard key={item.name} item={item} index={i} onPlayVideo={setVideoSrc} />
           ))}
         </div>
       </div>
+
+      {videoSrc && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Video player"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
+          onClick={() => setVideoSrc(null)}
+        >
+          <video
+            src={videoSrc}
+            controls
+            autoPlay
+            className="max-h-[85vh] max-w-full border border-gold/30"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </section>
   );
 }
