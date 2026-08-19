@@ -179,6 +179,36 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
     };
   }, []);
 
+  /** Animate the mobile menu closed (GSAP + state). */
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setOpenGroup(null);
+
+    const hamburger = hamburgerRef.current;
+    const menu = mobileMenuRef.current;
+
+    if (hamburger) {
+      const lines = hamburger.querySelectorAll('.hamburger-line');
+      lines[0] && gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease: 'power3.out' });
+      lines[1] && gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease: 'power3.out' });
+    }
+
+    if (menu) {
+      gsap.to(menu, {
+        opacity: 0,
+        y: -10,
+        duration: 0.2,
+        ease: 'power3.out',
+        transformOrigin: 'top center',
+        onComplete: () => {
+          gsap.set(menu, { visibility: 'hidden' });
+        },
+      });
+    }
+
+    onMobileMenuClick?.();
+  };
+
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
@@ -347,7 +377,7 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
                     className={`mobile-menu-link${
                       hrefActive(child.href, activeHref) ? ' is-active' : ''
                     }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
                     {child.label}
                   </a>
@@ -360,7 +390,7 @@ export default function NavBar({ logo = null, logoAlt = 'The Round Eye Pirates',
                   className={`mobile-menu-link${
                     hrefActive(entry.href, activeHref) ? ' is-active' : ''
                   }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeMobileMenu}
                 >
                   {entry.label}
                 </a>
