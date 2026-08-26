@@ -125,4 +125,4 @@ const journal = defineCollection({
   }),
 });
 
-export const collections = { logs, timeline, crew, journal, sponsors };
+export const collections = { logs, timeline, crew, journal, sponsors, 'sponsor-tiers': sponsorTiers };
