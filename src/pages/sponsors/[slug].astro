@@ -1,0 +1,91 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSponsorLogo } from '../../lib/sponsors';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('sponsors');
+  return entries.map((entry) => ({
+    params: { slug: entry.id.split('/')[0] },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'sponsors'>;
+}
+
+const { entry } = Astro.props;
+const { name, url, description } = entry.data;
+const slug = entry.id.split('/')[0];
+const logo = await getSponsorLogo(slug);
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={`${name} — The Round Eye Pirates`}
+  description={description || `Learn more about ${name}, a sponsor of The Round Eye Pirates.`}
+>
+  <main class="mx-auto max-w-5xl px-6 py-16">
+    <a
+      href="/our-sponsors/"
+      class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/60 transition-colors hover:text-gold"
+    >
+      <ArrowLeft size={14} strokeWidth={1.5} aria-hidden="true" />
+      Our Sponsors
+    </a>
+
+    <header
+      data-animate="slide-up"
+      class="mt-10 border border-ink/25 bg-card px-6 py-10 shadow-[4px_4px_0_rgba(212,160,44,0.12)] sm:px-10 sm:py-12"
+    >
+      <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+        {logo && (
+          <div class="flex h-24 w-24 flex-shrink-0 items-center justify-center">
+            <img
+              src={logo.src}
+              srcSet={logo.srcSet}
+              sizes={logo.sizes}
+              width={logo.width}
+              height={logo.height}
+              alt={`${name} logo`}
+              class="max-h-full w-auto object-contain"
+              decoding="async"
+            />
+          </div>
+        )}
+        <div class="text-center sm:text-left">
+          <p class="font-mono text-xs uppercase tracking-[0.35em] text-gold">Sponsor</p>
+          <h1 class="mt-3 font-pirate text-fluid-title text-ink">{name}</h1>
+          {description && (
+            <p class="mt-3 max-w-xl font-mono text-sm leading-7 text-ink/70">{description}</p>
+          )}
+          {url && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noreferrer"
+              class="mt-4 inline-flex items-center gap-2 font-mono text-sm text-gold hover:underline"
+            >
+              {url} <ExternalLink size={14} strokeWidth={2} />
+            </a>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <section class="mt-10 border border-ink/25 bg-card px-6 py-8 sm:px-10 sm:py-10">
+      <div class="flex items-center gap-4" aria-hidden="true">
+        <span class="h-px flex-1 bg-gold/40"></span>
+        <span class="font-pirate text-lg uppercase tracking-[0.3em] text-gold">
+          About {name}
+        </span>
+        <span class="h-px flex-1 bg-gold/40"></span>
+      </div>
+      <div class="mt-8 prose-p:font-mono prose-p:text-sm prose-p:leading-7 prose-p:text-ink/70">
+        <Content />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

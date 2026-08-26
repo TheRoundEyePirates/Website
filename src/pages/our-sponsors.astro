@@ -29,7 +29,7 @@ const sponsors = sponsorEntries
 // Load logos for all sponsors
 const sponsorLogos: Record<string, ResponsiveImage | null> = {};
 for (const sponsor of sponsors) {
-  const slug = sponsor.id;
+  const slug = sponsor.id.split('/')[0];
   sponsorLogos[slug] = await getSponsorLogo(slug);
 }
 
@@ -111,9 +111,11 @@ for (const tier of tiers) {
             </p>
             <div class={`mt-8 grid gap-6 ${isFleet ? 'sm:grid-cols-2' : tierSponsors.length <= 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
               {tierSponsors.map((sponsor) => {
-                const logo = sponsorLogos[sponsor.id];
+                const slug = sponsor.id.split('/')[0];
+                const logo = sponsorLogos[slug];
                 return (
-                  <div
+                  <a
+                    href={`/sponsors/${slug}`}
                     class={`relative flex flex-col border bg-card transition-transform duration-300 hover:-translate-y-1 ${
                       isFleet
                         ? 'border-gold p-8 shadow-[6px_6px_0_rgba(212,160,44,0.28)]'
@@ -144,22 +146,11 @@ for (const tier of tiers) {
                       </p>
                     )}
                     <div class={`mt-auto border-t border-ink/15 pt-4 ${sponsor.data.description ? 'mt-4' : 'mt-6'}`}>
-                      {sponsor.data.url ? (
-                        <a
-                          href={sponsor.data.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          class="inline-flex items-center gap-2 font-mono text-sm text-gold hover:underline"
-                        >
-                          {sponsor.data.name} <ArrowUpRight size={14} strokeWidth={2} />
-                        </a>
-                      ) : (
-                        <span class="font-mono text-sm text-ink/40">
-                          {sponsor.data.name}
-                        </span>
-                      )}
+                      <span class="inline-flex items-center gap-2 font-mono text-sm text-gold hover:underline">
+                        {sponsor.data.name} <ArrowUpRight size={14} strokeWidth={2} />
+                      </span>
                     </div>
-                  </div>
+                  </a>
                 );
               })}
             </div>
