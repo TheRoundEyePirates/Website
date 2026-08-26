@@ -44,7 +44,7 @@ import ShipDivider from '../components/ShipDivider.tsx';
 
 const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
 
-const tiers = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.data.order);
+const tiers = (await getCollection('sponsor-tiers')).sort((a, b) => a.data.order - b.data.order);
 
 const identity = [
   {

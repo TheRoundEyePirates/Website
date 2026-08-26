@@ -77,8 +77,8 @@ const crew = defineCollection({
   }),
 });
 
-const sponsors = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/sponsors' }),
+const sponsorTiers = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/sponsor-tiers' }),
   schema: z.object({
     /** Tier name, e.g. "Shipmate". */
     tier: z.string(),
@@ -94,6 +94,24 @@ const sponsors = defineCollection({
     order: z.number().default(0),
     /** Bullet list of perks. */
     perks: z.array(z.string()),
+  }),
+});
+
+const sponsors = defineCollection({
+  loader: glob({ pattern: '**/sponsor.md', base: './src/content/sponsors' }),
+  schema: z.object({
+    /** Sponsor display name. */
+    name: z.string(),
+    /** Tier this sponsor belongs to, e.g. "fleet", "captain", "navigator", "crewmate", "deckhand". */
+    tier: z.enum(['fleet', 'captain', 'navigator', 'crewmate', 'deckhand']),
+    /** Sponsor website URL. */
+    url: z.string().url().optional(),
+    /** Order on the page, lowest first. */
+    order: z.number().default(0),
+    /** Whether this sponsor is featured/highlighted. */
+    featured: z.boolean().default(false),
+    /** Short description of the sponsor. */
+    description: z.string().optional(),
   }),
 });
 

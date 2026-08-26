@@ -217,7 +217,7 @@ export default function Animate() {
 
       const type = el.dataset.split === 'words' ? 'words' : 'chars';
       const split = new SplitText(el, { type });
-      const targets: HTMLElement[] = split[type] ?? [];
+      const targets = (split[type] ?? []) as HTMLElement[];
 
       const tween = gsap.fromTo(
         targets,
@@ -242,12 +242,11 @@ export default function Animate() {
     // ── Scramble text ────────────────────────────────────────────────
     gsap.utils.toArray<HTMLElement>('[data-scramble]').forEach((el) => {
       const text = el.textContent ?? '';
-      const duration = Number(el.dataset.scrambleDuration ?? 1.4);
       gsap.fromTo(
         el,
-        { text: { value: '§·:;!.~', scrambleDuration: 0.3, chars: '⬢⬡◈◇◆◉◎' } },
+        { text: { value: '§·:;!.~' } },
         {
-          text: { value: text, duration, ease: 'power2.inOut' },
+          text: { value: text },
           scrollTrigger: { trigger: el, start: 'top 90%', once: true },
         },
       );

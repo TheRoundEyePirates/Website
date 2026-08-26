@@ -1,0 +1,220 @@
+---
+import {
+  ArrowUpRight,
+  Heart,
+  Mail,
+  MapPin,
+  Globe,
+  Ship,
+  Users,
+  Star,
+  Anchor,
+  Handshake,
+} from 'lucide-react';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+import { getLogo } from '../lib/brand';
+import { getSponsorLogo } from '../lib/sponsors';
+import type { ResponsiveImage } from '../lib/scan';
+
+const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
+
+const sponsorEntries = await getCollection('sponsors');
+const sponsors = sponsorEntries
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Load logos for all sponsors
+const sponsorLogos: Record<string, ResponsiveImage | null> = {};
+for (const sponsor of sponsors) {
+  const slug = sponsor.id;
+  sponsorLogos[slug] = await getSponsorLogo(slug);
+}
+
+const tierMeta: Record<string, { icon: typeof Ship; title: string; description: string }> = {
+  fleet: {
+    icon: Ship,
+    title: 'Fleet Sponsors',
+    description: 'Our most generous partners who sail with us as the flag of the fleet.',
+  },
+  captain: {
+    icon: Anchor,
+    title: 'Captain Sponsors',
+    description: 'Trusted officers who keep our ship on course.',
+  },
+  navigator: {
+    icon: Star,
+    title: 'Navigator Sponsors',
+    description: 'Navigators who chart our path to success.',
+  },
+  crewmate: {
+    icon: Users,
+    title: 'Crewmate Sponsors',
+    description: 'Valued crew members who help keep our ship running.',
+  },
+  deckhand: {
+    icon: Heart,
+    title: 'Deckhand Sponsors',
+    description: 'The backbone of our crew who keep things shipshape.',
+  },
+};
+
+// Group sponsors by tier
+const tiers = Object.keys(tierMeta);
+const sponsorsByTier: Record<string, typeof sponsors> = {};
+for (const tier of tiers) {
+  sponsorsByTier[tier] = sponsors.filter((s) => s.data.tier === tier);
+}
+---
+
+<BaseLayout
+  title="Our Sponsors — The Round Eye Pirates"
+  description="Meet the sponsors who make The Round Eye Pirates' mission possible. Thank you for supporting student robotics in Hawke's Bay, New Zealand."
+>
+  <NavBar client:load logo={lightLogo} />
+
+  <main id="main" class="mx-auto max-w-6xl px-6 py-24 sm:py-32">
+    <ShipDivider label="Our Sponsors" color="#fbbf24" />
+
+    <div class="mx-auto mt-10 max-w-3xl text-center">
+      <p class="font-mono text-xs uppercase tracking-[0.35em] text-gold">
+        Team 37060 — The Round Eye Pirates
+      </p>
+      <h1 class="mt-3 font-pirate text-fluid-title text-ink">
+        Our Sponsors
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl font-mono text-sm leading-7 text-ink/70">
+        We are incredibly grateful to the businesses and individuals who support
+        our mission to inspire the next generation of engineers, programmers, and
+        problem-solvers in Hawke's Bay, New Zealand.
+      </p>
+    </div>
+
+    <div class="mt-16 space-y-16 sm:mt-24 sm:space-y-24">
+      {tiers.map((tier) => {
+        const meta = tierMeta[tier];
+        const tierSponsors = sponsorsByTier[tier];
+        if (!tierSponsors || tierSponsors.length === 0) return null;
+        const Icon = meta.icon;
+        const isFleet = tier === 'fleet';
+
+        return (
+          <section>
+            <div class="flex items-center gap-3">
+              <Icon size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+              <h2 class="font-display text-fluid-md text-ink">{meta.title}</h2>
+            </div>
+            <p class="mt-4 max-w-3xl font-mono text-sm leading-7 text-ink/70">
+              {meta.description}
+            </p>
+            <div class={`mt-8 grid gap-6 ${isFleet ? 'sm:grid-cols-2' : tierSponsors.length <= 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
+              {tierSponsors.map((sponsor) => {
+                const logo = sponsorLogos[sponsor.id];
+                return (
+                  <div
+                    class={`relative flex flex-col border bg-card transition-transform duration-300 hover:-translate-y-1 ${
+                      isFleet
+                        ? 'border-gold p-8 shadow-[6px_6px_0_rgba(212,160,44,0.28)]'
+                        : 'border-ink/25 p-6 shadow-[4px_4px_0_rgba(212,160,44,0.12)]'
+                    }`}
+                  >
+                    <div class={`flex items-center justify-center ${isFleet ? 'h-32' : 'h-20'}`}>
+                      {logo ? (
+                        <img
+                          src={logo.src}
+                          srcSet={logo.srcSet}
+                          sizes={logo.sizes}
+                          width={logo.width}
+                          height={logo.height}
+                          alt={`${sponsor.data.name} logo`}
+                          class="max-h-full w-auto object-contain"
+                          decoding="async"
+                        />
+                      ) : (
+                        <span class={`font-pirate ${isFleet ? 'text-3xl' : 'text-xl'} text-ink/50`}>
+                          {sponsor.data.name}
+                        </span>
+                      )}
+                    </div>
+                    {sponsor.data.description && (
+                      <p class="mt-4 text-center font-mono text-xs leading-5 text-ink/60">
+                        {sponsor.data.description}
+                      </p>
+                    )}
+                    <div class={`mt-auto border-t border-ink/15 pt-4 ${sponsor.data.description ? 'mt-4' : 'mt-6'}`}>
+                      {sponsor.data.url ? (
+                        <a
+                          href={sponsor.data.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          class="inline-flex items-center gap-2 font-mono text-sm text-gold hover:underline"
+                        >
+                          {sponsor.data.name} <ArrowUpRight size={14} strokeWidth={2} />
+                        </a>
+                      ) : (
+                        <span class="font-mono text-sm text-ink/40">
+                          {sponsor.data.name}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+
+    <section class="mt-16 sm:mt-24">
+      <div class="relative overflow-hidden rounded-3xl border border-gold/40 bg-card px-5 py-12 text-center shadow-[4px_4px_0_rgba(212,160,44,0.18)] sm:px-8 sm:py-16">
+        <div
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,160,44,0.14),rgba(212,160,44,0)_70%)]"
+          aria-hidden="true"
+        />
+        <div class="animate-bounce text-6xl" aria-hidden="true">🏴‍☠️</div>
+        <h2 class="mt-6 font-pirate text-fluid-xl text-ink">
+          Join Our Crew
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl font-mono text-sm leading-7 text-ink/70">
+          Want to see your name on the ship? We're always looking for new
+          partners to join our crew. Every contribution helps us build better
+          robots and develop stronger engineers.
+        </p>
+        <div class="mt-8 flex w-full flex-col items-stretch justify-center gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+          <a
+            href="/sponsor/"
+            class="btn-shine inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-sand shadow-lg transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            <Handshake size={16} strokeWidth={2} aria-hidden="true" />
+            View Sponsorship Packages
+          </a>
+          <a
+            href="mailto:team@theroundeyepirates.com?subject=Sponsorship%20Enquiry"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-ink/25 bg-sand px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-ink transition-colors duration-200 hover:border-gold/60 hover:text-gold"
+          >
+            Get In Touch
+          </a>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-2xl gap-4 sm:grid-cols-3">
+          <div class="flex flex-col items-center gap-2">
+            <Globe size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+            <p class="font-mono text-xs text-ink/70">theroundeyepirates.com</p>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <Mail size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+            <p class="font-mono text-xs text-ink/70">team@theroundeyepirates.com</p>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <MapPin size={20} strokeWidth={1.5} className="text-gold" aria-hidden="true" />
+            <p class="font-mono text-xs text-ink/70">Hawke's Bay, New Zealand</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:visible logo={darkLogo} />
+</BaseLayout>

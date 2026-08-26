@@ -37,6 +37,7 @@ const NAV: NavEntry[] = [
       { label: 'FAQ', href: '/faq/' },
     ],
   },
+  { label: 'Sponsors', href: '/our-sponsors/' },
   { label: 'Sponsor', href: '/sponsor/' },
   { label: 'Socials', href: '/socials/' },
   { label: 'Contact', href: '/contact/' },
