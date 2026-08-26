@@ -4,7 +4,7 @@ tier: deckhand
 url: https://foxbyte.nz
 order: 1
 featured: true
-description: Custom AI, automation and software company based in Napier and Auckland.
+description: Our first sponsor — custom AI, automation and software company based in Napier and Auckland.
 ---
 
 Foxbyte has been a vital partner in our journey. Their support helps us build better robots and develop the next generation of engineers.
