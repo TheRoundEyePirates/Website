@@ -38,41 +38,26 @@ const { Content } = await render(entry);
 
     <header
       data-animate="slide-up"
-      class="mt-10 border border-ink/25 bg-card px-6 py-10 shadow-[4px_4px_0_rgba(212,160,44,0.12)] sm:px-10 sm:py-12"
+      class="mt-10 text-center"
     >
-      <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
-        {logo && (
-          <div class="flex h-24 w-24 flex-shrink-0 items-center justify-center">
-            <img
-              src={logo.src}
-              srcSet={logo.srcSet}
-              sizes={logo.sizes}
-              width={logo.width}
-              height={logo.height}
-              alt={`${name} logo`}
-              class="max-h-full w-auto object-contain"
-              decoding="async"
-            />
-          </div>
-        )}
-        <div class="text-center sm:text-left">
-          <p class="font-mono text-xs uppercase tracking-[0.35em] text-gold">Sponsor</p>
-          <h1 class="mt-3 font-pirate text-fluid-title text-ink">{name}</h1>
-          {description && (
-            <p class="mt-3 max-w-xl font-mono text-sm leading-7 text-ink/70">{description}</p>
-          )}
-          {url && (
-            <a
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              class="mt-4 inline-flex items-center gap-2 font-mono text-sm text-gold hover:underline"
-            >
-              {url} <ExternalLink size={14} strokeWidth={2} />
-            </a>
-          )}
+      {logo && (
+        <div class="mx-auto flex h-32 w-32 items-center justify-center sm:h-40 sm:w-40">
+          <img
+            src={logo.src}
+            srcSet={logo.srcSet}
+            sizes={logo.sizes}
+            width={logo.width}
+            height={logo.height}
+            alt={`${name} logo`}
+            class="max-h-full w-auto object-contain"
+            decoding="async"
+          />
         </div>
-      </div>
+      )}
+      <h1 class="mt-6 font-pirate text-fluid-title text-ink">{name}</h1>
+      {description && (
+        <p class="mx-auto mt-4 max-w-xl font-mono text-sm leading-7 text-ink/70">{description}</p>
+      )}
     </header>
 
     <section class="mt-10 border border-ink/25 bg-card px-6 py-8 sm:px-10 sm:py-10">
@@ -83,7 +68,19 @@ const { Content } = await render(entry);
         </span>
         <span class="h-px flex-1 bg-gold/40"></span>
       </div>
-      <div class="mt-8 prose-p:font-mono prose-p:text-sm prose-p:leading-7 prose-p:text-ink/70">
+      {url && (
+        <div class="mt-6 text-center">
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-5 py-2 font-mono text-sm text-gold transition-colors hover:bg-gold/20"
+          >
+            {url} <ExternalLink size={14} strokeWidth={2} />
+          </a>
+        </div>
+      )}
+      <div class="mt-8 space-y-4 prose-p:font-mono prose-p:text-sm prose-p:leading-7 prose-p:text-ink/70 prose-headings:font-display prose-headings:text-ink prose-li:font-mono prose-li:text-sm prose-li:text-ink/70">
         <Content />
       </div>
     </section>
