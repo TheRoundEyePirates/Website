@@ -18,6 +18,5 @@ Their senior team blends high-level technical expertise with proactive project m
 ## How They Support Us
 
 - Financial sponsorship for robot materials
-- Mentorship from their engineering team
-- Access to professional tools and equipment
+
 
