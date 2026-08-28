@@ -5,6 +5,7 @@ interface CountdownProps {
   label: string;
   location?: string;
   dates?: string;
+  confirmed?: boolean;
 }
 
 interface TimeLeft {
@@ -24,7 +25,7 @@ function timeLeft(target: string): TimeLeft {
   };
 }
 
-export default function Countdown({ target, label, location, dates }: CountdownProps) {
+export default function Countdown({ target, label, location, dates, confirmed = true }: CountdownProps) {
   const [now, setNow] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
@@ -55,20 +56,24 @@ export default function Countdown({ target, label, location, dates }: CountdownP
       )}
 
       <div className="mt-6 flex flex-wrap items-baseline gap-x-10 gap-y-4">
-        {cells.map((cell) => (
-          <div key={cell.unit} className="flex items-baseline gap-2">
-            <span
-              key={String(cell.value ?? 'placeholder')}
-              className="animate-count-tick font-display text-5xl tabular-nums text-ink sm:text-6xl"
-              aria-hidden={!now}
-            >
-              {cell.value === undefined ? '––' : String(cell.value).padStart(2, '0')}
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink/40">
-              {cell.unit}
-            </span>
-          </div>
-        ))}
+        {confirmed ? (
+          cells.map((cell) => (
+            <div key={cell.unit} className="flex items-baseline gap-2">
+              <span
+                key={String(cell.value ?? 'placeholder')}
+                className="animate-count-tick font-display text-5xl tabular-nums text-ink sm:text-6xl"
+                aria-hidden={!now}
+              >
+                {cell.value === undefined ? '––' : String(cell.value).padStart(2, '0')}
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-ink/40">
+                {cell.unit}
+              </span>
+            </div>
+          ))
+        ) : (
+          <span className="font-display text-4xl text-ink sm:text-5xl">To Be Confirmed</span>
+        )}
       </div>
     </section>
   );

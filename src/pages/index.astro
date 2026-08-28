@@ -79,6 +79,7 @@ const coachMembers = crewEntries.map(toCrewMember).filter((m) => m.role === 'coa
         label={log.data.nextEventLabel ?? 'Season Kickoff'}
         location={log.data.nextEventLocation}
         dates={log.data.nextEventDates}
+        confirmed={false}
       />
     )}
     <About client:visible />
