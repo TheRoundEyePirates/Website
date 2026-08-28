@@ -65,9 +65,6 @@ export default function Crew({ crew, coaches }: CrewProps) {
               <MemberRow key={member.key} member={member} />
             ))}
           </ul>
-          <p className="mt-5 border-t border-ink/10 pt-3 font-mono text-sm text-ink/40">
-            …and two new crewmates have signed the articles. Names withheld until the ink dries.
-          </p>
         </div>
       </div>
     </section>
