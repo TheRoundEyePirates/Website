@@ -1,6 +1,6 @@
 ---
 first: Emily
-last: Deich
+last: Deitch
 order: 5
 ---
 
