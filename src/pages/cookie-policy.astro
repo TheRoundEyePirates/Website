@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NavBar from '../components/NavBar.tsx';
+import Footer from '../components/Footer.tsx';
+import ShipDivider from '../components/ShipDivider.tsx';
+import { getLogo } from '../lib/brand';
+
+const [lightLogo, darkLogo] = await Promise.all([getLogo('light'), getLogo('dark')]);
+---
+
+<BaseLayout
+  title="Cookie Policy — The Round Eye Pirates"
+  description="How The Round Eye Pirates use cookies and similar technologies."
+>
+  <NavBar lightLogo={lightLogo} darkLogo={darkLogo} client:idle />
+  <main class="mx-auto max-w-3xl px-6 pt-28 pb-16">
+    <h1 class="font-display text-3xl font-bold tracking-wide text-gold sm:text-4xl">
+      Cookie Policy
+    </h1>
+    <p class="mt-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/50">
+      Last updated: October 2026
+    </p>
+    <ShipDivider />
+
+    <div class="prose mt-8 space-y-6 font-mono text-sm leading-relaxed text-ink/80">
+      <section>
+        <h2 class="font-display text-lg font-bold text-navy">What Are Cookies</h2>
+        <p>
+          Cookies are small text files placed on your device when you visit a website. They
+          help the site remember your preferences, understand how you interact with pages,
+          and improve your overall experience.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-lg font-bold text-navy">How We Use Cookies</h2>
+        <p>We use cookies for the following purposes:</p>
+        <ul class="list-disc space-y-2 pl-5">
+          <li>
+            <strong>Essential cookies</strong> — required for the website to function properly
+            (e.g., remembering your cookie consent choice).
+          </li>
+          <li>
+            <strong>Analytics cookies</strong> — help us understand how visitors use the site
+            via Google Analytics, so we can improve content and performance.
+          </li>
+          <li>
+            <strong>Preference cookies</strong> — remember your theme choice (light/dark) and
+            other display preferences.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-display text-lg font-bold text-navy">Google Analytics</h2>
+        <p>
+          We use Google Analytics to track page views and user behavior. Google Analytics
+          collects information such as how often users visit, what pages they view, and what
+          other sites they used prior to coming to ours. You can opt out of Google Analytics
+          by using the{' '}
+          <a
+            href="https://tools.google.com/dlpage/gaoptout"
+            target="_blank"
+            rel="noreferrer"
+            class="text-navy underline decoration-gold/50 underline-offset-2 hover:text-gold"
+          >
+            Google Analytics Opt-out Browser Add-on
+          </a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-lg font-bold text-navy">Managing Cookies</h2>
+        <p>
+          You can control and delete cookies through your browser settings. Please note that
+          restricting cookies may affect how some features of this website function. You can
+          also change your consent at any time by clearing your cookies and reloading the
+          page — the consent banner will reappear.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-lg font-bold text-navy">Contact</h2>
+        <p>
+          If you have questions about this Cookie Policy, reach out through our{' '}
+          <a href="/contact/" class="text-navy underline decoration-gold/50 underline-offset-2 hover:text-gold">
+            contact page
+          </a>.
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer client:idle />
+</BaseLayout>

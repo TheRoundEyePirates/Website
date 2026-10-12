@@ -118,6 +118,12 @@ export default function Footer({ logo = null }: FooterProps) {
           >
             Contact
           </a>
+          <a
+            href="/cookie-policy/"
+            className="transition-colors hover:text-gold"
+          >
+            Cookie Policy
+          </a>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 font-mono text-xs text-parchment/60">
